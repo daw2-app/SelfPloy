@@ -14,7 +14,21 @@ export class AuthProvider {
   signupUser(email: string, password: string): Promise<any> {
     return firebase
       .auth()
-      .createUserWithEmailAndPassword(email, password);
+      .createUserWithEmailAndPassword(email, password)
+      .then((response) => {
+        let uid = response.user.uid;
+        firebase
+          .database()
+          .ref()
+          .child("users")
+          .child(uid)
+          .set({
+            admin: false,
+            name: "",
+            email: email
+          })
+      })
+      ;
   }
 
   logoutUser(): Promise<void> {

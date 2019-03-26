@@ -8,27 +8,39 @@
         </div>
 
         <ion-list>
-          <ion-item>
-            <ion-label floating>Email</ion-label>
-            <ion-input
-              type="text"
-              (keyup.enter)="signUp(user);"
-              [(ngModel)]="user.email"></ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-label floating>Password</ion-label>
-            <ion-input
-              type="password"
-              (keyup.enter)="signUp(user);"
-              [(ngModel)]="user.password"></ion-input>
-          </ion-item>
-          <ion-item>
-            <ion-label floating>Confirm password</ion-label>
-            <ion-input
-              type="password"
-              (keyup.enter)="signUp(user);"
-              [(ngModel)]="user.cPassword"></ion-input>
-          </ion-item>
+
+          <div class="credentials email" [ngClass]="{'error' : email_error}">
+            <ion-item>
+              <ion-label floating >Email</ion-label>
+              <ion-input
+                type="text"
+                (keyup.enter)="signUp(user);"
+                [(ngModel)]="user.email"></ion-input>
+            </ion-item>
+            <ion-label class="error_description">{{email_error_msg}}</ion-label>
+          </div>
+
+          <div class="credentials password" [ngClass]="{'error' : pass_error}">
+            <ion-item>
+              <ion-label floating>Password</ion-label>
+              <ion-input
+                type="password"
+                (keyup.enter)="signUp(user);"
+                [(ngModel)]="user.password"></ion-input>
+            </ion-item>
+            <ion-label class="error_description">{{pass_error_msg}}</ion-label>
+          </div>
+
+          <div class="credentials cPassword" [ngClass]="{'error' : cPass_error}">
+            <ion-item>
+              <ion-label floating>Confirm password</ion-label>
+              <ion-input
+                type="password"
+                (keyup.enter)="signUp(user);"
+                [(ngModel)]="user.cPassword"></ion-input>
+            </ion-item>
+            <ion-label class="error_description">{{cPass_error_msg}}</ion-label>
+          </div>
         </ion-list>
 
         <div padding>

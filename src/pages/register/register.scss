@@ -1,5 +1,38 @@
 page-register {
 
+  .credentials {
+    margin-bottom: 15px;
+
+    .error_description {
+      margin: 5px 0 0;
+      position: absolute;
+      z-index: 5;
+      padding-left: 25px;
+      font-size: .85em;
+      visibility: hidden;
+    }
+
+    &.error {
+
+      &.email, &.password, &.cPassword {
+        color: red !important;
+
+        .error_description {
+          color: red;
+          visibility: visible;
+        }
+
+        .item-inner {
+          border-bottom: 1px solid red !important;
+        }
+
+        ion-item ion-label {
+          color: red !important;
+        }
+      }
+    }
+  }
+
   ion-grid {
     margin-top: 4em;
     min-width: 15rem;
