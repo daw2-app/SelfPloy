@@ -15,6 +15,10 @@ import { LoginPage } from "../pages/login/login";
 import { RegisterPage } from "../pages/register/register";
 import { SplashPage } from "../pages/splash/splash";
 import { AuthProvider } from '../providers/auth/auth';
+import { ContactListPage } from "../pages/contact-list/contact-list";
+import { DbApiService } from "../shared/db-api.service";
+import { AngularFireDatabase } from "@angular/fire/database";
+
 
 @NgModule({
   declarations: [
@@ -22,14 +26,14 @@ import { AuthProvider } from '../providers/auth/auth';
     HomePage,
     SplashPage,
     LoginPage,
-    RegisterPage
+    RegisterPage,
+    ContactListPage
   ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule.enablePersistence()
-
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -37,13 +41,16 @@ import { AuthProvider } from '../providers/auth/auth';
     HomePage,
     SplashPage,
     LoginPage,
-    RegisterPage
+    RegisterPage,
+    ContactListPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     AngularFireAuth,
+    DbApiService,
+    AngularFireDatabase,
     AuthProvider
   ]
 })

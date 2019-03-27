@@ -1,0 +1,68 @@
+<!--
+  Generated template for the ContactListPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar>
+    <ion-title>contact-list</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content class="outer-content">
+
+  <ion-refresher (ionRefresh)="doRefresh($event)" pullMin="120" pullMax="999">
+    <ion-refresher-content
+      pullingText="Pull to refresh..."
+      refreshingText="Refreshing...">
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <ion-list class="chat-sliding-demo">
+    <ion-list-header>
+      Chats
+    </ion-list-header>
+
+    <ion-item-sliding *ngFor="let user of users" #item>
+      <ion-item>
+        <ion-avatar item-start>
+          <img src="data:image/png;base64,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">
+        </ion-avatar>
+        <h2>{{user.name}}</h2>
+        <p>{{user.email}}</p>
+        <!--<ion-note item-end>-->
+          <!--{{user.time}}-->
+        <!--</ion-note>-->
+      </ion-item>
+
+      <ion-item-options>
+        <button ion-button color="secondary" (click)="more(item)">
+          <ion-icon name="menu"></ion-icon>
+          More
+        </button>
+        <button ion-button color="dark" (click)="mute(item)">
+          <ion-icon name="volume-off"></ion-icon>
+          Mute
+        </button>
+        <button ion-button color="danger" (click)="delete(item)">
+          <ion-icon name="trash"></ion-icon>
+          Delete
+        </button>
+      </ion-item-options>
+
+      <ion-item-options side="left" (ionSwipe)="archive(item)">
+        <button ion-button color="primary" expandable (click)="archive(item)">
+          <ion-icon name="archive" class="expand-hide"></ion-icon>
+          <div class="expand-hide">Archive</div>
+          <ion-spinner id="archive-spinner"></ion-spinner>
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
+  </ion-list>
+
+  <ion-fab center bottom>
+    <button ion-fab mini color="dark" (click)="signOut()"><ion-icon name="close"></ion-icon></button>
+  </ion-fab>
+
+</ion-content>

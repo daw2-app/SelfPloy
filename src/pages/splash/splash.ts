@@ -4,6 +4,7 @@ import { LoginPage } from "../login/login";
 import { HomePage } from "../home/home";
 import * as firebase from "firebase";
 import { environment } from "../../environments/environment";
+import {ContactListPage} from "../contact-list/contact-list";
 
 /**
  * Generated class for the SplashPage page.
@@ -29,7 +30,7 @@ export class SplashPage {
         this.navCtrl.setRoot(LoginPage);
         unsubscribe();
       } else {
-        this.navCtrl.setRoot(HomePage);
+        this.navCtrl.setRoot(ContactListPage);
         unsubscribe();
       }
     });

@@ -5,6 +5,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { HomePage } from "../home/home";
 import { RegisterPage } from "../register/register";
 import { User } from "../../shared/model/user";
+import {ContactListPage} from "../contact-list/contact-list";
 
 /**
  * Generated class for the LoginPage page.
@@ -53,7 +54,7 @@ export class LoginPage {
       this.authProvider.loginUser(user.email, user.password)
         .then(() => {
             this.navCtrl.setRoot(
-              HomePage,
+              ContactListPage,
               {},
               {
                 animate: true,

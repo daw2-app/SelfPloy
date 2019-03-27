@@ -39,3 +39,11 @@ src/environments/
 
 .firebase/
 
+
+resources/
+
+config/xml
+
+firebase\.json
+
+\.firebaserc

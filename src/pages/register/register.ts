@@ -5,6 +5,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { User } from "../../shared/model/user";
 import { HomePage } from "../home/home";
 import { AuthProvider } from "../../providers/auth/auth";
+import {ContactListPage} from "../contact-list/contact-list";
 
 
 
@@ -71,7 +72,7 @@ export class RegisterPage {
         .then(
           (user) => {
             this.navCtrl.setRoot(
-              HomePage,
+              ContactListPage,
               {},
               {
                 animate: true,
