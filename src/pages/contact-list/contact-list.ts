@@ -3,6 +3,7 @@ import { IonicPage, ItemSliding, Loading, LoadingController, NavController, NavP
 import { DbApiService } from "../../shared/db-api.service";
 import {LoginPage} from "../login/login";
 import {AuthProvider} from "../../providers/auth/auth";
+import {ProfilePage} from "../profile/profile";
 
 /**
  * Generated class for the ContactListPage page.
@@ -101,4 +102,8 @@ export class ContactListPage {
           direction: 'back'
         }));
   }
+  goToProfile(user){
+    this.navCtrl.push(ProfilePage,user);
+  }
+
 }

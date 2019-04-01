@@ -1,0 +1,57 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>User Profile</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="userForm" (ngSubmit)="saveUserData()">
+    <ion-list>
+      <ion-item>
+        <ion-icon name="person" item-start></ion-icon>
+        <ion-label stacked>Name:</ion-label>
+        <ion-input formControlName="name" type="text" value="{{user.name}}"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-icon name="person" item-start></ion-icon>
+        <ion-label stacked>Last Name:</ion-label>
+        <ion-input formControlName="lastName" type="text" value="{{user.lastName}}"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-icon name="mail" item-start></ion-icon>
+        <ion-label stacked>Email:</ion-label>
+        <ion-input formControlName="email" type="email" value="{{user.email}}"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-icon name="mail" item-start></ion-icon>
+        <ion-label stacked>Category:</ion-label>
+        <ion-input formControlName="category" type="text" value="{{user.category}}"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label stacked>Description</ion-label>
+        <ion-textarea formControlName="description" rows="6" cols="10" type="text" value="{{user.description}}"></ion-textarea>
+      </ion-item>
+      <ion-item>
+        <ion-icon name="mail" item-start></ion-icon>
+        <ion-label stacked>Salary:</ion-label>
+        <ion-input formControlName="salary" type="text" value="{{user.salary}}"></ion-input>
+      </ion-item>
+      <div formGroupName="passwordRetry">
+        <ion-item>
+          <ion-icon name="eye" item-start></ion-icon>
+          <ion-label stacked>Password:</ion-label>
+          <ion-input formControlName="password" type="password" placeholder="Password"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-icon name="eye" item-start></ion-icon>
+          <ion-label stacked>Password Check:</ion-label>
+          <ion-input formControlName="passwordConfirmation" type="password" placeholder="Password Check"></ion-input>
+        </ion-item>
+      </div>
+    </ion-list>
+    <div padding>
+      <button ion-button block type="submit" [disabled]="!userForm.valid" (click)="backToProfile()">Update</button>
+    </div>
+  </form>
+</ion-content>
+
