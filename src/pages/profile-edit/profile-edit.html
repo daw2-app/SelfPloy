@@ -1,10 +1,12 @@
 <ion-header>
   <ion-navbar color="primary">
+    <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/angular_material/0.10.0/angular-material.min.css">
     <ion-title>User Profile</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
+<ion-card>
   <form [formGroup]="userForm" (ngSubmit)="saveUserData()">
     <ion-list>
       <ion-item>
@@ -23,16 +25,17 @@
         <ion-input formControlName="email" type="email" value="{{user.email}}"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-icon name="mail" item-start></ion-icon>
+        <ion-icon name="clipboard" item-start></ion-icon>
         <ion-label stacked>Category:</ion-label>
         <ion-input formControlName="category" type="text" value="{{user.category}}"></ion-input>
       </ion-item>
       <ion-item>
-        <ion-label stacked>Description</ion-label>
-        <ion-textarea formControlName="description" rows="6" cols="10" type="text" value="{{user.description}}"></ion-textarea>
+        <ion-icon name="book" item-start></ion-icon>
+        <ion-label  stacked>Description</ion-label>
+        <ion-textarea formControlName="description" rows="4" cols="10" type="text" value="{{user.description}}"></ion-textarea>
       </ion-item>
       <ion-item>
-        <ion-icon name="mail" item-start></ion-icon>
+        <ion-icon name="card" item-start></ion-icon>
         <ion-label stacked>Salary:</ion-label>
         <ion-input formControlName="salary" type="text" value="{{user.salary}}"></ion-input>
       </ion-item>
@@ -53,5 +56,6 @@
       <button ion-button block type="submit" [disabled]="!userForm.valid" (click)="backToProfile()">Update</button>
     </div>
   </form>
+</ion-card>
 </ion-content>
 

@@ -19,7 +19,6 @@ import { ContactListPage } from "../pages/contact-list/contact-list";
 import { DbApiService } from "../shared/db-api.service";
 import { AngularFireDatabase } from "@angular/fire/database";
 import {ProfilePage} from "../pages/profile/profile";
-import {Pro} from "@ionic/pro";
 import {ProfileEditPage} from "../pages/profile-edit/profile-edit";
 
 
