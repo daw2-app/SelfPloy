@@ -17,7 +17,6 @@ export class DbApiService{
       .once('value')
       .then((snapshot) => { return snapshot.val() });
   }
-
   getCurrentUser(){
     let userId = firebase.auth().currentUser.uid;
 
@@ -26,6 +25,7 @@ export class DbApiService{
       .once('value')
       .then((snapshot) => { return snapshot.val() });
   }
+
   pushUserData(name,lastName,email,category,description,salary,admin){
     firebase
       .database()

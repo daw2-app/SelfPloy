@@ -1,5 +1,5 @@
 page-home {
-  body, html {
+/*  body, html {
     width: 100%;
     height: 100%;
     overflow: hidden;
@@ -99,6 +99,25 @@ page-home {
   .demo {
     -webkit-animation: spin 5s infinite linear;
     animation: spin 5s infinite linear;
+  }*/
+
+  ion-content{
+    background-color: #EBEBEB !important;
+  }
+  ion-card{
+    border-radius: 10px !important;
+    margin-top: 30px !important;
+    width: 200px !important;
+    height: 400px !important;
+  }
+  .item-inner{
+    margin-left: 5px !important;
+    margin-right: 20px;
+
+  }
+  ion-avatar{
+    width: 200px;
+    height: 200px;
   }
 
 }

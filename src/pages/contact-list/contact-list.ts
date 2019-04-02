@@ -105,5 +105,4 @@ export class ContactListPage {
   goToProfile(user){
     this.navCtrl.push(ProfilePage,user);
   }
-
 }

@@ -9,6 +9,7 @@ import { AngularFireAuth } from 'angularfire2/auth'
 import { environment } from '../environments/environment';
 
 
+
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
 import { LoginPage } from "../pages/login/login";
@@ -20,6 +21,7 @@ import { DbApiService } from "../shared/db-api.service";
 import { AngularFireDatabase } from "@angular/fire/database";
 import {ProfilePage} from "../pages/profile/profile";
 import {ProfileEditPage} from "../pages/profile-edit/profile-edit";
+import {UserDetailPage} from "../pages/user-detail/user-detail";
 
 
 @NgModule({
@@ -31,7 +33,8 @@ import {ProfileEditPage} from "../pages/profile-edit/profile-edit";
     RegisterPage,
     ContactListPage,
     ProfilePage,
-    ProfileEditPage
+    ProfileEditPage,
+    UserDetailPage
   ],
   imports: [
     BrowserModule,
@@ -48,7 +51,8 @@ import {ProfileEditPage} from "../pages/profile-edit/profile-edit";
     RegisterPage,
     ContactListPage,
     ProfilePage,
-    ProfileEditPage
+    ProfileEditPage,
+    UserDetailPage
   ],
   providers: [
     StatusBar,
