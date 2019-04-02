@@ -7,6 +7,7 @@ import * as firebase from "firebase";
 export class DbApiService{
   currentUserData : any;
 
+
   constructor(private fdb: AngularFireDatabase){
 
   }

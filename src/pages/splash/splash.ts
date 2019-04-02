@@ -5,6 +5,7 @@ import { HomePage } from "../home/home";
 import * as firebase from "firebase";
 import { environment } from "../../environments/environment";
 import {ContactListPage} from "../contact-list/contact-list";
+import {MCloudinaryPage} from "../m-cloudinary/m-cloudinary";
 
 /**
  * Generated class for the SplashPage page.
@@ -30,7 +31,8 @@ export class SplashPage {
         this.navCtrl.setRoot(LoginPage);
         unsubscribe();
       } else {
-        this.navCtrl.setRoot(ContactListPage);
+        // this.navCtrl.setRoot(ContactListPage);
+        this.navCtrl.setRoot(MCloudinaryPage);
         unsubscribe();
       }
     });
