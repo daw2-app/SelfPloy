@@ -17,6 +17,8 @@ export class DbApiService{
       .once('value')
       .then((snapshot) => { return snapshot.val() });
   }
+
+
   getCurrentUser(){
     let userId = firebase.auth().currentUser.uid;
 
@@ -41,5 +43,21 @@ export class DbApiService{
         salary: salary,
         admin : admin
       })
+  }
+  pushAssessment(text,userForm,user,currentUser){
+    console.log(currentUser);
+    let key = firebase.database().ref().child('assessment').push().key;
+    firebase
+      .database()
+      .ref()
+      .child("assessment")
+      .child(key)
+      .set({
+        text: text,
+        userFrom: userForm,
+        user: user,
+        currentUser: firebase.auth().currentUser.uid,
+      })
+
   }
 }

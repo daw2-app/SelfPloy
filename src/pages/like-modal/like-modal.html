@@ -1,0 +1,28 @@
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>Assessment</ion-title>
+    <button ion-button block (click)="backToProfile()">Back</button>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-card>
+    <form [formGroup]="userForm" (ngSubmit)="saveAssessment()">
+      <ion-list>
+        <ion-item>
+          <ion-icon name="card" item-start></ion-icon>
+          <ion-label stacked>From:</ion-label>
+          <ion-input formControlName="userFrom" type="text" value="{{user.name}}"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-icon name="card" item-start></ion-icon>
+          <ion-label stacked>Assessment:</ion-label>
+          <ion-textarea formControlName="text" rows="4" cols="10" type="text"></ion-textarea>
+        </ion-item>
+      </ion-list>
+      <div padding>
+        <button ion-button block type="submit" [disabled]="!userForm.valid" (click)="backToProfile()">Update</button>
+      </div>
+    </form>
+  </ion-card>
+</ion-content>

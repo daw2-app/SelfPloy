@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams,ModalController } from 'ionic-angular';
 import {DbApiService} from "../../shared/db-api.service";
-import * as firebase from "firebase";
+import {LikeModalPage} from "../like-modal/like-modal";
 
 
 @IonicPage()
@@ -15,7 +15,8 @@ export class UserDetailPage {
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
-              public dbapi: DbApiService) {
+              public dbapi: DbApiService,
+              public modalCtrl: ModalController) {
     this.user = navParams.data;
     this.dbapi.getCurrentUser()
       .then((value) => this.currentUser = value);
@@ -24,8 +25,9 @@ export class UserDetailPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad UserDetailPage');
   }
-  addAsset(user){
-    
 
+  abrirModal(){
+    let modal = this.modalCtrl.create(LikeModalPage,this.user);
+    modal.present();
   }
 }

@@ -22,6 +22,7 @@ import { AngularFireDatabase } from "@angular/fire/database";
 import {ProfilePage} from "../pages/profile/profile";
 import {ProfileEditPage} from "../pages/profile-edit/profile-edit";
 import {UserDetailPage} from "../pages/user-detail/user-detail";
+import {LikeModalPage} from "../pages/like-modal/like-modal";
 
 
 @NgModule({
@@ -34,7 +35,8 @@ import {UserDetailPage} from "../pages/user-detail/user-detail";
     ContactListPage,
     ProfilePage,
     ProfileEditPage,
-    UserDetailPage
+    UserDetailPage,
+    LikeModalPage
   ],
   imports: [
     BrowserModule,
@@ -52,7 +54,8 @@ import {UserDetailPage} from "../pages/user-detail/user-detail";
     ContactListPage,
     ProfilePage,
     ProfileEditPage,
-    UserDetailPage
+    UserDetailPage,
+    LikeModalPage
   ],
   providers: [
     StatusBar,
