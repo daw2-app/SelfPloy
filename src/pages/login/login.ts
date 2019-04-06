@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, Loading, LoadingController, NavController, NavParams } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth/auth';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { HomePage } from "../home/home";
+import { MainPage } from "../main/main";
 import { RegisterPage } from "../register/register";
 import { User } from "../../shared/model/user";
 import {ContactListPage} from "../contact-list/contact-list";
@@ -54,7 +54,7 @@ export class LoginPage {
       this.authProvider.loginUser(user.email, user.password)
         .then(() => {
             this.navCtrl.setRoot(
-              ContactListPage,
+              MainPage,
               {},
               {
                 animate: true,

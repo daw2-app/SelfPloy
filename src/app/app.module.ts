@@ -10,7 +10,7 @@ import {environment} from '../environments/environment';
 
 
 import {MyApp} from './app.component';
-import {HomePage} from '../pages/home/home';
+import {MainPage} from '../pages/main/main';
 import {LoginPage} from "../pages/login/login";
 import {RegisterPage} from "../pages/register/register";
 import {SplashPage} from "../pages/splash/splash";
@@ -30,7 +30,7 @@ import {FileUploadModule} from 'ng2-file-upload';
 @NgModule({
   declarations: [
     MyApp,
-    HomePage,
+    MainPage,
     SplashPage,
     LoginPage,
     RegisterPage,
@@ -52,7 +52,7 @@ import {FileUploadModule} from 'ng2-file-upload';
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    HomePage,
+    MainPage,
     SplashPage,
     LoginPage,
     RegisterPage,

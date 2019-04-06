@@ -3,7 +3,7 @@ import { IonicPage, Loading, LoadingController, NavController, NavParams } from 
 import { LoginPage } from "../login/login";
 import { AngularFireAuth } from '@angular/fire/auth';
 import { User } from "../../shared/model/user";
-import { HomePage } from "../home/home";
+import { MainPage } from "../main/main";
 import { AuthProvider } from "../../providers/auth/auth";
 import {ContactListPage} from "../contact-list/contact-list";
 

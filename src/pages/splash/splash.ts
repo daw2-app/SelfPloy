@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { LoginPage } from "../login/login";
-import { HomePage } from "../home/home";
+import { MainPage } from "../main/main";
 import * as firebase from "firebase";
 import { environment } from "../../environments/environment";
 import {ContactListPage} from "../contact-list/contact-list";
@@ -31,8 +31,8 @@ export class SplashPage {
         this.navCtrl.setRoot(LoginPage);
         unsubscribe();
       } else {
-        // this.navCtrl.setRoot(ContactListPage);
-        this.navCtrl.setRoot(MCloudinaryPage);
+        this.navCtrl.setRoot(MainPage);
+        // this.navCtrl.setRoot(MCloudinaryPage);
         unsubscribe();
       }
     });

@@ -1,0 +1,90 @@
+<ion-content>
+
+
+  <nav class="menu admin">
+    <input type="checkbox" href="#" class="menu-open" [checked]="expandOptions"/>
+    <button
+      (click)="goHome()"
+      large
+      class="menu-open-button large"
+      ion-button
+      color="noHomo">
+      <ion-icon name="md-home" style="zoom:2.0;"></ion-icon>
+    </button>
+
+    <button large
+            class="menu-item"
+            ion-button
+            (click)="doSomething('1')"
+            color="noHomo">
+      <ion-icon name="ios-search" style="zoom:1.5;"></ion-icon>
+    </button>
+
+
+    <button large
+            class="menu-item"
+            ion-button
+            (click)="signIn_Out()"
+            color="noHomo">
+      <ng-template [ngIf]="isLoggedIn" [ngIfElse]="loggedOut">
+        <ion-icon name="ios-log-out" style="zoom:1.5;"></ion-icon>
+      </ng-template>
+      <ng-template #loggedOut>
+        <ion-icon name="ios-log-in" style="zoom:1.5;"></ion-icon>
+      </ng-template>
+    </button>
+
+    <button large
+            class="menu-item"
+            ion-button
+            (click)="doSomething('4')"
+            color="noHomo">
+      <ion-icon name="ios-contact" style="zoom:1.5;"></ion-icon>
+    </button>
+
+    <button *ngIf="isAdmin"
+            large
+            class="menu-item"
+            ion-button
+            (click)="doSomething('2')"
+            color="noHomo">
+      <ion-icon name="ios-settings" style="zoom:1.5;"></ion-icon>
+    </button>
+
+    <button *ngIf="!isAdmin"
+            large
+            class="menu-item"
+            ion-button
+            (click)="doSomething('5')"
+            color="noHomo">
+      <ion-icon name="ios-chatbubbles" style="zoom:1.5;"></ion-icon>
+    </button>
+
+
+  </nav>
+
+
+  <!-- filters -->
+  <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
+    <defs>
+      <filter id="shadowed-goo">
+
+        <feGaussianBlur in="SourceGraphic" result="blur" stdDeviation="10"></feGaussianBlur>
+        <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7"
+                       result="goo"></feColorMatrix>
+        <feGaussianBlur in="goo" stdDeviation="3" result="shadow"></feGaussianBlur>
+        <feColorMatrix in="shadow" mode="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 -0.2"
+                       result="shadow"></feColorMatrix>
+        <feOffset in="shadow" dx="1" dy="1" result="shadow"></feOffset>
+        <feComposite in2="shadow" in="goo" result="goo"></feComposite>
+        <feComposite in2="goo" in="SourceGraphic" result="mix"></feComposite>
+      </filter>
+      <filter id="goo">
+        <feGaussianBlur in="SourceGraphic" result="blur" stdDeviation="10"></feGaussianBlur>
+        <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7"
+                       result="goo"></feColorMatrix>
+        <feComposite in2="goo" in="SourceGraphic" result="mix"></feComposite>
+      </filter>
+    </defs>
+  </svg>
+</ion-content>

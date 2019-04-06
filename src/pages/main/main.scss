@@ -1,0 +1,109 @@
+page-home {
+
+  @import "../../shared/trig";
+
+  $fg: #e91e63;
+  $bg: #8bc34a;
+  $pi: 3.14;
+
+  //config
+  $menu-items: 4 + 1;
+  $open-distance: 115px;
+  $opening-angle: $pi*2;
+
+
+
+  body {
+    background: $bg;
+    color: white;
+    text-align: center;
+  }
+
+  a {
+    color: inherit;
+  }
+
+  h1, h2, h3, h4 {
+    margin: 10px 0;
+  }
+
+  h1 {
+    font-size: 3em;
+  }
+
+  %ball {
+    //background: $fg;
+    border-radius: 100%;
+    width: 90px;
+    height: 90px;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+    position: absolute;
+    color: white;
+    text-align: center;
+    line-height: 80px;
+    transform: translate(0, 0);
+    transition: transform ease-out 200ms;
+  }
+
+  .menu-open {
+    display: none;
+  }
+
+  .menu-item {
+    @extend %ball;
+  }
+
+  .menu {
+    $width: 380px;
+    $height: 380px;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    width: $width;
+    height: $height;
+    box-sizing: border-box;
+    font-size: 20px;
+    text-align: left;
+  }
+
+
+  .menu-item {
+
+    @for $i from 1 through $menu-items {
+      &:nth-child(#{$i+2}) {
+        transition-duration: 180ms;
+      }
+    }
+  }
+
+  .menu-open-button {
+    @extend %ball;
+    width: 110px;
+    height: 110px;
+    z-index: 2;
+    transition-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1.275);
+    transition-duration: 400ms;
+    cursor: pointer;
+  }
+
+
+  .menu-open:checked ~ .menu-item {
+    transition-timing-function: cubic-bezier(0.935, 0.000, 0.340, 1.330);
+    @for $i from 1 through $menu-items {
+      $angle: (($pi - $opening-angle)/2)+(($opening-angle/($menu-items - 1))*($i - 1));
+
+      &:nth-child(#{$i+2}) {
+        transition-duration: 80ms+(100ms*$i);
+        transform: translate(cos($angle)*$open-distance, sin($angle)*$open-distance);
+      }
+    }
+  }
+
+}
