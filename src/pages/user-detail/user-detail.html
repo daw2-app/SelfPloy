@@ -19,12 +19,6 @@
     </ion-item>
 
     <ion-item text-wrap>
-      <ion-label> <strong>Email: </strong>
-        {{user?.email}}
-      </ion-label>
-    </ion-item>
-
-    <ion-item text-wrap>
       <ion-label> <strong>Category: </strong>
         {{user?.category}}
       </ion-label>
@@ -44,18 +38,26 @@
       <ion-label> <strong>Photo: </strong>
       </ion-label>
     </ion-item>
-    <ion-item></ion-item>
-    <ion-fab center bottom>
-      <button
-        (click)="modifyProfile(user)"
-        ion-fab
-        color="dark">
-        <ion-icon name="build"></ion-icon>
-      </button>
-    </ion-fab>
-
+    <ion-item>
+      <ion-label><strong>Si desea añadir una valoración: </strong>
+        <button id="right"
+          (click)="abrirModal(user)"
+          ion-fab
+          color="dark">
+          <ion-icon name="heart"></ion-icon>
+        </button>
+      </ion-label>
+    </ion-item>
+    <ion-item>
+      <ion-label><strong>Para ver las valoraciones: </strong>
+        <button id="right"
+                (click)="showAllOpinions(user)"
+                ion-fab
+                color="dark">
+          <ion-icon name="heart"></ion-icon>
+        </button>
+      </ion-label>
+    </ion-item>
   </ion-card>
-
-
 
 </ion-content>

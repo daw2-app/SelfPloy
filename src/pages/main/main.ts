@@ -5,6 +5,8 @@ import {AuthProvider} from "../../providers/auth/auth";
 import * as firebase from "firebase";
 import {environment} from "../../environments/environment";
 import {ContactListPage} from "../contact-list/contact-list";
+import {HomePage} from "../home/home";
+import {ProfilePage} from "../profile/profile";
 
 
 @Component({
@@ -17,6 +19,10 @@ export class MainPage {
   private isLoggedIn: boolean;
   private loading: Loading;
 
+  private home    = HomePage;
+  private profile = ProfilePage;
+  private login   = LoginPage;
+  private page: any;
 
   constructor(public navCtrl: NavController,
               public authProvider: AuthProvider,
@@ -45,7 +51,7 @@ export class MainPage {
   signIn_Out() {
     if (this.isLoggedIn) {
       this.loading = this.loadingCtrl.create({
-        content: "Please wait...",
+        content: "Please wait",
         spinner: "dots"
       });
       this.loading.present();
@@ -66,10 +72,18 @@ export class MainPage {
     }
   }
 
-  goHome() {
+  goTo(page: string) {
+    switch (page) {
+      case "profile":
+        this.page = this.isLoggedIn ? this.profile : this.login;
+        break;
+      case "home":
+        this.page = this.home;
+    }
+
     this.navCtrl.push(
-      HomePage,
-      {},
+      this.page,
+      this.isLoggedIn,
       {
         animate: true,
         direction: 'forward'

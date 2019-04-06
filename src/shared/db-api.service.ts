@@ -19,6 +19,7 @@ export class DbApiService{
       .then((snapshot) => { return snapshot.val() });
   }
 
+
   getCurrentUser(){
     let userId = firebase.auth().currentUser.uid;
 
@@ -27,6 +28,7 @@ export class DbApiService{
       .once('value')
       .then((snapshot) => { return snapshot.val() });
   }
+
   pushUserData(name,lastName,email,category,description,salary,admin){
     firebase
       .database()
@@ -42,5 +44,28 @@ export class DbApiService{
         salary: salary,
         admin : admin
       })
+  }
+  pushOpinion(text,userTo,currentUser){
+    let key = firebase.database().ref().child('opinions').push().key;
+    firebase
+      .database()
+      .ref()
+      .child("opinions")
+      .child(key)
+      .set({
+        text: text,
+        fromName: currentUser,
+        userFrom: firebase.auth().currentUser.uid,
+        userTo: userTo,
+      })
+
+  }
+  getOpinionsOfUser(user){
+    return firebase.database()
+      .ref('opinions')
+      .orderByChild('userTo')
+      .equalTo(user.id)
+      .once('value')
+      .then((snapshot) => { return snapshot.val()});
   }
 }

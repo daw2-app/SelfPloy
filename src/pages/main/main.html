@@ -4,7 +4,7 @@
   <nav class="menu admin">
     <input type="checkbox" href="#" class="menu-open" [checked]="expandOptions"/>
     <button
-      (click)="goHome()"
+      (click)="goTo('home')"
       large
       class="menu-open-button large"
       ion-button
@@ -37,7 +37,7 @@
     <button large
             class="menu-item"
             ion-button
-            (click)="doSomething('4')"
+            (click)="goTo('profile')"
             color="noHomo">
       <ion-icon name="ios-contact" style="zoom:1.5;"></ion-icon>
     </button>

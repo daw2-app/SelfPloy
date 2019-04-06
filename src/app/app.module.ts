@@ -18,8 +18,12 @@ import {AuthProvider} from '../providers/auth/auth';
 import {ContactListPage} from "../pages/contact-list/contact-list";
 import {DbApiService} from "../shared/db-api.service";
 import {AngularFireDatabase} from "@angular/fire/database";
+import {HomePage} from '../pages/home/home';
 import {ProfilePage} from "../pages/profile/profile";
 import {ProfileEditPage} from "../pages/profile-edit/profile-edit";
+import {UserDetailPage} from "../pages/user-detail/user-detail";
+import {LikeModalPage} from "../pages/like-modal/like-modal";
+import {OpinionModalViewPage} from "../pages/opinion-modal-view/opinion-modal-view";
 
 import {MCloudinaryPage} from "../pages/m-cloudinary/m-cloudinary";
 
@@ -37,8 +41,11 @@ import {FileUploadModule} from 'ng2-file-upload';
     ContactListPage,
     ProfilePage,
     ProfileEditPage,
-    MCloudinaryPage
-
+    MCloudinaryPage,
+    HomePage,
+    UserDetailPage,
+    LikeModalPage,
+    OpinionModalViewPage
   ],
   imports: [
     BrowserModule,
@@ -59,7 +66,11 @@ import {FileUploadModule} from 'ng2-file-upload';
     ContactListPage,
     ProfilePage,
     ProfileEditPage,
-    MCloudinaryPage
+    MCloudinaryPage,
+    HomePage,
+    UserDetailPage,
+    LikeModalPage,
+    OpinionModalViewPage
   ],
   providers: [
     StatusBar,

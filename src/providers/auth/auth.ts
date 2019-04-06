@@ -3,6 +3,7 @@ import firebase from 'firebase';
 
 @Injectable()
 export class AuthProvider {
+  private isLoggedIn = false;
 
   constructor() {
   }
@@ -34,4 +35,6 @@ export class AuthProvider {
   logoutUser(): Promise<void> {
     return firebase.auth().signOut();
   }
+
+
 }

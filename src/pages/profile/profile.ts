@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {IonicPage, NavController, NavParams, ToastController} from 'ionic-angular';
+import {IonicPage, Loading, LoadingController, NavController, NavParams, ToastController} from 'ionic-angular';
 import { DbApiService } from "../../shared/db-api.service";
 import { AuthProvider } from "../../providers/auth/auth";
 import {ProfileEditPage} from "../profile-edit/profile-edit";
@@ -19,19 +19,25 @@ import {ProfileEditPage} from "../profile-edit/profile-edit";
 })
 export class ProfilePage {
   private user: any;
+  private loading: Loading;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public dbapi: DbApiService,
               private toastCtrl: ToastController,
-              public authProvider: AuthProvider
+              public authProvider: AuthProvider,
+              public loadingCtrl: LoadingController
               ) {
 
   }
+
   ionViewWillEnter(){
+    this.loading = this.loadingCtrl.create({
+      content: "Loading profile",
+      spinner: "dots"
+    });
     this.dbapi.getCurrentUser()
       .then((value) => this.user = value);
-
 }
   ionViewDidLoad() {
     console.log('ionViewDidLoad ProfilePage');
