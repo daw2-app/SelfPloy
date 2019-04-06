@@ -7,12 +7,12 @@
 
 <ion-content>
   <ion-card>
-    <form [formGroup]="userForm" (ngSubmit)="saveAssessment()">
+    <form [formGroup]="userForm" (ngSubmit)="saveOpinion()">
       <ion-list>
         <ion-item>
           <ion-icon name="card" item-start></ion-icon>
-          <ion-label stacked>From:</ion-label>
-          <ion-input formControlName="userFrom" type="text" value="{{user.name}}"></ion-input>
+          <ion-label stacked>To:</ion-label>
+          <ion-input formControlName="userTo" type="text" value="{{user.name}}"></ion-input>
         </ion-item>
         <ion-item>
           <ion-icon name="card" item-start></ion-icon>

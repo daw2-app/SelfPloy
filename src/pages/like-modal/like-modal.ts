@@ -37,7 +37,7 @@ export class LikeModalPage {
   private createMyForm() {
     return this.formBuilder.group({
       text: ['', Validators.required],
-      userFrom: ['', Validators.required],
+      userTo: ['', Validators.required],
     });
   }
 
@@ -51,13 +51,12 @@ export class LikeModalPage {
       .then(value => this.currentUser= value)
       .then(() => loading.dismiss())
   }
-  saveAssessment(){
+  saveOpinion(){
     /*console.log(this.user,this.currentUser.name);*/
 
-    this.dbapi.pushAssessment(this.userForm.value.text,
-      this.userForm.value.userFrom,
+    this.dbapi.pushOpinion(this.userForm.value.text,
       this.user.id,
-      this.currentUser);
+      this.currentUser.name);
   }
   backToProfile() {
     this.navCtrl.pop();

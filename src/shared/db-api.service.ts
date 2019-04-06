@@ -44,20 +44,27 @@ export class DbApiService{
         admin : admin
       })
   }
-  pushAssessment(text,userForm,user,currentUser){
-    console.log(currentUser);
-    let key = firebase.database().ref().child('assessment').push().key;
+  pushOpinion(text,userTo,currentUser){
+    let key = firebase.database().ref().child('opinions').push().key;
     firebase
       .database()
       .ref()
-      .child("assessment")
+      .child("opinions")
       .child(key)
       .set({
         text: text,
-        userFrom: userForm,
-        user: user,
-        currentUser: firebase.auth().currentUser.uid,
+        fromName: currentUser,
+        userFrom: firebase.auth().currentUser.uid,
+        userTo: userTo,
       })
 
+  }
+  getOpinionsOfUser(user){
+    return firebase.database()
+      .ref('opinions')
+      .orderByChild('userTo')
+      .equalTo(user.id)
+      .once('value')
+      .then((snapshot) => { return snapshot.val()});
   }
 }

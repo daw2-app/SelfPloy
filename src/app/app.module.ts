@@ -23,6 +23,7 @@ import {ProfilePage} from "../pages/profile/profile";
 import {ProfileEditPage} from "../pages/profile-edit/profile-edit";
 import {UserDetailPage} from "../pages/user-detail/user-detail";
 import {LikeModalPage} from "../pages/like-modal/like-modal";
+import {OpinionModalViewPage} from "../pages/opinion-modal-view/opinion-modal-view";
 
 
 @NgModule({
@@ -36,7 +37,8 @@ import {LikeModalPage} from "../pages/like-modal/like-modal";
     ProfilePage,
     ProfileEditPage,
     UserDetailPage,
-    LikeModalPage
+    LikeModalPage,
+    OpinionModalViewPage
   ],
   imports: [
     BrowserModule,
@@ -55,7 +57,8 @@ import {LikeModalPage} from "../pages/like-modal/like-modal";
     ProfilePage,
     ProfileEditPage,
     UserDetailPage,
-    LikeModalPage
+    LikeModalPage,
+    OpinionModalViewPage
   ],
   providers: [
     StatusBar,
