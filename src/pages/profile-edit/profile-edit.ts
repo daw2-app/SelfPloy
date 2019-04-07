@@ -3,7 +3,6 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { DbApiService } from "../../shared/db-api.service";
 import { AuthProvider } from "../../providers/auth/auth";
-import {ProfilePage} from "../profile/profile";
 
 
 /**
@@ -48,22 +47,28 @@ export class ProfileEditPage {
     });
   }
 
-  async saveUserData(){
-    await this.dbapi.pushUserData(this.userForm.value.name,
-      this.userForm.value.lastName,
-      this.userForm.value.email,
-      this.userForm.value.category,
-      this.userForm.value.description,
-      this.userForm.value.salary,
-      this.user.admin
-    );
-    this.dbapi.getCurrentUser()
-      .then(val => this.authProvider.currentUser = val);
+  saveUserData(){
+    this.dbapi.push(
+      "users",
+      {
+        lastName:    this.userForm.value.lastName,
+        name:        this.userForm.value.name,
+        email:       this.userForm.value.email,
+        category:    this.userForm.value.category,
+        description: this.userForm.value.description,
+        salary:      this.userForm.value.salary,
+        admin:       this.user.admin
+      })
+      .then(() => this.dbapi.getCurrentUser())
+      .then(val => {
+        this.authProvider.currentUser = val;
+        console.log("nuevo valor: ", val);
+      })
+      .then(() => this.backToProfile());
   }
 
   backToProfile() {
     this.navCtrl.pop();
-
   }
 
 }

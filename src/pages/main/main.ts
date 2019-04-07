@@ -6,6 +6,8 @@ import * as firebase from "firebase";
 import {HomePage} from "../home/home";
 import {ProfilePage} from "../profile/profile";
 import { DbApiService } from "../../shared/db-api.service";
+import {MyChatsPage} from "../my-chats/my-chats";
+import {faEllipsisV} from '@fortawesome/free-solid-svg-icons';
 
 
 @Component({
@@ -20,7 +22,9 @@ export class MainPage {
   private home    = HomePage;
   private profile = ProfilePage;
   private login   = LoginPage;
+  private myChats = MyChatsPage;
   private page: any;
+  icon = faEllipsisV;
 
   constructor(public navCtrl: NavController,
               public authProvider: AuthProvider,
@@ -64,7 +68,7 @@ export class MainPage {
         .then(() => {
           this.authProvider.isLoggedIn = false;
           this.authProvider.currentUser = {};
-          this.loading.dismiss()
+          this.loading.dismiss();
           this.navCtrl.popToRoot();
         });
     } else {
@@ -80,6 +84,9 @@ export class MainPage {
 
   goTo(page: string) {
     switch (page) {
+      case "myChats":
+        this.page = this.authProvider.isLoggedIn ? this.myChats : this.login;
+        break;
       case "profile":
         this.page = this.authProvider.isLoggedIn ? this.profile : this.login;
         break;

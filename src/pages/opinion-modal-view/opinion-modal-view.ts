@@ -33,11 +33,16 @@ export class OpinionModalViewPage {
     this.dbapi.getOpinionsOfUser(this.user)
       .then((snapshot) => {
         for (let k in snapshot) {
+
+
+
           this.user_opinions.push({
-            id: k,
-            fromName: snapshot[k].fromName,
-            text: snapshot[k].text
-          })
+            id:        k,
+            fromName:  snapshot[k].fromName,
+            text:      snapshot[k].text,
+            timestamp: snapshot[k].timestamp
+          });
+          console.log("timestamp: ", new Date((snapshot[k].timestamp)));
         }
       })
       .then(() => this.loading.dismiss());

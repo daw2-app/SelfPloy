@@ -41,33 +41,33 @@
 
     <ion-item
     >
-      <!--<button float-right-->
-      <!--(click)="abrirModal(user)"-->
-      <!--ion-fab-->
-      <!--color="dark"*ngIf="authProvider?.isLoggedIn">-->
-      <!--<ion-icon name="md-text"></ion-icon>-->
-      <!--</button>-->
+      <button float-right
+      (click)="abrirModal(user)"
+      ion-fab
+      color="dark"*ngIf="authProvider?.isLoggedIn">
+      <ion-icon name="md-text"></ion-icon>
+      </button>
 
-      <!--<button float-right-->
-      <!--(click)="showAllOpinions(user)"-->
-      <!--ion-fab-->
-      <!--color="dark">-->
-      <!--<ion-icon name="md-chatbubbles"></ion-icon>-->
-      <!--</button>-->
+      <button float-right
+      (click)="showAllOpinions(user)"
+      ion-fab
+      color="dark">
+      <ion-icon name="md-chatbubbles"></ion-icon>
+      </button>
 
 
-      <!--<button float-right-->
-      <!--(click)="showAllOpinions(user)"-->
-      <!--ion-fab-->
-      <!--color="dark"-->
-      <!--*ngIf="authProvider?.isLoggedIn">-->
-      <!--<fa-icon [icon]="icon"></fa-icon>-->
-      <!--</button>-->
+      <button float-right
+      (click)="showAllOpinions(user)"
+      ion-fab
+      color="dark"
+      *ngIf="authProvider?.isLoggedIn">
+      <fa-icon [icon]="icon"></fa-icon>
+      </button>
     </ion-item>
   </ion-card>
   <button float-right
           class="chat-icon"
-          (click)="showAllOpinions(user)"
+          (click)="openChat()"
           ion-fab
           color="dark"
           *ngIf="authProvider?.isLoggedIn">

@@ -5,11 +5,8 @@ import * as firebase from "firebase";
 
 @Injectable()
 export class DbApiService{
-  currentUserData : any;
-
 
   constructor(private fdb: AngularFireDatabase){
-
   }
 
   getListOf(child: string) {
@@ -29,37 +26,20 @@ export class DbApiService{
       .then((snapshot) => { return snapshot.val() });
   }
 
-  pushUserData(name,lastName,email,category,description,salary,admin){
-    firebase
-      .database()
-      .ref()
-      .child("users")
-      .child(firebase.auth().currentUser.uid)
-      .set({
-        lastName: lastName,
-        name: name,
-        email: email,
-        category: category,
-        description: description,
-        salary: salary,
-        admin : admin
-      })
-  }
-  pushOpinion(text,userTo,currentUser){
-    let key = firebase.database().ref().child('opinions').push().key;
-    firebase
-      .database()
-      .ref()
-      .child("opinions")
-      .child(key)
-      .set({
-        text: text,
-        fromName: currentUser,
-        userFrom: firebase.auth().currentUser.uid,
-        userTo: userTo,
-      })
 
+  push(child: string, data: {}) {
+    const key = child === "users" ?
+      firebase.auth().currentUser.uid :
+      firebase.database().ref().child(child).push().key;
+
+    return firebase
+      .database()
+      .ref()
+      .child(child)
+      .child(key)
+      .set(data);
   }
+
   getOpinionsOfUser(user){
     return firebase.database()
       .ref('opinions')

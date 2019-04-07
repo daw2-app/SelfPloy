@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import {IonicPage, NavController, NavParams, ModalController, LoadingController} from 'ionic-angular';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {DbApiService} from "../../shared/db-api.service";
-import * as firebase from "../../shared/db-api.service";
+import * as firebase from "firebase";
+import {AuthProvider} from "../../providers/auth/auth";
 
 /**
  * Generated class for the LikeModalPage page.
@@ -27,7 +28,8 @@ export class LikeModalPage {
               public modalCtrl: ModalController,
               public formBuilder: FormBuilder,
               public dbapi: DbApiService,
-              public loadingCtrl: LoadingController
+              public loadingCtrl: LoadingController,
+              public authProvider: AuthProvider
   ) {
 
     this.user = navParams.data;
@@ -51,15 +53,21 @@ export class LikeModalPage {
       .then(value => this.currentUser= value)
       .then(() => loading.dismiss())
   }
-  saveOpinion(){
-    /*console.log(this.user,this.currentUser.name);*/
 
-    this.dbapi.pushOpinion(this.userForm.value.text,
-      this.user.id,
-      this.currentUser.name);
+  saveOpinion(){
+    this.dbapi.push(
+      "opinions",
+      {
+        text:     this.userForm.value.text,
+        fromName: this.currentUser.name,
+        userFrom: firebase.auth().currentUser.uid,
+        userTo:   this.user.id,
+        timestamp: firebase.database.ServerValue.TIMESTAMP
+      })
+      .then(() => this.backToProfile());
   }
+
   backToProfile() {
     this.navCtrl.pop();
-
   }
 }

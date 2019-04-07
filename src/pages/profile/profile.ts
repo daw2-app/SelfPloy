@@ -34,9 +34,11 @@ export class ProfilePage {
   ionViewWillEnter(){
     this.user = this.authProvider.currentUser;
 }
+
   ionViewDidLoad() {
     console.log('ionViewDidLoad ProfilePage');
   }
+
   modifyProfile(user){
     this.navCtrl.push(ProfileEditPage,user);
   }

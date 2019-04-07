@@ -32,6 +32,9 @@ import {HttpClientModule} from "@angular/common/http";
 import {FileUploadModule} from 'ng2-file-upload';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import {MyChatsPage} from "../pages/my-chats/my-chats";
+import {ChatPage} from "../pages/chat/chat";
+import {IonicStorageModule} from "@ionic/storage";
 
 @NgModule({
   declarations: [
@@ -47,7 +50,9 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     HomePage,
     UserDetailPage,
     LikeModalPage,
-    OpinionModalViewPage
+    OpinionModalViewPage,
+    MyChatsPage,
+    ChatPage
   ],
   imports: [
     BrowserModule,
@@ -57,7 +62,8 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     HttpClientModule,
     Ng2CloudinaryModule,
     FileUploadModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -73,7 +79,9 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     HomePage,
     UserDetailPage,
     LikeModalPage,
-    OpinionModalViewPage
+    OpinionModalViewPage,
+    MyChatsPage,
+    ChatPage
   ],
   providers: [
     StatusBar,

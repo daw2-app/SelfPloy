@@ -24,5 +24,10 @@
         {{opinion?.text}}
       </ion-label>
     </ion-item>
+    <ion-item text-wrap>
+      <ion-label color="gray" text-right>
+        {{opinion?.timestamp | date: 'dd MMM. yyyy'}}
+      </ion-label>
+    </ion-item>
   </ion-card>
 </ion-content>

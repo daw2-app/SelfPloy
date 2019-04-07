@@ -16,7 +16,9 @@
             ion-button
             (click)="doSomething('1')"
             color="noHomo">
-      <ion-icon name="ios-search" style="zoom:1.5;"></ion-icon>
+      <!--<ion-icon name="ios-search" style="zoom:1.5;"></ion-icon>-->
+
+      <fa-icon  style="zoom:1.5;" [icon]="icon"></fa-icon>
     </button>
 
 
@@ -54,7 +56,7 @@
             large
             class="menu-item"
             ion-button
-            (click)="doSomething('5')"
+            (click)="goTo('myChats')"
             color="noHomo">
       <ion-icon name="ios-chatbubbles" style="zoom:1.5;"></ion-icon>
     </button>

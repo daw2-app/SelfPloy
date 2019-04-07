@@ -6,6 +6,7 @@ import {OpinionModalViewPage} from "../opinion-modal-view/opinion-modal-view";
 import {AuthProvider} from "../../providers/auth/auth";
 
 import { faCoffee } from '@fortawesome/free-solid-svg-icons';
+import {ChatPage} from "../chat/chat";
 
 @IonicPage()
 @Component({
@@ -39,5 +40,10 @@ export class UserDetailPage {
   showAllOpinions(){
     let modal = this.modalCtrl.create(OpinionModalViewPage,this.user);
     modal.present();
+  }
+
+  openChat() {
+    console.log(this.user);
+    this.navCtrl.push(ChatPage, this.user);
   }
 }
