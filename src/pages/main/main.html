@@ -1,6 +1,5 @@
 <ion-content>
 
-
   <nav class="menu admin">
     <input type="checkbox" href="#" class="menu-open" [checked]="expandOptions"/>
     <button
@@ -26,7 +25,7 @@
             ion-button
             (click)="signIn_Out()"
             color="noHomo">
-      <ng-template [ngIf]="isLoggedIn" [ngIfElse]="loggedOut">
+      <ng-template [ngIf]="authProvider.isLoggedIn" [ngIfElse]="loggedOut">
         <ion-icon name="ios-log-out" style="zoom:1.5;"></ion-icon>
       </ng-template>
       <ng-template #loggedOut>
@@ -39,7 +38,7 @@
             ion-button
             (click)="goTo('profile')"
             color="noHomo">
-      <ion-icon name="ios-contact" style="zoom:1.5;"></ion-icon>
+      <ion-icon name="md-person" style="zoom:1.5;"></ion-icon>
     </button>
 
     <button *ngIf="isAdmin"

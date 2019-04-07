@@ -7,57 +7,70 @@
 <ion-content padding>
   <ion-card>
     <ion-item text-wrap>
-      <ion-label> <strong>Name: </strong>
+      <ion-label><strong>Name: </strong>
         {{user?.name}}
       </ion-label>
     </ion-item>
 
     <ion-item text-wrap>
-      <ion-label> <strong>Last Name: </strong>
+      <ion-label><strong>Last Name: </strong>
         {{user?.lastName}}
       </ion-label>
     </ion-item>
 
     <ion-item text-wrap>
-      <ion-label> <strong>Category: </strong>
+      <ion-label><strong>Category: </strong>
         {{user?.category}}
       </ion-label>
     </ion-item>
 
     <ion-item text-wrap>
-      <ion-label> <strong>Description: </strong>
+      <ion-label><strong>Description: </strong>
         {{user?.description}}
       </ion-label>
     </ion-item>
     <ion-item text-wrap>
-      <ion-label> <strong>Salary: </strong>
+      <ion-label><strong>Salary: </strong>
         {{user?.salary}}
       </ion-label>
     </ion-item>
     <ion-item text-wrap>
-      <ion-label> <strong>Photo: </strong>
+      <ion-label><strong>Photo: </strong>
       </ion-label>
     </ion-item>
-    <ion-item>
-      <ion-label><strong>Si desea añadir una valoración: </strong>
-        <button id="right"
-          (click)="abrirModal(user)"
-          ion-fab
-          color="dark">
-          <ion-icon name="heart"></ion-icon>
-        </button>
-      </ion-label>
-    </ion-item>
-    <ion-item>
-      <ion-label><strong>Para ver las valoraciones: </strong>
-        <button id="right"
-                (click)="showAllOpinions(user)"
-                ion-fab
-                color="dark">
-          <ion-icon name="heart"></ion-icon>
-        </button>
-      </ion-label>
+
+    <ion-item
+    >
+      <!--<button float-right-->
+      <!--(click)="abrirModal(user)"-->
+      <!--ion-fab-->
+      <!--color="dark"*ngIf="authProvider?.isLoggedIn">-->
+      <!--<ion-icon name="md-text"></ion-icon>-->
+      <!--</button>-->
+
+      <!--<button float-right-->
+      <!--(click)="showAllOpinions(user)"-->
+      <!--ion-fab-->
+      <!--color="dark">-->
+      <!--<ion-icon name="md-chatbubbles"></ion-icon>-->
+      <!--</button>-->
+
+
+      <!--<button float-right-->
+      <!--(click)="showAllOpinions(user)"-->
+      <!--ion-fab-->
+      <!--color="dark"-->
+      <!--*ngIf="authProvider?.isLoggedIn">-->
+      <!--<fa-icon [icon]="icon"></fa-icon>-->
+      <!--</button>-->
     </ion-item>
   </ion-card>
-
+  <button float-right
+          class="chat-icon"
+          (click)="showAllOpinions(user)"
+          ion-fab
+          color="dark"
+          *ngIf="authProvider?.isLoggedIn">
+    <ion-icon name="ios-text"></ion-icon>
+  </button>
 </ion-content>

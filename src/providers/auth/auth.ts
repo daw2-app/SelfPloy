@@ -1,11 +1,29 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import firebase from 'firebase';
 
 @Injectable()
 export class AuthProvider {
-  private isLoggedIn = false;
+
+  private _isLoggedIn: boolean;
+  private _currentUser: any = {};
 
   constructor() {
+  }
+
+  get isLoggedIn(): boolean {
+    return this._isLoggedIn;
+  }
+
+  get currentUser(): any {
+    return this._currentUser;
+  }
+
+  set isLoggedIn(value: boolean) {
+    this._isLoggedIn = value;
+  }
+
+  set currentUser(value: any) {
+    this._currentUser = value;
   }
 
   loginUser(email: string, password: string): Promise<any> {

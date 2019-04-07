@@ -32,12 +32,7 @@ export class ProfilePage {
   }
 
   ionViewWillEnter(){
-    this.loading = this.loadingCtrl.create({
-      content: "Loading profile",
-      spinner: "dots"
-    });
-    this.dbapi.getCurrentUser()
-      .then((value) => this.user = value);
+    this.user = this.authProvider.currentUser;
 }
   ionViewDidLoad() {
     console.log('ionViewDidLoad ProfilePage');

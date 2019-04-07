@@ -1,11 +1,9 @@
 import { Component } from '@angular/core';
 import { IonicPage, Loading, LoadingController, NavController, NavParams } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth/auth';
-import { AngularFireAuth } from '@angular/fire/auth';
 import { MainPage } from "../main/main";
 import { RegisterPage } from "../register/register";
 import { User } from "../../shared/model/user";
-import {ContactListPage} from "../contact-list/contact-list";
 
 /**
  * Generated class for the LoginPage page.
@@ -33,8 +31,8 @@ export class LoginPage {
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public authProvider: AuthProvider,
-              public loadingCtrl: LoadingController,
-              public afAuth: AngularFireAuth) {
+              public loadingCtrl: LoadingController
+  ) {
   }
 
   ionViewDidLoad() {

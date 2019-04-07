@@ -47,8 +47,9 @@ export class ProfileEditPage {
       })
     });
   }
-  saveUserData(){
-    this.dbapi.pushUserData(this.userForm.value.name,
+
+  async saveUserData(){
+    await this.dbapi.pushUserData(this.userForm.value.name,
       this.userForm.value.lastName,
       this.userForm.value.email,
       this.userForm.value.category,
@@ -56,7 +57,10 @@ export class ProfileEditPage {
       this.userForm.value.salary,
       this.user.admin
     );
+    this.dbapi.getCurrentUser()
+      .then(val => this.authProvider.currentUser = val);
   }
+
   backToProfile() {
     this.navCtrl.pop();
 

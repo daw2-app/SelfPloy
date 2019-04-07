@@ -31,6 +31,8 @@ import {Ng2CloudinaryModule} from 'ng2-cloudinary';
 import {HttpClientModule} from "@angular/common/http";
 import {FileUploadModule} from 'ng2-file-upload';
 
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+
 @NgModule({
   declarations: [
     MyApp,
@@ -54,7 +56,8 @@ import {FileUploadModule} from 'ng2-file-upload';
     AngularFirestoreModule.enablePersistence(),
     HttpClientModule,
     Ng2CloudinaryModule,
-    FileUploadModule
+    FileUploadModule,
+    FontAwesomeModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

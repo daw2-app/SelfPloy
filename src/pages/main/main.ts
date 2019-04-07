@@ -3,10 +3,9 @@ import {Loading, LoadingController, NavController, ToastController} from 'ionic-
 import {LoginPage} from "../login/login";
 import {AuthProvider} from "../../providers/auth/auth";
 import * as firebase from "firebase";
-import {environment} from "../../environments/environment";
-import {ContactListPage} from "../contact-list/contact-list";
 import {HomePage} from "../home/home";
 import {ProfilePage} from "../profile/profile";
+import { DbApiService } from "../../shared/db-api.service";
 
 
 @Component({
@@ -16,7 +15,6 @@ import {ProfilePage} from "../profile/profile";
 export class MainPage {
   private expandOptions = false;
   private isAdmin = false;
-  private isLoggedIn: boolean;
   private loading: Loading;
 
   private home    = HomePage;
@@ -27,12 +25,19 @@ export class MainPage {
   constructor(public navCtrl: NavController,
               public authProvider: AuthProvider,
               private toastCtrl: ToastController,
-              public loadingCtrl: LoadingController) {
+              public loadingCtrl: LoadingController,
+              public dbapi: DbApiService
+  ) {
   }
 
   ionViewDidLoad() {
     firebase.auth().onAuthStateChanged(user => {
-      this.isLoggedIn = !!user;
+      this.authProvider.isLoggedIn = !!user;
+      if (!!user) this.dbapi.getCurrentUser()
+        .then(val => this.authProvider.currentUser = val)
+        .then(() => console.log("main - user: ", this.authProvider.currentUser)
+        );
+      console.log("main - user status: ", this.authProvider.isLoggedIn);
       this.expandOptions = true;
     });
   }
@@ -49,7 +54,7 @@ export class MainPage {
   }
 
   signIn_Out() {
-    if (this.isLoggedIn) {
+    if (this.authProvider.isLoggedIn) {
       this.loading = this.loadingCtrl.create({
         content: "Please wait",
         spinner: "dots"
@@ -57,10 +62,11 @@ export class MainPage {
       this.loading.present();
       this.authProvider.logoutUser()
         .then(() => {
+          this.authProvider.isLoggedIn = false;
+          this.authProvider.currentUser = {};
+          this.loading.dismiss()
           this.navCtrl.popToRoot();
-          this.isLoggedIn = false;
-        })
-        .then(() => this.loading.dismiss());
+        });
     } else {
       this.navCtrl.push(
         LoginPage,
@@ -75,7 +81,7 @@ export class MainPage {
   goTo(page: string) {
     switch (page) {
       case "profile":
-        this.page = this.isLoggedIn ? this.profile : this.login;
+        this.page = this.authProvider.isLoggedIn ? this.profile : this.login;
         break;
       case "home":
         this.page = this.home;
@@ -83,7 +89,7 @@ export class MainPage {
 
     this.navCtrl.push(
       this.page,
-      this.isLoggedIn,
+      {},
       {
         animate: true,
         direction: 'forward'

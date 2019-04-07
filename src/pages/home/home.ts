@@ -35,16 +35,7 @@ export class HomePage {
     this.showUsers()
       .then(() => this.loading.dismiss());
 
-  }
-  signOut() {
-    this.authProvider.logoutUser()
-      .then(() => this.navCtrl.setRoot(
-        LoginPage,
-        {},
-        {
-          animate: true,
-          direction: 'back'
-        }));
+    console.log("user status: ", this.authProvider.isLoggedIn)
   }
 
   showUsers() {

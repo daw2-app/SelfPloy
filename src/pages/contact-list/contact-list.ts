@@ -92,16 +92,6 @@ export class ContactListPage {
       .then(() => refresher.complete());
   }
 
-  signOut() {
-    this.authProvider.logoutUser()
-      .then(() => this.navCtrl.setRoot(
-        LoginPage,
-        {},
-        {
-          animate: true,
-          direction: 'back'
-        }));
-  }
   goToProfile(user){
     this.navCtrl.push(ProfilePage,user);
   }
