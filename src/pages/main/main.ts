@@ -8,6 +8,7 @@ import {ProfilePage} from "../profile/profile";
 import { DbApiService } from "../../shared/db-api.service";
 import {MyChatsPage} from "../my-chats/my-chats";
 import {faEllipsisV} from '@fortawesome/free-solid-svg-icons';
+import {CategoryPage} from "../category/category";
 
 
 @Component({
@@ -23,6 +24,8 @@ export class MainPage {
   private profile = ProfilePage;
   private login   = LoginPage;
   private myChats = MyChatsPage;
+  private category= CategoryPage
+
   private page: any;
   icon = faEllipsisV;
 
@@ -92,11 +95,14 @@ export class MainPage {
         break;
       case "home":
         this.page = this.home;
+        break;
+      case "category":
+        this.page = this.category;
     }
 
     this.navCtrl.push(
       this.page,
-      {},
+      'fontanero',
       {
         animate: true,
         direction: 'forward'

@@ -74,4 +74,13 @@ export class DbApiService{
     updates[`chats/${anotherUserId}/${myId}/${newMessageKey}`] = newMessage;
     return firebase.database().ref().update(updates);
   }
+  getCategory(category){
+    return firebase.database()
+      .ref('users')
+      .orderByChild('category')
+      .equalTo(category)
+      .once('value')
+      .then((snapshot) => { return snapshot.val()});
+  }
+
 }

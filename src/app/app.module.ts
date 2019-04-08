@@ -35,6 +35,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import {MyChatsPage} from "../pages/my-chats/my-chats";
 import {ChatPage} from "../pages/chat/chat";
 import {IonicStorageModule} from "@ionic/storage";
+import {CategoryPage} from "../pages/category/category";
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import {IonicStorageModule} from "@ionic/storage";
     LikeModalPage,
     OpinionModalViewPage,
     MyChatsPage,
-    ChatPage
+    ChatPage,
+    CategoryPage
   ],
   imports: [
     BrowserModule,
@@ -81,7 +83,8 @@ import {IonicStorageModule} from "@ionic/storage";
     LikeModalPage,
     OpinionModalViewPage,
     MyChatsPage,
-    ChatPage
+    ChatPage,
+    CategoryPage
   ],
   providers: [
     StatusBar,
