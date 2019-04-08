@@ -102,7 +102,7 @@ export class MainPage {
 
     this.navCtrl.push(
       this.page,
-      'fontanero',
+      'cerrajero',
       {
         animate: true,
         direction: 'forward'

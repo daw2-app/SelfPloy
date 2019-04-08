@@ -26,8 +26,21 @@
       </ion-item>
       <ion-item>
         <ion-icon name="clipboard" item-start></ion-icon>
+        <ion-label stacked>Tipo de Usuario:</ion-label>
+        <ion-select multiple="false" cancelText="Cancel" okText="Done">
+          <ion-option value="autonomo">Autonomo</ion-option>
+          <ion-option value="cliente">Cliente</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-icon name="clipboard" item-start></ion-icon>
         <ion-label stacked>Category:</ion-label>
-        <ion-input formControlName="category" type="text" value="{{user.category}}"></ion-input>
+        <ion-select formControlName="category" multiple="false" cancelText="Cancel" okText="Done">
+          <ion-option  value="fontanero">Fontanero</ion-option>
+          <ion-option  value="electricista">Electricista</ion-option>
+          <ion-option  value="pintor">Pintor</ion-option>
+          <ion-option  value="cerrajero">Cerrajero</ion-option>
+        </ion-select>
       </ion-item>
       <ion-item>
         <ion-icon name="book" item-start></ion-icon>
