@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {DbApiService} from "../../shared/db-api.service";
 
 /**
  * Generated class for the MyChatsPage page.
@@ -14,12 +15,23 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'my-chats.html',
 })
 export class MyChatsPage {
+  private chats: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController,
+              public navParams: NavParams,
+              public dbapi: DbApiService) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad MyChatsPage');
+    this.dbapi.getListOfMyChats()
+      .subscribe(data => {
+        this.chats = data;
+        console.log(data)
+      });
   }
 
+  messageTapped(chat: any) {
+    console.log(chat);
+  }
 }

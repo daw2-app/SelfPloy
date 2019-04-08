@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import * as firebase from "firebase";
+import { DbApiService } from "../../shared/db-api.service";
 
 /**
  * Generated class for the ChatPage page.
@@ -15,13 +17,35 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class ChatPage {
   private user: any;
-  message: string;
+  private myId: any;
+  private inputMessage: string;
+  messages: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController,
+              public navParams: NavParams,
+              public dbapi: DbApiService) {
     this.user = navParams.data;
+    this.myId = firebase.auth().currentUser.uid;
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad ChatPage', this.user);
+    // console.log('ionViewDidLoad ChatPage', this.user);
+    this.dbapi.getChat(this.user.id)
+      .subscribe(data => this.messages = data);
+  }
+
+  sendMessage() {
+    const newMessage = {
+      text     : this.inputMessage,
+      from     : this.myId,
+      timestamp: firebase.database.ServerValue.TIMESTAMP
+    };
+
+    this.dbapi.pushMessage(newMessage, this.myId, this.user.id)
+      .then(() => this.inputMessage = "");
+  }
+
+  messageTapped(message: any) {
+    console.log(message);
   }
 }

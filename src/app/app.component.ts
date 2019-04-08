@@ -8,11 +8,13 @@ import * as firebase from "firebase";
 import { SplashPage } from "../pages/splash/splash";
 import {MainPage} from "../pages/main/main";
 import {environment} from "../environments/environment";
+import {ChatPage} from "../pages/chat/chat";
 @Component({
   templateUrl: 'app.html'
 })
 export class MyApp {
   rootPage:any = MainPage;
+  // rootPage:any = ChatPage;
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
     firebase.initializeApp(environment.firebase);

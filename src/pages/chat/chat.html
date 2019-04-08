@@ -6,17 +6,25 @@
 -->
 <ion-header>
   <ion-navbar>
-    <ion-title>{{user.name}}</ion-title>
+    <!--<ion-title>{{user.name}}</ion-title>-->
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
 
-  <label>{{user.id}}</label>
+  <!--<label>Su uid: {{user.id}}</label>-->
+  <!--<label>Mi uid: {{miId}}</label>-->
+  <ion-list>
+    <button *ngFor="let message of messages" ion-item
+            (click)="messageTapped(message)">{{message?.text}}</button>
+  </ion-list>
 
 </ion-content>
 <ion-footer>
   <ion-toolbar>
-    <ion-input type="text" [(ngModel)]="message"></ion-input>
+    <ion-input autofocus type="text" [(ngModel)]="inputMessage" (keyup.enter)="sendMessage()"></ion-input>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="sendMessage()"><ion-icon name="md-send"></ion-icon></button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-footer>
