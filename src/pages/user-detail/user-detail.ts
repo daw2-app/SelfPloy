@@ -44,6 +44,12 @@ export class UserDetailPage {
 
   openChat() {
     console.log(this.user);
-    this.navCtrl.push(ChatPage, this.user);
+    this.navCtrl.push(
+      ChatPage,
+      this.user,
+      {
+        animate: true,
+        animation: "transition-ios"
+      });
   }
 }

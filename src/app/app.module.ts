@@ -27,7 +27,6 @@ import {OpinionModalViewPage} from "../pages/opinion-modal-view/opinion-modal-vi
 
 import {MCloudinaryPage} from "../pages/m-cloudinary/m-cloudinary";
 
-import {Ng2CloudinaryModule} from 'ng2-cloudinary';
 import {HttpClientModule} from "@angular/common/http";
 import {FileUploadModule} from 'ng2-file-upload';
 
@@ -36,6 +35,9 @@ import {MyChatsPage} from "../pages/my-chats/my-chats";
 import {ChatPage} from "../pages/chat/chat";
 import {IonicStorageModule} from "@ionic/storage";
 import {CategoryPage} from "../pages/category/category";
+
+import { CloudinaryModule, CloudinaryConfiguration } from '@cloudinary/angular-5.x';
+import { Cloudinary } from 'cloudinary-core';
 
 @NgModule({
   declarations: [
@@ -62,10 +64,12 @@ import {CategoryPage} from "../pages/category/category";
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule.enablePersistence(),
     HttpClientModule,
-    Ng2CloudinaryModule,
     FileUploadModule,
     FontAwesomeModule,
-    IonicStorageModule.forRoot()
+    IonicStorageModule.forRoot(),
+    [
+      CloudinaryModule.forRoot({Cloudinary}, { cloud_name: environment.cloudinary.cloud_name } as CloudinaryConfiguration),
+    ],
   ],
   bootstrap: [IonicApp],
   entryComponents: [

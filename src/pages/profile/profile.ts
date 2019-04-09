@@ -18,8 +18,8 @@ import {ProfileEditPage} from "../profile-edit/profile-edit";
   templateUrl: 'profile.html',
 })
 export class ProfilePage {
-  private user: any;
   private loading: Loading;
+  private user:any;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -28,11 +28,12 @@ export class ProfilePage {
               public authProvider: AuthProvider,
               public loadingCtrl: LoadingController
               ) {
-
   }
 
   ionViewWillEnter(){
     this.user = this.authProvider.currentUser;
+    console.log(this.user)
+
 }
 
   ionViewDidLoad() {

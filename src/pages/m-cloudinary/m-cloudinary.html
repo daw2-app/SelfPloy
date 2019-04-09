@@ -11,8 +11,12 @@
 </ion-header>
 
 <ion-content padding>
-  <cl-image [public-id]="public_id" [cloud-name]=cloud_name>
+  <cl-image *ngIf="public_id != null" [public-id]="public_id">
+    <cl-transformation height="150" width="150" crop="fill" effect="sepia" radius="20"></cl-transformation>
+    <cl-transformation overlay="text:arial_60:readme" gravity="north" y="20"></cl-transformation>
+    <cl-transformation angle="20"></cl-transformation>
   </cl-image>
+
 
   <input type="file" ng2FileSelect [uploader]="uploader" accept="image/*;capture=camera">
   <button (click)="onUpload()" class="btn btn-success mt-3">Upload</button>

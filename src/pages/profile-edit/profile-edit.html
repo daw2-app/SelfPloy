@@ -27,19 +27,19 @@
       <ion-item>
         <ion-icon name="clipboard" item-start></ion-icon>
         <ion-label stacked>Tipo de Usuario:</ion-label>
-        <ion-select multiple="false" cancelText="Cancel" okText="Done">
+        <ion-select cancelText="Cancel" okText="Done">
           <ion-option value="autonomo">Autonomo</ion-option>
           <ion-option value="cliente">Cliente</ion-option>
         </ion-select>
       </ion-item>
       <ion-item>
-        <ion-icon name="clipboard" item-start></ion-icon>
+        <ion-icon  name="clipboard" item-start></ion-icon>
         <ion-label stacked>Category:</ion-label>
-        <ion-select formControlName="category" multiple="false" cancelText="Cancel" okText="Done">
-          <ion-option  value="fontanero">Fontanero</ion-option>
-          <ion-option  value="electricista">Electricista</ion-option>
-          <ion-option  value="pintor">Pintor</ion-option>
-          <ion-option  value="cerrajero">Cerrajero</ion-option>
+        <ion-select  formControlName="category" cancelText="Cancel" okText="Done">
+          <ion-option value="fontanero">Fontanero</ion-option>
+          <ion-option value="electricista">Electricista</ion-option>
+          <ion-option value="pintor">Pintor</ion-option>
+          <ion-option value="cerrajero">Cerrajero</ion-option>
         </ion-select>
       </ion-item>
       <ion-item>
@@ -51,6 +51,12 @@
         <ion-icon name="card" item-start></ion-icon>
         <ion-label stacked>Salary:</ion-label>
         <ion-input formControlName="salary" type="text" value="{{user.salary}}"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-icon name="camera" item-start></ion-icon>
+        <cl-image *ngIf="public_id != null" [public-id]="public_id">
+        </cl-image>
+        <input type="file" ng2FileSelect [uploader]="uploader" accept="image/*;capture=camera">
       </ion-item>
       <div formGroupName="passwordRetry">
         <ion-item>

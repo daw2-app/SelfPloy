@@ -24,7 +24,7 @@ export class MainPage {
   private profile = ProfilePage;
   private login   = LoginPage;
   private myChats = MyChatsPage;
-  private category= CategoryPage
+  private category= CategoryPage;
 
   private page: any;
   icon = faEllipsisV;
@@ -38,15 +38,21 @@ export class MainPage {
   }
 
   ionViewDidLoad() {
-    firebase.auth().onAuthStateChanged(user => {
-      this.authProvider.isLoggedIn = !!user;
-      if (!!user) this.dbapi.getCurrentUser()
-        .then(val => this.authProvider.currentUser = val)
-        .then(() => console.log("main - user: ", this.authProvider.currentUser)
-        );
-      console.log("main - user status: ", this.authProvider.isLoggedIn);
-      this.expandOptions = true;
-    });
+    // firebase.auth().onAuthStateChanged(user => {
+    //   this.authProvider.isLoggedIn = !!user;
+    //   if (!!user) this.dbapi.getCurrentUser()
+    //     .then(val => this.authProvider.currentUser = val)
+    //     .then(() => console.log("main - user: ", this.authProvider.currentUser))
+    //     .then(() =>
+    //       this.dbapi.push(
+    //         `users/${firebase.auth().currentUser.uid}`,
+    //         firebase.database.ServerValue.TIMESTAMP,
+    //         "lastLogin"
+    //       )
+    //     );
+    //   console.log("main - user status: ", this.authProvider.isLoggedIn);
+    // });
+    setTimeout(() => this.expandOptions = true, 500)
   }
 
   doSomething(src: string) {

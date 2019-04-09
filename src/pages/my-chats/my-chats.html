@@ -13,6 +13,6 @@
 <ion-content padding>
   <ion-list>
     <button *ngFor="let chat of chats" ion-item
-            (click)="messageTapped(chat)">{{chat?.key}}</button>
+            (click)="messageTapped(chat?.user)">{{chat?.user?.name}}</button>
   </ion-list>
 </ion-content>

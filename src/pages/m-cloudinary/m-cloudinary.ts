@@ -17,7 +17,6 @@ import {environment} from "../../environments/environment";
 })
 export class MCloudinaryPage {
 
-  cloud_name = environment.cloudinary.cloud_name;
   private loading: Loading;
   public_id: string;
 

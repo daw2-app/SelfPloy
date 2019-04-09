@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import {DbApiService} from "../../shared/db-api.service";
+import {ChatPage} from "../chat/chat";
 
 /**
  * Generated class for the MyChatsPage page.
@@ -26,12 +27,22 @@ export class MyChatsPage {
     console.log('ionViewDidLoad MyChatsPage');
     this.dbapi.getListOfMyChats()
       .subscribe(data => {
+        // cuando se cumplan todas las promesas
+        // (porque devuelve un array de promesas) entonces...
+        Promise.all(data)
+          .then(data => this.chats = data)
+          .then(value => console.log("reciv: ", value));
         this.chats = data;
-        console.log(data)
       });
   }
 
-  messageTapped(chat: any) {
-    console.log(chat);
+  messageTapped(user: any) {
+    this.navCtrl.push(
+      ChatPage,
+      user,
+      {
+        animate: true,
+        animation: "transition-ios"
+      });
   }
 }

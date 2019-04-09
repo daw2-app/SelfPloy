@@ -6,7 +6,7 @@
 -->
 <ion-header>
   <ion-navbar>
-    <!--<ion-title>{{user.name}}</ion-title>-->
+    <ion-title>{{user.name}}</ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -14,15 +14,32 @@
 
   <!--<label>Su uid: {{user.id}}</label>-->
   <!--<label>Mi uid: {{miId}}</label>-->
-  <ion-list>
-    <button *ngFor="let message of messages" ion-item
-            (click)="messageTapped(message)">{{message?.text}}</button>
-  </ion-list>
+  <div>
+    <div *ngFor="let message of messages; let i=index;"
+         [ngClass]="[
+            'message',
+            messages[i+1]?.from == message?.from ? '' : 'last',
+            message?.from == myId ? 'messageRight' : 'messageLeft'
+          ]"
+         (click)="messageTapped(message)">
+      <div class="date" *ngIf="(message?.timestamp | date: 'ddMMyyyy') != (messages[i-1]?.timestamp | date: 'ddMMyyyy')">
+        <div >
+          {{message?.timestamp | date: 'd/M/yyyy'}}
+        </div>
+      </div>
+      <div class="innerMessage">
+        <div class="messageContent">{{message?.text}}&emsp;&emsp;&ensp;</div>
+        <div class="messageTimestamp">{{message?.timestamp | date: 'HH:mm'}}</div>
+      </div>
+    </div>
+  </div>
 
 </ion-content>
+
+
 <ion-footer>
   <ion-toolbar>
-    <ion-input autofocus type="text" [(ngModel)]="inputMessage" (keyup.enter)="sendMessage()"></ion-input>
+    <ion-input type="text" [(ngModel)]="inputMessage" (keyup.enter)="sendMessage()"></ion-input>
     <ion-buttons end>
       <button ion-button icon-only (click)="sendMessage()"><ion-icon name="md-send"></ion-icon></button>
     </ion-buttons>

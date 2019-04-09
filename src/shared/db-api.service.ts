@@ -3,6 +3,8 @@ import {AngularFireDatabase} from "@angular/fire/database";
 import {Observable} from 'rxjs';
 import * as firebase from "firebase";
 import {map} from "rxjs/operators";
+import * as _ from 'lodash'
+
 
 @Injectable()
 export class DbApiService{
@@ -28,8 +30,8 @@ export class DbApiService{
   }
 
 
-  push(child: string, data: {}) {
-    const key = child === "users" ?
+  push(child: string, data: {}, key?: string) {
+    if (key == null) key = child === "users" ?
       firebase.auth().currentUser.uid :
       firebase.database().ref().child(child).push().key;
 
@@ -56,12 +58,31 @@ export class DbApiService{
     return this.fdb.list(`/chats/${myUserId}/${otherUserId}`).valueChanges();
   }
 
+  getUser(uid: string) {
+    return firebase.database()
+      .ref('users')
+      .child(uid)
+      .once('value')
+      .then((snapshot) => { return snapshot.val()});
+  }
+
   getListOfMyChats(): Observable<any> {
 
-    return this.fdb.list("chats").snapshotChanges()
-      .pipe(map(changes =>
-        changes.map(c => ({ key: c.payload.key, ...c.payload.val() }))
-      ))
+    let myUserId = firebase.auth().currentUser.uid;
+
+    return this.fdb.list(`chats/${myUserId}`).snapshotChanges()
+      .pipe(
+        map(changes =>
+          changes.map(async c => {
+              let mUser: any;
+              await this.getUser(c.payload.key)
+                .then((user) => mUser = user)
+                .then(() => _.assign(mUser, {'id': c.payload.key}));
+              return ({user: mUser, ...c.payload.val()});
+            }
+          )
+        )
+      )
   }
 
   pushMessage(newMessage: { from: any; text: string; timestamp: Object },
@@ -82,5 +103,4 @@ export class DbApiService{
       .once('value')
       .then((snapshot) => { return snapshot.val()});
   }
-
 }

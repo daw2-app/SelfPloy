@@ -6,23 +6,58 @@ import * as firebase from "firebase";
 
 
 import { SplashPage } from "../pages/splash/splash";
-import {MainPage} from "../pages/main/main";
 import {environment} from "../environments/environment";
-import {ChatPage} from "../pages/chat/chat";
+import {AuthProvider} from "../providers/auth/auth";
+import {DbApiService} from "../shared/db-api.service";
 @Component({
   templateUrl: 'app.html'
 })
 export class MyApp {
-  rootPage:any = MainPage;
-  // rootPage:any = ChatPage;
+  rootPage: any = SplashPage;
 
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
-    firebase.initializeApp(environment.firebase);
+  private sub1$:any;
+  private sub2$:any;
+
+  constructor(private platform: Platform,
+              statusBar: StatusBar,
+              splashScreen: SplashScreen,
+              private dbapi: DbApiService,
+              private authProvider: AuthProvider
+  ) {
+
+
+    // Firebase App named '[DEFAULT]' already exists (app/duplicate-app)
+    if (!firebase.apps.length) firebase.initializeApp(environment.firebase);
+
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
       statusBar.styleDefault();
       splashScreen.hide();
+
+      this.updateLastLogin();
+    });
+  }
+
+  ionViewWillUnload() {
+    this.sub1$.unsubscribe();
+    this.sub2$.unsubscribe();
+  }
+
+  updateLastLogin() {
+    this.sub1$ = this.platform.pause.subscribe(() => {
+      console.log('****UserdashboardPage PAUSED****');
+    });
+    this.sub2$ = this.platform.resume.subscribe(() => {
+      console.log('****UserdashboardPage RESUMED****');
+      let currentUser;
+      if ((currentUser = firebase.auth().currentUser) != null)
+        this.dbapi.push(
+          `users/${currentUser.uid}`,
+          firebase.database.ServerValue.TIMESTAMP,
+          "lastLogin")
+          .then(value => console.log('firebase - todo guay: ', value))
+          .catch(value => console.log('firebase - oops: ', value))
     });
   }
 }

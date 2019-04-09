@@ -1,3 +1,73 @@
 page-chat {
 
+  .message {
+
+    $radious_1: 7px;
+    $radious_2: 21px;
+
+    &:after {
+      content: '';
+      display: block;
+      clear: both;
+    }
+
+    .date {
+      text-align: center;
+      margin-top: 15px;
+      margin-bottom: 10px;
+
+
+      & > div {
+        padding: 4px 16px;
+        display: inline-block;
+        border-radius: $radious_2;
+        background-color: #eee;
+        font-size: smaller;
+        opacity: .7;
+
+      }
+    }
+
+    .innerMessage {
+      display: inline-block;
+      padding: 8px 16px;
+      background: #caecff;
+      margin: 1px 5px;
+      color: black;
+      border-radius: $radious_1;
+      position: relative;
+      max-width: 70vw;
+
+      .messageTimestamp {
+        opacity: .4;
+        font-size: smaller;
+        position: absolute;
+        right: 12px;
+        bottom: 5px;
+      }
+    }
+
+    &.messageRight > .innerMessage {
+      background: #e0ffeb;
+      float: right;
+      border-top-left-radius: $radious_2;
+      border-bottom-left-radius: $radious_2;
+    }
+
+    &.messageLeft > .innerMessage {
+      float: left;
+      border-top-right-radius: $radious_2;
+      border-bottom-right-radius: $radious_2;
+    }
+
+    &.last > .innerMessage {
+      border-bottom-right-radius: $radious_2;
+      border-bottom-left-radius: $radious_2;
+    }
+  }
+
+  .messageRight + .messageLeft > .innerMessage,
+  .messageLeft + .messageRight > .innerMessage {
+    margin-top: 10px;
+  }
 }

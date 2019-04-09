@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import {Component, ViewChild} from '@angular/core';
+import {IonicPage, Navbar, NavController, NavParams} from 'ionic-angular';
 import * as firebase from "firebase";
 import { DbApiService } from "../../shared/db-api.service";
 
@@ -31,7 +31,20 @@ export class ChatPage {
   ionViewDidLoad() {
     // console.log('ionViewDidLoad ChatPage', this.user);
     this.dbapi.getChat(this.user.id)
-      .subscribe(data => this.messages = data);
+      .subscribe(data => {
+        this.messages = data
+      });
+  }
+
+  @ViewChild(Navbar) navbar: Navbar;
+
+  ionViewDidEnter() {
+    this.navbar.backButtonClick = () => this.navCtrl.pop(
+      {
+        animate: true,
+        animation: "transition-ios"
+      });
+
   }
 
   sendMessage() {
