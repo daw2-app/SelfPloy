@@ -48,11 +48,12 @@ export class ProfileEditPage {
   }
   private createMyForm(){
     return this.formBuilder.group({
-      name: ['', Validators.required],
-      lastName: ['', Validators.required],
+      name: ['', [Validators.required,Validators.minLength(3), Validators.maxLength(10)]],
+      lastName: ['', [Validators.required,Validators.minLength(3), Validators.maxLength(10)]],
       email: ['', Validators.required],
       category:['',Validators.required],
-      description: ['', Validators.required],
+      userType:['',Validators.required],
+      description: ['', [Validators.required,Validators.minLength(10), Validators.maxLength(500)]],
       salary: ['', Validators.required],
     });
   }

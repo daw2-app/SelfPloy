@@ -14,10 +14,20 @@
         <ion-label stacked>Name:</ion-label>
         <ion-input formControlName="name" type="text" value="{{user.name}}"></ion-input>
       </ion-item>
+      <ion-item *ngIf="userForm.get('name').errors && userForm.get('name').dirty">
+        <p color="danger" ion-text *ngIf="userForm.get('name').hasError('required')">Field is required</p>
+        <p color="danger" ion-text *ngIf="userForm.get('name').hasError('minlength')">Min of 3 characters</p>
+        <p color="danger" ion-text *ngIf="userForm.get('name').hasError('maxlength')">Max of 10 characters</p>
+      </ion-item>
       <ion-item>
         <ion-icon name="person" item-start></ion-icon>
         <ion-label stacked>Last Name:</ion-label>
         <ion-input formControlName="lastName" type="text" value="{{user.lastName}}"></ion-input>
+      </ion-item>
+      <ion-item *ngIf="userForm.get('lastName').errors && userForm.get('lastName').dirty">
+        <p color="danger" ion-text *ngIf="userForm.get('lastName').hasError('required')">Field is required</p>
+        <p color="danger" ion-text *ngIf="userForm.get('lastName').hasError('minlength')">Min of 3 characters</p>
+        <p color="danger" ion-text *ngIf="userForm.get('lastName').hasError('maxlength')">Max of 10 characters</p>
       </ion-item>
       <ion-item>
         <ion-icon name="mail" item-start></ion-icon>
@@ -46,6 +56,11 @@
         <ion-icon name="book" item-start></ion-icon>
         <ion-label  stacked>Description</ion-label>
         <ion-textarea formControlName="description" rows="4" cols="10" type="text" value="{{user.description}}"></ion-textarea>
+      </ion-item>
+      <ion-item *ngIf="userForm.get('description').errors && userForm.get('description').dirty">
+        <p color="danger" ion-text *ngIf="userForm.get('description').hasError('required')">Field is required</p>
+        <p color="danger" ion-text *ngIf="userForm.get('description').hasError('minlength')">Min of 10 characters</p>
+        <p color="danger" ion-text *ngIf="userForm.get('description').hasError('maxlength')">Max of 500 characters</p>
       </ion-item>
       <ion-item>
         <ion-icon name="card" item-start></ion-icon>

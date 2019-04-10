@@ -19,6 +19,11 @@
           <ion-label stacked>Assessment:</ion-label>
           <ion-textarea formControlName="text" rows="4" cols="10" type="text"></ion-textarea>
         </ion-item>
+        <ion-item *ngIf="userForm.get('text').errors && userForm.get('text').dirty">
+          <p color="danger" ion-text *ngIf="userForm.get('text').hasError('required')">Field is required</p>
+          <p color="danger" ion-text *ngIf="userForm.get('text').hasError('minlength')">Min of 10 characters</p>
+          <p color="danger" ion-text *ngIf="userForm.get('text').hasError('maxlength')">Max of 100 characters</p>
+        </ion-item>
       </ion-list>
       <div padding>
         <button ion-button block type="submit" [disabled]="!userForm.valid">Update</button>

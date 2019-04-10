@@ -38,7 +38,7 @@ export class LikeModalPage {
   }
   private createMyForm() {
     return this.formBuilder.group({
-      text: ['', Validators.required],
+      text: ['', [Validators.required,Validators.minLength(10), Validators.maxLength(100)]],
       userTo: ['', Validators.required],
     });
   }
