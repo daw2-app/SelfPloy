@@ -14,3 +14,22 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
+
+.fab-close {
+  height: 30px;
+  width: 30px;
+  background-color: #000000;
+  border-radius: 100%;
+  box-shadow: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  -o-box-shadow: none;
+}
+
+
+.scroll-content {
+  background: #f5f5f5;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to top, #b0b0b0, #f5f5f5);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to top, #b0b0b0, #f5f5f5); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+}

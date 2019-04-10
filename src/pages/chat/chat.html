@@ -14,24 +14,25 @@
 
   <!--<label>Su uid: {{user.id}}</label>-->
   <!--<label>Mi uid: {{miId}}</label>-->
-  <div>
-    <div *ngFor="let message of messages; let i=index;"
-         [ngClass]="[
+  <div *ngFor="let message of messages; let i=index;"
+      [ngClass]="[
             'message',
-            messages[i+1]?.from == message?.from ? '' : 'last',
+            messages[i+1]?.from != message?.from || (message?.timestamp | date: 'ddMMyyyy') != (messages[i+1]?.timestamp | date: 'ddMMyyyy') ? 'last' : '',
             message?.from == myId ? 'messageRight' : 'messageLeft'
           ]"
-         (click)="messageTapped(message)">
-      <div class="date" *ngIf="(message?.timestamp | date: 'ddMMyyyy') != (messages[i-1]?.timestamp | date: 'ddMMyyyy')">
-        <div >
+      (click)="messageTapped(message)">
+      
+      <div class="date"
+           *ngIf="(message?.timestamp | date: 'ddMMyyyy') != (messages[i-1]?.timestamp | date: 'ddMMyyyy')">
+        <div>
           {{message?.timestamp | date: 'd/M/yyyy'}}
         </div>
       </div>
+
       <div class="innerMessage">
         <div class="messageContent">{{message?.text}}&emsp;&emsp;&ensp;</div>
         <div class="messageTimestamp">{{message?.timestamp | date: 'HH:mm'}}</div>
       </div>
-    </div>
   </div>
 
 </ion-content>
@@ -39,9 +40,12 @@
 
 <ion-footer>
   <ion-toolbar>
-    <ion-input type="text" [(ngModel)]="inputMessage" (keyup.enter)="sendMessage()"></ion-input>
+    <ion-input type="text" [(ngModel)]="inputMessage"(keyup.enter)="sendMessage()"></ion-input>
     <ion-buttons end>
-      <button ion-button icon-only (click)="sendMessage()"><ion-icon name="md-send"></ion-icon></button>
+      <button [disabled]="inputMessage < 1" ion-button icon-only (click)="sendMessage()">
+      <!--<button ion-button icon-only (click)="sendMessage()">-->
+        <ion-icon name="md-send"></ion-icon>
+      </button>
     </ion-buttons>
   </ion-toolbar>
 </ion-footer>

@@ -58,18 +58,6 @@
         </cl-image>
         <input type="file" ng2FileSelect [uploader]="uploader" accept="image/*;capture=camera">
       </ion-item>
-      <div formGroupName="passwordRetry">
-        <ion-item>
-          <ion-icon name="eye" item-start></ion-icon>
-          <ion-label stacked>Password:</ion-label>
-          <ion-input formControlName="password" type="password" placeholder="Password"></ion-input>
-        </ion-item>
-        <ion-item>
-          <ion-icon name="eye" item-start></ion-icon>
-          <ion-label stacked>Password Check:</ion-label>
-          <ion-input formControlName="passwordConfirmation" type="password" placeholder="Password Check"></ion-input>
-        </ion-item>
-      </div>
     </ion-list>
     <div padding>
       <button ion-button block type="submit" [disabled]="!userForm.valid">Update</button>

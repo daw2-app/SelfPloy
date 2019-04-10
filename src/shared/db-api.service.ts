@@ -67,22 +67,27 @@ export class DbApiService{
   }
 
   getListOfMyChats(): Observable<any> {
+    
+    if (firebase.auth().currentUser) {
 
-    let myUserId = firebase.auth().currentUser.uid;
+      let myUserId = firebase.auth().currentUser.uid;
 
-    return this.fdb.list(`chats/${myUserId}`).snapshotChanges()
-      .pipe(
-        map(changes =>
-          changes.map(async c => {
-              let mUser: any;
-              await this.getUser(c.payload.key)
-                .then((user) => mUser = user)
-                .then(() => _.assign(mUser, {'id': c.payload.key}));
-              return ({user: mUser, ...c.payload.val()});
-            }
+      return this.fdb.list(`chats/${myUserId}`).snapshotChanges()
+        .pipe(
+          map(changes =>
+            changes.map(async c => {
+                let mUser: any;
+                await this.getUser(c.payload.key)
+                  .then((user) => mUser = user)
+                  .then(() => _.assign(mUser, {'id': c.payload.key}));
+                return ({user: mUser, ...c.payload.val()});
+              }
+            )
           )
         )
-      )
+    } else {
+      return null;
+    }
   }
 
   pushMessage(newMessage: { from: any; text: string; timestamp: Object },
@@ -95,6 +100,7 @@ export class DbApiService{
     updates[`chats/${anotherUserId}/${myId}/${newMessageKey}`] = newMessage;
     return firebase.database().ref().update(updates);
   }
+
   getCategory(category){
     return firebase.database()
       .ref('users')
@@ -102,5 +108,15 @@ export class DbApiService{
       .equalTo(category)
       .once('value')
       .then((snapshot) => { return snapshot.val()});
+  }
+
+  removeChat(id: any) {
+    console.log(id)
+    let myUserId = firebase.auth().currentUser.uid;
+    firebase.database()
+      .ref('chats')
+      .child(myUserId)
+      .child(id)
+      .remove()
   }
 }

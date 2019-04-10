@@ -9,11 +9,15 @@ import { SplashPage } from "../pages/splash/splash";
 import {environment} from "../environments/environment";
 import {AuthProvider} from "../providers/auth/auth";
 import {DbApiService} from "../shared/db-api.service";
+import {MainPage} from "../pages/main/main";
+import {LoginPage} from "../pages/login/login";
 @Component({
   templateUrl: 'app.html'
 })
 export class MyApp {
   rootPage: any = SplashPage;
+  // rootPage: any = LoginPage;
+  // rootPage: any = MainPage;
 
   private sub1$:any;
   private sub2$:any;

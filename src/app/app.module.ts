@@ -31,7 +31,7 @@ import {HttpClientModule} from "@angular/common/http";
 import {FileUploadModule} from 'ng2-file-upload';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import {MyChatsPage} from "../pages/my-chats/my-chats";
+import {MyChatsPage} from "../pages/chat-list/chat-list";
 import {ChatPage} from "../pages/chat/chat";
 import {IonicStorageModule} from "@ionic/storage";
 import {CategoryPage} from "../pages/category/category";

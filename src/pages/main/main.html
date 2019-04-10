@@ -1,7 +1,9 @@
 <ion-content>
 
   <nav class="menu admin">
-    <input type="checkbox" href="#" class="menu-open" [checked]="expandOptions"/>
+    <input type="checkbox" class="menu-open" [checked]="expandOptions"/>
+    <input type="checkbox" class="categories-menu-open" id="categories-menu-open" [checked]="expandCategories"/>
+
     <button
       (click)="goTo('home')"
       large
@@ -10,17 +12,6 @@
       color="noHomo">
       <ion-icon name="md-home" style="zoom:2.0;"></ion-icon>
     </button>
-
-    <button large
-            class="menu-item"
-            ion-button
-            (click)="goTo('category')"
-            color="noHomo">
-      <!--<ion-icon name="ios-search" style="zoom:1.5;"></ion-icon>-->
-
-      <fa-icon  style="zoom:1.5;" [icon]="icon"></fa-icon>
-    </button>
-
 
     <button large
             class="menu-item"
@@ -47,7 +38,7 @@
             large
             class="menu-item"
             ion-button
-            (click)="doSomething('2')"
+            (click)="doSomething('adminButton')"
             color="noHomo">
       <ion-icon name="ios-settings" style="zoom:1.5;"></ion-icon>
     </button>
@@ -61,31 +52,34 @@
       <ion-icon name="ios-chatbubbles" style="zoom:1.5;"></ion-icon>
     </button>
 
+    <button large
+            class="menu-item categories-item"
+            ion-button
+            color="noHomo">
+      <!--<ion-icon name="ios-search" style="zoom:1.5;"></ion-icon>-->
+      <label for="categories-menu-open">
+        <ion-icon name="ios-search" style="zoom:1.5;"></ion-icon>
+      </label>
+    </button>
 
+    <div class="categories">
+      <button *ngFor="let category of categories; let i = index"
+              ion-button
+              [ngClass]="['categories-menu-item', category.name]"
+              (click)="goTo('category', category.filter)"
+      >
+        <fa-icon style="zoom:1.5;" [icon]="category.icon"></fa-icon>
+      </button>
+    </div>
+
+    <!--<div class="categories">-->
+      <!--<button *ngFor="let category of categories; let i = index"-->
+              <!--ion-button-->
+              <!--class="categories-menu-item {{category.name}}"-->
+              <!--(click)="doSomething(i + 1)">-->
+        <!--<fa-icon style="zoom:1.5;" [icon]="category.icon"></fa-icon>-->
+      <!--</button>-->
+    <!--</div>-->
   </nav>
 
-
-  <!-- filters -->
-  <svg xmlns="http://www.w3.org/2000/svg" version="1.1">
-    <defs>
-      <filter id="shadowed-goo">
-
-        <feGaussianBlur in="SourceGraphic" result="blur" stdDeviation="10"></feGaussianBlur>
-        <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7"
-                       result="goo"></feColorMatrix>
-        <feGaussianBlur in="goo" stdDeviation="3" result="shadow"></feGaussianBlur>
-        <feColorMatrix in="shadow" mode="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 -0.2"
-                       result="shadow"></feColorMatrix>
-        <feOffset in="shadow" dx="1" dy="1" result="shadow"></feOffset>
-        <feComposite in2="shadow" in="goo" result="goo"></feComposite>
-        <feComposite in2="goo" in="SourceGraphic" result="mix"></feComposite>
-      </filter>
-      <filter id="goo">
-        <feGaussianBlur in="SourceGraphic" result="blur" stdDeviation="10"></feGaussianBlur>
-        <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7"
-                       result="goo"></feColorMatrix>
-        <feComposite in2="goo" in="SourceGraphic" result="mix"></feComposite>
-      </filter>
-    </defs>
-  </svg>
 </ion-content>

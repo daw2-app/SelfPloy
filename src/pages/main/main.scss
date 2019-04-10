@@ -2,108 +2,155 @@ page-home {
 
   @import "../../shared/trig";
 
-  $fg: #e91e63;
-  $bg: #8bc34a;
-  $pi: 3.14;
+  nav {
 
-  //config
-  $menu-items: 4 + 1;
-  $open-distance: 115px;
-  $opening-angle: $pi*2;
+    $pi: 3.14;
 
+    //config
+    $menu-items: 4 + 1;
+    $categories-items: 6;
+    $open-distance-menu: 115px;
+    $open-distance-categories: 100px;
+    $menu-opening-angle: $pi*2;
+    $categories-opening-angle: $pi - .2;
 
+    $items-size: 90px;
+    $categories-size: 50px;
 
-  body {
-    background: $bg;
-    color: white;
-    text-align: center;
-  }
+      $buttons: (
+        shower       #1ea3ff #1ea3ff44,
+        lightbulb    #d9a311 #d9a31144,
+        hammer       #f09146 #f0914644,
+        paint-roller #56ac5b #56ac5b44,
+        laptop       #999999 #99999944,
+        key          #ccc117 #ccc11744
+      );
 
-  a {
-    color: inherit;
-  }
+      button {
+        @each $button in $buttons {
+          &.#{nth($button, 1)} {
 
-  h1, h2, h3, h4 {
-    margin: 10px 0;
-  }
+            background-color: #{nth($button, 3)} !important;
 
-  h1 {
-    font-size: 3em;
-  }
+            color: #{nth($button, 2)};
+            border: 2px solid #{nth($button, 3)} !important;
 
-  %ball {
-    //background: $fg;
-    border-radius: 100%;
-    width: 90px;
-    height: 90px;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin: auto;
-    position: absolute;
-    color: white;
-    text-align: center;
-    line-height: 80px;
-    transform: translate(0, 0);
-    transition: transform ease-out 200ms;
-  }
+            .button-effect {
+              background-color: #{nth($button, 2)};
+            }
+          }
+        }
 
-  .menu-open {
-    display: none;
-  }
+      .categories-item label {
+        padding: 100%;
 
-  .menu-item {
-    @extend %ball;
-  }
-
-  .menu {
-    $width: 330px;
-    $height: 330px;
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    margin: auto;
-    width: $width;
-    height: $height;
-    box-sizing: border-box;
-    font-size: 20px;
-    text-align: left;
-  }
+        ion-icon {
+          position: absolute;
+          height: 24px;
+          width: 24px;
+          left: 0;
+          top: 0;
+          bottom: 0;
+          right: 0;
+          margin: auto;
+        }
+      }
+    }
 
 
-  .menu-item {
+    %ball {
+      border-radius: 100%;
+      width: $items-size;
+      height: $items-size;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      margin: auto;
+      position: absolute;
+      color: white;
+      text-align: center;
+      line-height: 80px;
+      transform: translate(0, 0);
+      transition: transform ease-out 200ms;
+    }
 
-    @for $i from 1 through $menu-items {
-      &:nth-child(#{$i+2}) {
-        transition-duration: 180ms;
+    .menu-open,
+    .categories-menu-open {
+      display: none;
+    }
+
+    .menu-item {
+      @extend %ball;
+      z-index: 3;
+      transition-duration: 180ms;
+    }
+
+    .menu {
+      $size: 330px;
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      margin: auto;
+      width: $size;
+      height: $size;
+      box-sizing: border-box;
+      font-size: 20px;
+      text-align: left;
+    }
+
+    .menu-open-button {
+      @extend %ball;
+      width: $items-size+20;
+      height: $items-size+20;
+      z-index: 4;
+      transition-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1.275);
+      transition-duration: 400ms;
+      cursor: pointer;
+    }
+
+    .menu-open:checked {
+
+      & ~ .categories > .categories-menu-item {
+        opacity: 1;
+        transition: opacity 0s linear .6s, transform ease-out 200ms;
+      }
+
+      & ~ .menu-item {
+        transition-timing-function: cubic-bezier(0.935, 0.000, 0.340, 1.330);
+        @for $i from 1 through $menu-items {
+          $angle: (($pi - $menu-opening-angle)/2)+(($menu-opening-angle/($menu-items - 1))*($i - 1));
+
+          &:nth-child(#{$i+2}) {
+            transition-duration: 80ms+(100ms*$i);
+            transform: translate(cos($angle)*$open-distance-menu, sin($angle)*$open-distance-menu);
+          }
+        }
+      }
+    }
+
+    .categories-menu-item {
+      @extend %ball;
+      opacity: 0;
+      width: $categories-size;
+      height: $categories-size;
+      top: -2 * $open-distance-menu;
+      z-index: 2;
+    }
+
+    //.categories-menu-open:checked ~ .categories> .categories-menu-item {
+    .categories-menu-open:checked ~ .categories > .categories-menu-item {
+      transition-timing-function: cubic-bezier(0.935, 0.000, 0.340, 1.330);
+      @for $i from 1 through $categories-items {
+        $angle: (($pi - $categories-opening-angle)/2)+(($categories-opening-angle/($categories-items - 1))*($i - 1));
+
+        &:nth-child(#{$i}) {
+          transition-duration: 80ms+(120ms*$i);
+          transform: translate(1 + cos($angle)*$open-distance-categories, 1 - sin($angle)*$open-distance-categories);
+        }
       }
     }
   }
-
-  .menu-open-button {
-    @extend %ball;
-    width: 110px;
-    height: 110px;
-    z-index: 2;
-    transition-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1.275);
-    transition-duration: 400ms;
-    cursor: pointer;
-  }
-
-
-  .menu-open:checked ~ .menu-item {
-    transition-timing-function: cubic-bezier(0.935, 0.000, 0.340, 1.330);
-    @for $i from 1 through $menu-items {
-      $angle: (($pi - $opening-angle)/2)+(($opening-angle/($menu-items - 1))*($i - 1));
-
-      &:nth-child(#{$i+2}) {
-        transition-duration: 80ms+(100ms*$i);
-        transform: translate(cos($angle)*$open-distance, sin($angle)*$open-distance);
-      }
-    }
-  }
-
 }
