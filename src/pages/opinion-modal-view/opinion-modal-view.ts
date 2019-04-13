@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams,ModalController, LoadingController,Loading} from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController,Loading} from 'ionic-angular';
 import {DbApiService} from "../../shared/db-api.service";
 
 /**
@@ -20,7 +20,6 @@ export class OpinionModalViewPage {
   private loading: Loading;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
-              public modalCtrl: ModalController,
               public dbapi: DbApiService,
               public loadingCtrl: LoadingController,) {
     this.user = navParams.data;

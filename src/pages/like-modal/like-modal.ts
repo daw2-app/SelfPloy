@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {IonicPage, NavController, NavParams, ModalController, LoadingController} from 'ionic-angular';
+import {IonicPage, NavController, NavParams, LoadingController} from 'ionic-angular';
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {DbApiService} from "../../shared/db-api.service";
 import * as firebase from "firebase";
@@ -25,7 +25,6 @@ export class LikeModalPage {
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
-              public modalCtrl: ModalController,
               public formBuilder: FormBuilder,
               public dbapi: DbApiService,
               public loadingCtrl: LoadingController,

@@ -15,7 +15,6 @@ import {LoginPage} from "../pages/login/login";
 import {RegisterPage} from "../pages/register/register";
 import {SplashPage} from "../pages/splash/splash";
 import {AuthProvider} from '../providers/auth/auth';
-import {ContactListPage} from "../pages/contact-list/contact-list";
 import {DbApiService} from "../shared/db-api.service";
 import {AngularFireDatabase} from "@angular/fire/database";
 import {HomePage} from '../pages/home/home';
@@ -47,7 +46,6 @@ import { MessageServiceProvider } from '../providers/message-service/message-ser
     SplashPage,
     LoginPage,
     RegisterPage,
-    ContactListPage,
     ProfilePage,
     ProfileEditPage,
     MCloudinaryPage,
@@ -79,7 +77,6 @@ import { MessageServiceProvider } from '../providers/message-service/message-ser
     SplashPage,
     LoginPage,
     RegisterPage,
-    ContactListPage,
     ProfilePage,
     ProfileEditPage,
     MCloudinaryPage,

@@ -1,10 +1,7 @@
 import { Component } from '@angular/core';
-import { IonicPage, ItemSliding, Loading, LoadingController, NavController, NavParams, Refresher, ToastController } from 'ionic-angular';
-import { LoginPage } from "../login/login";
+import { Loading, LoadingController, NavController } from 'ionic-angular';
 import { AuthProvider } from "../../providers/auth/auth";
 import { DbApiService } from "../../shared/db-api.service";
-import {RegisterPage} from "../register/register";
-import {ProfileEditPage} from "../profile-edit/profile-edit";
 import {UserDetailPage} from "../user-detail/user-detail";
 
 

@@ -1,11 +1,7 @@
 import { Component } from '@angular/core';
-import {IonicPage, Loading, LoadingController, NavController, NavParams, ToastController} from 'ionic-angular';
-import { LoginPage } from "../login/login";
+import {IonicPage, Loading, LoadingController, NavController, NavParams} from 'ionic-angular';
 import { MainPage } from "../main/main";
 import * as firebase from "firebase";
-import { environment } from "../../environments/environment";
-import {ContactListPage} from "../contact-list/contact-list";
-import {MCloudinaryPage} from "../m-cloudinary/m-cloudinary";
 import {AuthProvider} from "../../providers/auth/auth";
 import {DbApiService} from "../../shared/db-api.service";
 

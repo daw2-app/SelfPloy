@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import {IonicPage, Loading, LoadingController, NavController, NavParams, ToastController} from 'ionic-angular';
+import {IonicPage, LoadingController, NavController, NavParams} from 'ionic-angular';
 import { DbApiService } from "../../shared/db-api.service";
 import { AuthProvider } from "../../providers/auth/auth";
 import {ProfileEditPage} from "../profile-edit/profile-edit";
@@ -18,13 +18,11 @@ import {ProfileEditPage} from "../profile-edit/profile-edit";
   templateUrl: 'profile.html',
 })
 export class ProfilePage {
-  private loading: Loading;
   private user:any;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public dbapi: DbApiService,
-              private toastCtrl: ToastController,
               public authProvider: AuthProvider,
               public loadingCtrl: LoadingController
               ) {

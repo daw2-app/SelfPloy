@@ -1,11 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, Loading, LoadingController, NavController, NavParams } from 'ionic-angular';
 import { LoginPage } from "../login/login";
-import { AngularFireAuth } from '@angular/fire/auth';
 import { User } from "../../shared/model/user";
-import { MainPage } from "../main/main";
 import { AuthProvider } from "../../providers/auth/auth";
-import {ContactListPage} from "../contact-list/contact-list";
 
 
 
@@ -37,8 +34,7 @@ export class RegisterPage {
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public authProvider: AuthProvider,
-              public loadingCtrl: LoadingController,
-              public afAuth: AngularFireAuth) {
+              public loadingCtrl: LoadingController) {
   }
 
   ionViewDidLoad() {

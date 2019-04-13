@@ -2,8 +2,6 @@ import {Component} from '@angular/core';
 import {Events, Loading, LoadingController, NavController, ToastController} from 'ionic-angular';
 import {LoginPage} from "../login/login";
 import {AuthProvider} from "../../providers/auth/auth";
-import * as firebase from "firebase";
-import * as _ from "lodash"
 import {HomePage} from "../home/home";
 import {ProfilePage} from "../profile/profile";
 import { DbApiService } from "../../shared/db-api.service";
@@ -54,7 +52,6 @@ export class MainPage {
               private toastCtrl: ToastController,
               public loadingCtrl: LoadingController,
               public dbapi: DbApiService,
-              private messageService : MessageServiceProvider,
               private events: Events) {
   }
 

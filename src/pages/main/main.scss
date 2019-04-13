@@ -1,6 +1,9 @@
 page-home {
-
   @import "../../shared/trig";
+
+  ion-content div.scroll-content {
+    overflow: hidden;
+  }
 
   nav {
 
@@ -9,13 +12,15 @@ page-home {
     //config
     $menu-items: 4 + 1;
     $categories-items: 6;
-    $open-distance-menu: 115px;
-    $open-distance-categories: 100px;
+    $open-distance-menu: 32vw;
+    $open-distance-categories: 26vw;
     $menu-opening-angle: $pi*2;
     $categories-opening-angle: $pi - .2;
 
-    $items-size: 90px;
-    $categories-size: 50px;
+    $items-size-max: 90px;
+    $items-size: 24vw;
+    $categories-size-max: 50px;
+    $categories-size: 14vw;
 
       $buttons: (
         shower       #1ea3ff #1ea3ff44,
@@ -60,6 +65,8 @@ page-home {
 
     %ball {
       border-radius: 100%;
+      max-width: $items-size-max;
+      max-height: $items-size-max;
       width: $items-size;
       height: $items-size;
       top: 0;
@@ -103,8 +110,10 @@ page-home {
 
     .menu-open-button {
       @extend %ball;
-      width: $items-size+20;
-      height: $items-size+20;
+      max-width: $items-size-max+20;
+      max-height: $items-size-max+20;
+      width: $items-size+10;
+      height: $items-size+10;
       z-index: 4;
       transition-timing-function: cubic-bezier(0.175, 0.885, 0.320, 1.275);
       transition-duration: 400ms;
@@ -127,6 +136,12 @@ page-home {
             transition-duration: 80ms+(100ms*$i);
             transform: translate(cos($angle)*$open-distance-menu, sin($angle)*$open-distance-menu);
           }
+
+          @media screen and (min-width: 500px) {
+            &:nth-child(#{$i+2}) {
+              transform: translate(cos($angle)*160px,sin($angle)*160px);
+            }
+          }
         }
       }
     }
@@ -134,9 +149,11 @@ page-home {
     .categories-menu-item {
       @extend %ball;
       opacity: 0;
+      max-width: $categories-size-max;
+      max-height: $categories-size-max;
       width: $categories-size;
       height: $categories-size;
-      top: -2 * $open-distance-menu;
+      top: -2.5 * $open-distance-categories;
       z-index: 2;
     }
 
@@ -149,6 +166,13 @@ page-home {
         &:nth-child(#{$i}) {
           transition-duration: 80ms+(120ms*$i);
           transform: translate(1 + cos($angle)*$open-distance-categories, 1 - sin($angle)*$open-distance-categories);
+        }
+
+        @media screen and (min-width: 500px) {
+          top: -325px;
+          &:nth-child(#{$i}) {
+            transform: translate(1 + cos($angle)*130px, 1 - sin($angle)*130px);
+          }
         }
       }
     }

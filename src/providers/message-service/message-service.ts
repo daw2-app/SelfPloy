@@ -1,4 +1,3 @@
-import {HttpClient} from '@angular/common/http';
 import {Injectable} from '@angular/core';
 import {DbApiService} from "../../shared/db-api.service";
 import {Events} from "ionic-angular";

@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, Loading, LoadingController, NavController, NavParams } from 'ionic-angular';
 import { AuthProvider } from '../../providers/auth/auth';
-import { MainPage } from "../main/main";
 import { RegisterPage } from "../register/register";
 import { User } from "../../shared/model/user";
 

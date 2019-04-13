@@ -7,10 +7,7 @@ import * as firebase from "firebase";
 
 import { SplashPage } from "../pages/splash/splash";
 import {environment} from "../environments/environment";
-import {AuthProvider} from "../providers/auth/auth";
 import {DbApiService} from "../shared/db-api.service";
-import {MainPage} from "../pages/main/main";
-import {LoginPage} from "../pages/login/login";
 @Component({
   templateUrl: 'app.html'
 })
@@ -25,8 +22,7 @@ export class MyApp {
   constructor(private platform: Platform,
               statusBar: StatusBar,
               splashScreen: SplashScreen,
-              private dbapi: DbApiService,
-              private authProvider: AuthProvider
+              private dbapi: DbApiService
   ) {
 
 

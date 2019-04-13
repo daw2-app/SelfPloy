@@ -4,7 +4,6 @@ import {Observable} from 'rxjs';
 import * as firebase from "firebase";
 import {map} from "rxjs/operators";
 import * as _ from 'lodash'
-import DataSnapshot = firebase.database.DataSnapshot;
 
 
 @Injectable()
