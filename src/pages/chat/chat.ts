@@ -1,8 +1,8 @@
-import {Component, ViewChild} from '@angular/core';
+import {AfterViewChecked, Component, ViewChild} from '@angular/core';
 import {Content, IonicPage, Navbar, NavController, NavParams} from 'ionic-angular';
 import * as firebase from "firebase";
 import { DbApiService } from "../../shared/db-api.service";
-// import * as $ from 'jquery'
+import * as $ from 'jquery'
 import {Subscription} from "rxjs";
 
 /**
@@ -17,7 +17,7 @@ import {Subscription} from "rxjs";
   selector: 'page-chat',
   templateUrl: 'chat.html'
 })
-export class ChatPage {
+export class ChatPage implements AfterViewChecked{
   private user: any;
   private myId: any;
   private inputMessage: string = "";
@@ -34,15 +34,22 @@ export class ChatPage {
     this.myId = firebase.auth().currentUser.uid;
   }
 
+  ngAfterViewChecked() {  // sin esto, aparecia un mensaje y hacia scrolltobottom con delay
+    this.content.scrollToBottom(0);
+  }
+
+  i = 1;
+
   ionViewDidLoad() {
     console.log('ionViewDidLoad ChatPage', this.user);
     this.conversation = this.dbapi.getChat(this.user.id)
       .subscribe(data => {
-        if (this.messages.length > 0) console.log("aaaaaaaaaaaaaa", data);
+        // if (this.messages.length > 0) console.log("aaaaaaaaaaaaaa", data);
         this.messages = data;
         // this.events.publish('chats', this.messages);
+        this.dbapi.getRangeOfMessages(this.user.id, this.i);
+        this.i++;
 
-        this.content.scrollToBottom(100);
       });
 
   }

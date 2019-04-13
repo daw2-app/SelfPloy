@@ -43,6 +43,14 @@ export class DbApiService{
       .set(data);
   }
 
+  getUser(uid: string) {
+    return firebase.database()
+      .ref('users')
+      .child(uid)
+      .once('value')
+      .then((snapshot) => { return snapshot.val()});
+  }
+
   getOpinionsOfUser(user){
     return firebase.database()
       .ref('opinions')
@@ -55,16 +63,26 @@ export class DbApiService{
   getChat(otherUserId: string): Observable<any> {
     let myUserId = firebase.auth().currentUser.uid;
 
-    return this.fdb.list(`/chats/${myUserId}/${otherUserId}`).valueChanges();
+    return this.fdb
+      .list(`/chats/${myUserId}/${otherUserId}`)
+      .valueChanges();
   }
 
-  getUser(uid: string) {
-    return firebase.database()
-      .ref('users')
-      .child(uid)
+  getRangeOfMessages(otherUserId: string, range: number) {
+    let myUserId = firebase.auth().currentUser.uid;
+
+    firebase.database()
+      .ref('chats')
+      .child(myUserId)
+      .child(otherUserId)
+      .orderByKey()
+      // .endAt(3 * range)
+      .limitToLast(3*range)
       .once('value')
-      .then((snapshot) => { return snapshot.val()});
+      .then(snap => console.log("range: ", range, snap.val()))
   }
+
+
 
   getListOfMyChats(): Observable<any> {
     
@@ -106,7 +124,7 @@ export class DbApiService{
                 'lastMsgTimestamp': lastMsg.timestamp,
                 'currentTime': date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear()
               })));
-          console.log('db: ', chat);
+          // console.log('db: ', chat);
           return chat;
         }));
 
