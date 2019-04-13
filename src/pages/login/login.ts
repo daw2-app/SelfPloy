@@ -50,16 +50,7 @@ export class LoginPage {
       this.loading.present();
 
       this.authProvider.loginUser(user.email, user.password)
-        .then(() => {
-            this.navCtrl.setRoot(
-              MainPage,
-              {},
-              {
-                animate: true,
-                direction: 'forward'
-              });
-          },
-          (err) => {
+        .catch((err) => {
             this.setError(err);
           })
         .then(() => this.loading.dismiss())

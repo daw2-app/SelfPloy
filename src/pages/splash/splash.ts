@@ -50,7 +50,14 @@ export class SplashPage {
             firebase.database.ServerValue.TIMESTAMP,
             "lastLogin"))
         .then(() => this.loading.dismiss())
-        .then(() => this.navCtrl.setRoot(MainPage));
+        .then(() => this.navCtrl.setRoot(
+          MainPage,
+          {},
+          {
+            animate: true,
+            direction: 'back'
+          })
+        );
       else this.navCtrl.setRoot(MainPage).then(() => this.loading.dismiss());
 
 

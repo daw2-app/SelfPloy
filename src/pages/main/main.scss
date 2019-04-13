@@ -19,11 +19,11 @@ page-home {
 
       $buttons: (
         shower       #1ea3ff #1ea3ff44,
-        lightbulb    #d9a311 #d9a31144,
+        lightbulb    #ccc117 #ccc11744,
         hammer       #f09146 #f0914644,
         paint-roller #56ac5b #56ac5b44,
         laptop       #999999 #99999944,
-        key          #ccc117 #ccc11744
+        key          #d9a311 #d9a31144
       );
 
       button {
@@ -41,8 +41,8 @@ page-home {
           }
         }
 
-      .categories-item label {
-        padding: 100%;
+      &.categories-item label {
+        padding: 100% !important;
 
         ion-icon {
           position: absolute;

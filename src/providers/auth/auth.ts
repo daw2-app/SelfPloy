@@ -30,7 +30,7 @@ export class AuthProvider {
     return firebase.auth().signInWithEmailAndPassword(email, password);
   }
 
-  signupUser(email: string, password: string): Promise<any> {
+  signupUser(email: string, password: string, name: string): Promise<any> {
     return firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
@@ -43,8 +43,8 @@ export class AuthProvider {
           .child(uid)
           .set({
             admin: false,
-            name: "",
-            email: email
+            name: name,
+            email: email,
           })
       })
       ;

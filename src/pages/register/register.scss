@@ -17,7 +17,7 @@ page-register {
 
     &.error {
 
-      &.email, &.password, &.cPassword {
+      &.email, &.password, &.cPassword, &.name {
         color: red !important;
 
         .error_description {

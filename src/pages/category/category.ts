@@ -27,7 +27,8 @@ export class CategoryPage {
               lastName: snapshot[k].lastName,
               category: snapshot[k].category,
               description: snapshot[k].description,
-              salary: snapshot[k].salary
+              salary: snapshot[k].salary,
+              photo: snapshot[k].photo
             })
           }
         });

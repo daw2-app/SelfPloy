@@ -18,9 +18,24 @@
               <ion-input
                 type="text"
                 (keyup.enter)="signUp(user);"
-                [(ngModel)]="user.email"></ion-input>
+                [(ngModel)]="user.email"
+              value="borrame@aa.aa"
+              ></ion-input>
             </ion-item>
             <ion-label class="error_description">{{email_error_msg}}</ion-label>
+          </div>
+
+          <div class="credentials name" [ngClass]="{'error' : name_error}">
+            <ion-item>
+              <ion-label floating >Name</ion-label>
+              <ion-input
+                type="text"
+                (keyup.enter)="signUp(user);"
+                [(ngModel)]="user.name"
+                value="borrame@aa.aa"
+              ></ion-input>
+            </ion-item>
+            <ion-label class="error_description">{{name_error_msg}}</ion-label>
           </div>
 
           <div class="credentials password" [ngClass]="{'error' : pass_error}">
@@ -29,7 +44,9 @@
               <ion-input
                 type="password"
                 (keyup.enter)="signUp(user);"
-                [(ngModel)]="user.password"></ion-input>
+                [(ngModel)]="user.password"
+                value="borrame@aa.aa"
+              ></ion-input>
             </ion-item>
             <ion-label class="error_description">{{pass_error_msg}}</ion-label>
           </div>
@@ -40,7 +57,9 @@
               <ion-input
                 type="password"
                 (keyup.enter)="signUp(user);"
-                [(ngModel)]="user.cPassword"></ion-input>
+                [(ngModel)]="user.cPassword"
+                value="borrame@aa.aa"
+              ></ion-input>
             </ion-item>
             <ion-label class="error_description">{{cPass_error_msg}}</ion-label>
           </div>
