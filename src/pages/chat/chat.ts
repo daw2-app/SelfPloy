@@ -1,10 +1,10 @@
 import {Component, ViewChild} from '@angular/core';
-import {Content, IonicPage, Navbar, NavController, NavParams} from 'ionic-angular';
+import {Content, Events, IonicPage, Navbar, NavController, NavParams} from 'ionic-angular';
 import * as firebase from "firebase";
 import { DbApiService } from "../../shared/db-api.service";
 import * as $ from 'jquery'
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {fromEvent} from "rxjs";
+import {fromEvent, Subscription} from "rxjs";
 
 /**
  * Generated class for the ChatPage page.
@@ -24,30 +24,35 @@ export class ChatPage {
   private inputMessage: string = "";
   private disable: boolean;
   private chatForm : FormGroup;
-  messages: any;
+  private conversation: Subscription;
+  messages: any = [];
 
   @ViewChild(Navbar) navbar: Navbar;
   @ViewChild(Content) content: Content;
-  paco = false;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
               public dbapi: DbApiService,
-              private formBuilder: FormBuilder) {
+              private events: Events) {
     this.user = navParams.data;
     this.myId = firebase.auth().currentUser.uid;
-    this.chatForm = this.formBuilder.group({
-      message: ['', Validators.required]
-    });
   }
 
   ionViewDidLoad() {
-    // console.log('ionViewDidLoad ChatPage', this.user);
-    this.dbapi.getChat(this.user.id)
+    console.log('ionViewDidLoad ChatPage', this.user);
+    this.conversation = this.dbapi.getChat(this.user.id)
       .subscribe(data => {
+        if (this.messages.length > 0) console.log("aaaaaaaaaaaaaa", data);
         this.messages = data;
+        // this.events.publish('chats', this.messages);
+
         this.content.scrollToBottom(100);
       });
+
+  }
+
+  ionViewDidLeave() {
+    this.conversation.unsubscribe();
   }
 
 

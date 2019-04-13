@@ -28,7 +28,7 @@ export class HomePage {
 
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad ContactListPage');
+    console.log('ionViewDidLoad HomePage');
     this.loading = this.loadingCtrl.create();
     this.loading.present();
 

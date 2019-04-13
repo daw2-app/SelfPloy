@@ -21,7 +21,6 @@ import {environment} from "../../environments/environment";
 export class ProfileEditPage {
   userForm: FormGroup;
   private user:any;
-  cloud_name = environment.cloudinary.cloud_name;
   private loading: Loading;
   public_id: string;
   private Userphoto

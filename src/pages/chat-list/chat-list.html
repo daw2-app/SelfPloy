@@ -1,5 +1,5 @@
 <!--
-  Generated template for the MyChatsPage page.
+  Generated template for the ChatListPage page.
 
   See http://ionicframework.com/docs/components/#navigation for more info on
   Ionic pages and navigation.
@@ -21,10 +21,10 @@
   <ion-list >
 
     <ion-item-sliding *ngFor="let chat of chats" #item>
-      <ion-item (click)="messageTapped(chat?.user)">
-        <ion-avatar item-start (click)="goToProfile($event, chat?.user)">
+      <ion-item (click)="messageTapped(chat)">
+        <ion-avatar item-start (click)="goToProfile($event, chat)">
 
-          <cl-image *ngIf="chat?.user?.photo != null; else defaultPic" public-id="{{chat?.user?.photo}}">
+          <cl-image *ngIf="chat?.photo != null; else defaultPic" public-id="{{chat?.photo}}">
             <cl-transformation height="100" width="100" crop="fill" effect="sepia" radius="20"></cl-transformation>
           </cl-image>
 
@@ -33,15 +33,26 @@
           </ng-template>
 
         </ion-avatar>
-        <h2>{{chat?.user?.name}}</h2>
-        <!--<ion-note item-end>-->
-        <!--{{user.time}}-->
-        <!--</ion-note>-->
+        <h2>{{chat?.name}}</h2>
+        <p>{{chat?.lastMsgText}}</p>
+
+        <ng-container item-end
+          *ngIf="chat?.currentTime != (chat?.lastMsgTimestamp | date: 'd/M/yy'); then today; else anotherDay"
+        >
+        </ng-container>
+
+        <ng-template #today>
+            <ion-note item-end> {{chat?.lastMsgTimestamp | date: 'HH:mm'}} </ion-note>
+        </ng-template>
+        <ng-template #anotherDay>
+            <ion-note item-end> {{chat?.lastMsgTimestamp | date: 'dd/MM/yy'}} </ion-note>
+        </ng-template>
+
       </ion-item>
 
 
-      <ion-item-options (ionSwipe)="delete(item, chat?.user)">
-        <button ion-button color="danger" expandable (click)="delete(item, chat?.user)">
+      <ion-item-options (ionSwipe)="delete(item, chat)">
+        <button ion-button color="danger" expandable (click)="delete(item, chat)">
           <ion-icon name="trash" class="expand-hide"></ion-icon>
           <div class="expand-hide">Delete</div>
         </button>

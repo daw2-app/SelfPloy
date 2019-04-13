@@ -4,6 +4,7 @@ import {Observable} from 'rxjs';
 import * as firebase from "firebase";
 import {map} from "rxjs/operators";
 import * as _ from 'lodash'
+import DataSnapshot = firebase.database.DataSnapshot;
 
 
 @Injectable()
@@ -72,22 +73,57 @@ export class DbApiService{
 
       let myUserId = firebase.auth().currentUser.uid;
 
-      return this.fdb.list(`chats/${myUserId}`).snapshotChanges()
-        .pipe(
-          map(changes =>
-            changes.map(async c => {
-                let mUser: any;
-                await this.getUser(c.payload.key)
-                  .then((user) => mUser = user)
-                  .then(() => _.assign(mUser, {'id': c.payload.key}));
-                return ({user: mUser, ...c.payload.val()});
-              }
-            )
-          )
-        )
+      // return this.fdb.list(`chats/${myUserId}`).snapshotChanges()
+      //   .pipe(
+      //     map(changes =>
+      //       changes.map(async c => {
+      //           let mUser: any;
+      //           await this.getUser(c.payload.key)
+      //             .then((user) => mUser = user)
+      //             .then(() => _.assign(mUser, {'id': c.payload.key}));
+      //           return ({user: mUser, ...c.payload.val()});
+      //         }
+      //       )
+      //     )
+      //   )
+
+
+      // firebase.database()
+      //   .ref(`chats/${myUserId}`)
+      //   .on("value", (value: DataSnapshot) => console.log('datasnapshot: ', value));
+
+
+      let date = new Date();
+
+      return this.fdb.list(`chats/${myUserId}`).stateChanges()
+        .pipe(map(async user => {
+          let chat: any;
+          await this.getUser(user.key)
+            .then(userData => chat = userData)
+            .then(() => this.getLastChatMessage(user.key)
+              .then(lastMsg => _.assign(chat, {
+                'id': user.key,
+                'lastMsgText': lastMsg.text,
+                'lastMsgTimestamp': lastMsg.timestamp,
+                'currentTime': date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear()
+              })));
+          console.log('db: ', chat);
+          return chat;
+        }));
+
     } else {
       return null;
     }
+  }
+
+  getLastChatMessage(otherUserId: string) {
+    let myUserId = firebase.auth().currentUser.uid;
+
+    return firebase.database()
+      .ref(`chats/${myUserId}/${otherUserId}`)
+      .limitToLast(1)
+      .once('child_added')
+      .then((snapshot) => { return snapshot.val() });
   }
 
   pushMessage(newMessage: { from: any; text: string; timestamp: Object },

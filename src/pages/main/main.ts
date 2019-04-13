@@ -3,20 +3,21 @@ import {Events, Loading, LoadingController, NavController, ToastController} from
 import {LoginPage} from "../login/login";
 import {AuthProvider} from "../../providers/auth/auth";
 import * as firebase from "firebase";
+import * as _ from "lodash"
 import {HomePage} from "../home/home";
 import {ProfilePage} from "../profile/profile";
 import { DbApiService } from "../../shared/db-api.service";
-import {MyChatsPage} from "../chat-list/chat-list";
+import {ChatListPage} from "../chat-list/chat-list";
 import {
   faHammer,
   faLightbulb,
   faLaptop,
-  faGavel,
   faShower,
   faKey,
   faPaintRoller
 } from '@fortawesome/free-solid-svg-icons';
 import {CategoryPage} from "../category/category";
+import {MessageServiceProvider} from "../../providers/message-service/message-service";
 
 
 @Component({
@@ -30,13 +31,13 @@ export class MainPage {
   private loading: Loading;
 
   private page: any;
-  private chats: any;
+  private chats: any = [];
   // private chats: any;
 
   private home     = HomePage;
   private profile  = ProfilePage;
   private login    = LoginPage;
-  private myChats  = MyChatsPage;
+  private chatList = ChatListPage;
   private category = CategoryPage;
 
   private categories = [
@@ -53,25 +54,14 @@ export class MainPage {
               private toastCtrl: ToastController,
               public loadingCtrl: LoadingController,
               public dbapi: DbApiService,
+              private messageService : MessageServiceProvider,
               private events: Events) {
   }
 
   ionViewDidLoad() {
+    // this.events.subscribe('chatList');
+    new MessageServiceProvider(this.dbapi, this.events).startChatListObserver();
     setTimeout(() => this.expandOptions = true, 500);
-
-    // tardaba en cargar los chats. mejorar experiencia de usuario
-    let userChats = this.dbapi.getListOfMyChats();
-
-    if (userChats) {
-      this.dbapi.getListOfMyChats()
-        .subscribe(data => {
-          // cuando se cumplan todas las promesas
-          // (porque devuelve un array de promesas) entonces...
-          Promise.all(data)
-            .then(data => this.chats = data)
-            .then(() => this.events.publish('chats', this.chats))
-        });
-    }
   }
 
   doSomething(src: string) {
@@ -113,8 +103,8 @@ export class MainPage {
   goTo(page: string, params?: string) {
 
     switch (page) {
-      case "myChats":
-        this.page = this.authProvider.isLoggedIn ? this.myChats : this.login;
+      case "chatList":
+        this.page = this.authProvider.isLoggedIn ? this.chatList : this.login;
         params = this.chats;
         break;
       case "profile":

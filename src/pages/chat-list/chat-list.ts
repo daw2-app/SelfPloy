@@ -11,9 +11,11 @@ import {
 import {DbApiService} from "../../shared/db-api.service";
 import {ChatPage} from "../chat/chat";
 import {UserDetailPage} from "../user-detail/user-detail";
+import * as _ from 'lodash'
+import {MessageServiceProvider} from "../../providers/message-service/message-service";
 
 /**
- * Generated class for the MyChatsPage page.
+ * Generated class for the ChatListPage page.
  *
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
@@ -24,7 +26,8 @@ import {UserDetailPage} from "../user-detail/user-detail";
   selector: 'page-chat-list',
   templateUrl: 'chat-list.html',
 })
-export class MyChatsPage {
+export class ChatListPage {
+  static chatList = [];
   private chats = [];
 
   constructor(public navCtrl: NavController,
@@ -33,15 +36,16 @@ export class MyChatsPage {
               private toastCtrl: ToastController,
               private alertCtrl: AlertController,
               private events: Events) {
-    this.chats = navParams.data;
   }
 
   ionViewDidLoad() {
-    console.log('ionViewDidLoad MyChatsPage');
+    console.log('ionViewDidLoad ChatListPage');
 
-    this.events.subscribe('chats', chats => {
-      if (this.chats.length == 0) this.chats = chats
-    });
+    this.chats = MessageServiceProvider.chats;
+
+    this.events.subscribe('chatList', () =>
+      this.chats = MessageServiceProvider.chats
+    )
   }
 
   messageTapped(user: any) {
@@ -56,14 +60,13 @@ export class MyChatsPage {
 
 
   delete(item: ItemSliding, user: any) {
-    this.expandAction(item, 'deleting', 'Chat was deleted.', user);
+    this.expandAction(item, user);
   }
 
-  expandAction(item: ItemSliding, _: any, text: string, user: any) {
+  expandAction(item: ItemSliding, user: any) {
     // TODO item.setElementClass(action, true);
 
-
-    console.log(user);
+    console.log('deleting...',user);
 
     this.alertCtrl.create({
       title: 'R u sure',
@@ -80,12 +83,14 @@ export class MyChatsPage {
         {
           text: 'im ready',
           handler: () => {
-            console.log('Removing...');
+            console.log('deleting...');
             setTimeout(() => {
               item.close();
+              var index = _.findIndex(this.chats, ['id', user.id]);
               this.dbapi.removeChat(user.id);
+              this.chats.splice(index, 1);
               const toast = this.toastCtrl.create({
-                message: text
+                message: 'Chat was deleted.'
               });
               toast.present();
               // TODO item.setElementClass(action, false);

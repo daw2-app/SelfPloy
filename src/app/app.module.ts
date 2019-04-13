@@ -31,13 +31,14 @@ import {HttpClientModule} from "@angular/common/http";
 import {FileUploadModule} from 'ng2-file-upload';
 
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import {MyChatsPage} from "../pages/chat-list/chat-list";
+import {ChatListPage} from "../pages/chat-list/chat-list";
 import {ChatPage} from "../pages/chat/chat";
 import {IonicStorageModule} from "@ionic/storage";
 import {CategoryPage} from "../pages/category/category";
 
 import { CloudinaryModule, CloudinaryConfiguration } from '@cloudinary/angular-5.x';
 import { Cloudinary } from 'cloudinary-core';
+import { MessageServiceProvider } from '../providers/message-service/message-service';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,7 @@ import { Cloudinary } from 'cloudinary-core';
     UserDetailPage,
     LikeModalPage,
     OpinionModalViewPage,
-    MyChatsPage,
+    ChatListPage,
     ChatPage,
     CategoryPage
   ],
@@ -86,7 +87,7 @@ import { Cloudinary } from 'cloudinary-core';
     UserDetailPage,
     LikeModalPage,
     OpinionModalViewPage,
-    MyChatsPage,
+    ChatListPage,
     ChatPage,
     CategoryPage
   ],
@@ -97,7 +98,8 @@ import { Cloudinary } from 'cloudinary-core';
     AngularFireAuth,
     DbApiService,
     AngularFireDatabase,
-    AuthProvider
+    AuthProvider,
+    MessageServiceProvider
   ]
 })
 export class AppModule {
