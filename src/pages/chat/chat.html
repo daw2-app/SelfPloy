@@ -10,10 +10,8 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content padding scrollDownOnLoad (ionScroll)="logScrolling($event)">
 
-  <!--<label>Su uid: {{user.id}}</label>-->
-  <!--<label>Mi uid: {{miId}}</label>-->
   <div *ngFor="let message of messages; let i=index;"
       [ngClass]="[
             'message',
@@ -21,7 +19,7 @@
             message?.from == myId ? 'messageRight' : 'messageLeft'
           ]"
       (click)="messageTapped(message)">
-      
+
       <div class="date"
            *ngIf="(message?.timestamp | date: 'ddMMyyyy') != (messages[i-1]?.timestamp | date: 'ddMMyyyy')">
         <div>
@@ -39,6 +37,12 @@
 
 
 <ion-footer>
+  <div [hidden]="!anotherUserIsTyping" id="wave">
+<!--  <div id="wave">-->
+    <span class="dot"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
+  </div>
   <ion-toolbar>
     <ion-input type="text" [(ngModel)]="inputMessage"(keyup.enter)="sendMessage()"></ion-input>
     <ion-buttons end>

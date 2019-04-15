@@ -153,8 +153,13 @@ page-home {
       max-height: $categories-size-max;
       width: $categories-size;
       height: $categories-size;
-      top: -2.5 * $open-distance-categories;
+      top: -2 * $open-distance-menu;
       z-index: 2;
+
+      @media screen and (min-width: 500px) {
+        top: - 300px;
+      }
+
     }
 
     //.categories-menu-open:checked ~ .categories> .categories-menu-item {

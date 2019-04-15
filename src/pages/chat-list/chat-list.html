@@ -34,10 +34,13 @@
 
         </ion-avatar>
         <h2>{{chat?.name}}</h2>
-        <p>{{chat?.lastMsgText}}</p>
+        <p *ngIf="!chat?.typing; else typingText">{{chat?.lastMsgText}}</p>
+        <ng-template #typingText>
+          <p><i>Typing...</i></p>
+        </ng-template>
 
         <ng-container item-end
-          *ngIf="chat?.currentTime != (chat?.lastMsgTimestamp | date: 'd/M/yy'); then today; else anotherDay"
+          *ngIf="chat?.currentTime == (chat?.lastMsgTimestamp | date: 'd/M/yyyy'); then today; else anotherDay"
         >
         </ng-container>
 

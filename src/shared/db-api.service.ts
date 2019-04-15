@@ -60,12 +60,46 @@ export class DbApiService{
       .then((snapshot) => { return snapshot.val()});
   }
 
+  getCategory(category){
+    return firebase.database()
+      .ref('users')
+      .orderByChild('category')
+      .equalTo(category)
+      .once('value')
+      .then((snapshot) => { return snapshot.val()});
+  }
+
   getChat(otherUserId: string): Observable<any> {
     let myUserId = firebase.auth().currentUser.uid;
 
-    return this.fdb
-      .list(`/chats/${myUserId}/${otherUserId}`)
-      .valueChanges();
+    // firebase.database()
+    //   .ref(`/chats/${myUserId}/${otherUserId}`)
+    //   .limitToLast(10)
+    //   .on('child_added', value => {
+    //     return value.val();
+    //   });
+
+    return new Observable(observer => {
+        firebase.database()
+          .ref(`/chats/${myUserId}/${otherUserId}/messages`)
+          .limitToLast(50)
+          .on('child_added', value => {
+            observer.next(value);
+          });
+
+        firebase.database()
+          .ref(`chats/${myUserId}/${otherUserId}/typing`)
+          .on('value', typing => {
+            console.log('t: ', typing.val());
+            observer.next(typing);
+          });
+      }
+    )
+
+
+    // return this.fdb
+    //   .list(`/chats/${myUserId}/${otherUserId}`)
+    //   .valueChanges();
   }
 
   getRangeOfMessages(otherUserId: string, range: number) {
@@ -122,8 +156,14 @@ export class DbApiService{
                 'id': user.key,
                 'lastMsgText': lastMsg.text,
                 'lastMsgTimestamp': lastMsg.timestamp,
-                'currentTime': date.getDate() + '/' + date.getMonth() + '/' + date.getFullYear()
-              })));
+                'currentTime': date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear()
+              })))
+            .then(() => this.getTypingStatus(user.key)
+              .then(writingStatus => _.assign(chat, {
+                'typing': writingStatus
+              })))
+            .then(() => console.log('conversation: ',chat))
+          ;
           // console.log('db: ', chat);
           return chat;
         }));
@@ -137,10 +177,23 @@ export class DbApiService{
     let myUserId = firebase.auth().currentUser.uid;
 
     return firebase.database()
-      .ref(`chats/${myUserId}/${otherUserId}`)
+      .ref(`chats/${myUserId}/${otherUserId}/messages`)
       .limitToLast(1)
       .once('child_added')
-      .then((snapshot) => { return snapshot.val() });
+      .then((snapshot) => {
+        return snapshot.val()
+      });
+  }
+
+  private getTypingStatus(otherUserId: string) {
+    let myUserId = firebase.auth().currentUser.uid;
+
+    return firebase.database()
+      .ref(`chats/${myUserId}/${otherUserId}/typing`)
+      .once('value')
+      .then((snapshot) => {
+        return snapshot.val()
+      });
   }
 
   pushMessage(newMessage: { from: any; text: string; timestamp: Object },
@@ -149,19 +202,11 @@ export class DbApiService{
 
     const updates = {};
     const newMessageKey = firebase.database().ref().child("chats").push().key;
-    updates[`chats/${myId}/${anotherUserId}/${newMessageKey}`] = newMessage;
-    updates[`chats/${anotherUserId}/${myId}/${newMessageKey}`] = newMessage;
+    updates[`chats/${myId}/${anotherUserId}/messages/${newMessageKey}`] = newMessage;
+    updates[`chats/${anotherUserId}/${myId}/messages/${newMessageKey}`] = newMessage;
     return firebase.database().ref().update(updates);
   }
 
-  getCategory(category){
-    return firebase.database()
-      .ref('users')
-      .orderByChild('category')
-      .equalTo(category)
-      .once('value')
-      .then((snapshot) => { return snapshot.val()});
-  }
 
   removeChat(id: any) {
     console.log(id)
