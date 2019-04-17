@@ -1,5 +1,7 @@
 import {Injectable} from '@angular/core';
 import firebase from 'firebase';
+import {DbApiService} from "../../shared/db-api.service";
+import {UserSettingsProvider} from "../user-settings/user-settings";
 
 @Injectable()
 export class AuthProvider {
@@ -7,7 +9,9 @@ export class AuthProvider {
   private _isLoggedIn: boolean;
   private _currentUser: any = {};
 
-  constructor() {
+  constructor(
+    private dbapi: DbApiService,
+    private userSettings: UserSettingsProvider,) {
   }
 
   get isLoggedIn(): boolean {
@@ -23,11 +27,14 @@ export class AuthProvider {
   }
 
   set currentUser(value: any) {
+    this.isLoggedIn = value != null;
     this._currentUser = value;
   }
 
   loginUser(email: string, password: string): Promise<any> {
-    return firebase.auth().signInWithEmailAndPassword(email, password);
+    return firebase.auth().signInWithEmailAndPassword(email, password)
+      .then(() => this.dbapi.getCurrentUser()
+        .then(value => this.userSettings.login(value)));
   }
 
   signupUser(email: string, password: string, name: string): Promise<any> {
@@ -47,12 +54,13 @@ export class AuthProvider {
             email: email,
           })
       })
-      ;
+      .then(() => this.dbapi.getCurrentUser()
+        .then(value => this.userSettings.login(value)));
   }
 
   logoutUser(): Promise<void> {
+    this.currentUser = null;
+    this.userSettings.logout();
     return firebase.auth().signOut();
   }
-
-
 }

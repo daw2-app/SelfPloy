@@ -38,6 +38,9 @@ import {CategoryPage} from "../pages/category/category";
 import { CloudinaryModule, CloudinaryConfiguration } from '@cloudinary/angular-5.x';
 import { Cloudinary } from 'cloudinary-core';
 import { MessageServiceProvider } from '../providers/message-service/message-service';
+import { NetworkProvider } from '../providers/network/network';
+import { Network } from "@ionic-native/network";
+import { UserSettingsProvider } from '../providers/user-settings/user-settings';
 
 @NgModule({
   declarations: [
@@ -96,7 +99,10 @@ import { MessageServiceProvider } from '../providers/message-service/message-ser
     DbApiService,
     AngularFireDatabase,
     AuthProvider,
-    MessageServiceProvider
+    MessageServiceProvider,
+    UserSettingsProvider,
+    Network,
+    NetworkProvider
   ]
 })
 export class AppModule {

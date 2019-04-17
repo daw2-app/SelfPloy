@@ -6,8 +6,8 @@ import * as firebase from "firebase";
 
 
 import { SplashPage } from "../pages/splash/splash";
-import {environment} from "../environments/environment";
-import {DbApiService} from "../shared/db-api.service";
+import { environment } from "../environments/environment";
+import { DbApiService } from "../shared/db-api.service";
 @Component({
   templateUrl: 'app.html'
 })
@@ -19,12 +19,10 @@ export class MyApp {
   private sub1$:any;
   private sub2$:any;
 
-  constructor(private platform: Platform,
-              statusBar: StatusBar,
-              splashScreen: SplashScreen,
-              private dbapi: DbApiService
-  ) {
-
+  constructor(private platform : Platform,
+              statusBar        : StatusBar,
+              splashScreen     : SplashScreen,
+              private dbapi    : DbApiService) {
 
     // Firebase App named '[DEFAULT]' already exists (app/duplicate-app)
     if (!firebase.apps.length) firebase.initializeApp(environment.firebase);
@@ -32,7 +30,9 @@ export class MyApp {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.
-      statusBar.styleDefault();
+      statusBar.overlaysWebView(false);
+      statusBar.styleLightContent();
+      statusBar.backgroundColorByHexString("#aaa");
       splashScreen.hide();
 
       this.updateLastLogin();

@@ -18,7 +18,9 @@
               <ion-input
                 type="text"
                 (keyup.enter)="login(user);"
-                [(ngModel)]="user.email"></ion-input>
+                [(ngModel)]="user.email"
+                value="admin@ad.min"
+              ></ion-input>
             </ion-item>
             <ion-label class="error_description">{{email_error_msg}}</ion-label>
           </div>
@@ -29,7 +31,9 @@
               <ion-input
                 type="password"
                 (keyup.enter)="login(user);"
-                [(ngModel)]="user.password"></ion-input>
+                [(ngModel)]="user.password"
+                value="admin1"
+              ></ion-input>
             </ion-item>
             <ion-label class="error_description">{{pass_error_msg}}</ion-label>
           </div>

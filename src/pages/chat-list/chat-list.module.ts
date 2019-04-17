@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { ChatListPage } from './chat-list';
+import {CloudinaryModule} from "@cloudinary/angular-5.x";
 
 @NgModule({
   declarations: [
@@ -8,6 +9,7 @@ import { ChatListPage } from './chat-list';
   ],
   imports: [
     IonicPageModule.forChild(ChatListPage),
+    CloudinaryModule,
   ],
 })
 export class ChatListPageModule {}

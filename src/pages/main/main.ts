@@ -16,10 +16,11 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import {CategoryPage} from "../category/category";
 import {MessageServiceProvider} from "../../providers/message-service/message-service";
+import {UserSettingsProvider} from "../../providers/user-settings/user-settings";
 
 
 @Component({
-  selector: 'page-home',
+  selector: 'page-main',
   templateUrl: 'main.html'
 })
 export class MainPage {
@@ -47,19 +48,24 @@ export class MainPage {
     {'name':'key',          'icon': faKey,         'filter': 'cerrajero'}
   ];
 
+
   constructor(public navCtrl: NavController,
               public authProvider: AuthProvider,
               private toastCtrl: ToastController,
               public loadingCtrl: LoadingController,
               public dbapi: DbApiService,
-              private events: Events) {
+              private events: Events,
+              private settings: UserSettingsProvider) {
   }
+
 
   ionViewDidLoad() {
     // this.events.subscribe('chatList');
-    new MessageServiceProvider(this.dbapi, this.events).startChatListObserver();
+    new MessageServiceProvider(this.dbapi, this.events, this.settings)
+      .startChatListObserver();
     setTimeout(() => this.expandOptions = true, 500);
   }
+
 
   doSomething(src: string) {
     setTimeout(() => {
@@ -72,6 +78,7 @@ export class MainPage {
     }, 100);
   }
 
+
   signIn_Out() {
     if (this.authProvider.isLoggedIn) {
       this.loading = this.loadingCtrl.create({
@@ -81,8 +88,6 @@ export class MainPage {
       this.loading.present();
       this.authProvider.logoutUser()
         .then(() => {
-          this.authProvider.isLoggedIn = false;
-          this.authProvider.currentUser = {};
           this.loading.dismiss();
           this.navCtrl.popToRoot();
         });
@@ -96,6 +101,7 @@ export class MainPage {
         });
     }
   }
+
 
   goTo(page: string, params?: string) {
 
@@ -122,4 +128,5 @@ export class MainPage {
         direction: 'forward'
       });
   }
+
 }

@@ -4,12 +4,17 @@ import {Observable} from 'rxjs';
 import * as firebase from "firebase";
 import {map} from "rxjs/operators";
 import * as _ from 'lodash'
+import * as $ from 'jquery'
+import {UserSettingsProvider} from "../providers/user-settings/user-settings";
+import {Events} from "ionic-angular";
 
 
 @Injectable()
 export class DbApiService{
 
-  constructor(private fdb: AngularFireDatabase){
+  constructor(private fdb: AngularFireDatabase,
+              private settings: UserSettingsProvider,
+              private events: Events){
   }
 
   getListOf(child: string) {
@@ -69,53 +74,23 @@ export class DbApiService{
       .then((snapshot) => { return snapshot.val()});
   }
 
-  getChat(otherUserId: string): Observable<any> {
-    let myUserId = firebase.auth().currentUser.uid;
-
-    // firebase.database()
-    //   .ref(`/chats/${myUserId}/${otherUserId}`)
-    //   .limitToLast(10)
-    //   .on('child_added', value => {
-    //     return value.val();
-    //   });
-
-    return new Observable(observer => {
-        firebase.database()
-          .ref(`/chats/${myUserId}/${otherUserId}/messages`)
-          .limitToLast(50)
-          .on('child_added', value => {
-            observer.next(value);
-          });
-
-        firebase.database()
-          .ref(`chats/${myUserId}/${otherUserId}/typing`)
-          .on('value', typing => {
-            console.log('t: ', typing.val());
-            observer.next(typing);
-          });
-      }
-    )
-
-
-    // return this.fdb
-    //   .list(`/chats/${myUserId}/${otherUserId}`)
-    //   .valueChanges();
-  }
-
-  getRangeOfMessages(otherUserId: string, range: number) {
+  getChat(otherUserId: string)/*: Observable<any> */{
     let myUserId = firebase.auth().currentUser.uid;
 
     firebase.database()
-      .ref('chats')
-      .child(myUserId)
-      .child(otherUserId)
-      .orderByKey()
-      // .endAt(3 * range)
-      .limitToLast(3*range)
-      .once('value')
-      .then(snap => console.log("range: ", range, snap.val()))
-  }
+      .ref(`/chats/${myUserId}/${otherUserId}/messages`)
+      // .limitToLast(20)
+      .on('child_added', value => {
+        this.settings.saveMessage(otherUserId, value);
+        this.events.publish('chat', _.assign(value.val(), {'id': value.key}));
+      });
 
+    firebase.database()
+      .ref(`chats/${myUserId}/${otherUserId}/typing`)
+      .on('value', typing => {
+        this.events.publish('chat', typing.val());
+      });
+  }
 
 
   getListOfMyChats(): Observable<any> {
@@ -162,7 +137,8 @@ export class DbApiService{
               .then(writingStatus => _.assign(chat, {
                 'typing': writingStatus
               })))
-            .then(() => console.log('conversation: ',chat))
+            .then(() => this.settings.saveChatList(chat))
+            .then(() => console.log('conversation: ', chat))
           ;
           // console.log('db: ', chat);
           return chat;
@@ -172,6 +148,21 @@ export class DbApiService{
       return null;
     }
   }
+
+
+  getPreviousMessages(anotherUserId: string, msgId: string) {
+
+    let myUserId = firebase.auth().currentUser.uid;
+
+    return firebase.database()
+      .ref(`chats/${myUserId}/${anotherUserId}/messages`)
+      .orderByKey()
+      .endAt(msgId)
+      .limitToLast(6)
+      .once('value');
+
+  }
+
 
   getLastChatMessage(otherUserId: string) {
     let myUserId = firebase.auth().currentUser.uid;
@@ -185,6 +176,7 @@ export class DbApiService{
       });
   }
 
+
   private getTypingStatus(otherUserId: string) {
     let myUserId = firebase.auth().currentUser.uid;
 
@@ -195,6 +187,7 @@ export class DbApiService{
         return snapshot.val()
       });
   }
+
 
   pushMessage(newMessage: { from: any; text: string; timestamp: Object },
               myId         : string,
@@ -209,7 +202,7 @@ export class DbApiService{
 
 
   removeChat(id: any) {
-    console.log(id)
+    console.log(id);
     let myUserId = firebase.auth().currentUser.uid;
     firebase.database()
       .ref('chats')

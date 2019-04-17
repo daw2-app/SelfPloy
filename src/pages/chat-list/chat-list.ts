@@ -13,6 +13,10 @@ import {ChatPage} from "../chat/chat";
 import {UserDetailPage} from "../user-detail/user-detail";
 import * as _ from 'lodash'
 import {MessageServiceProvider} from "../../providers/message-service/message-service";
+import {NetworkProvider} from "../../providers/network/network";
+import {Subscription} from "rxjs";
+import {UserSettingsProvider} from "../../providers/user-settings/user-settings";
+import {v} from "@angular/core/src/render3";
 
 /**
  * Generated class for the ChatListPage page.
@@ -27,8 +31,10 @@ import {MessageServiceProvider} from "../../providers/message-service/message-se
   templateUrl: 'chat-list.html',
 })
 export class ChatListPage {
-  static chatList = [];
-  private chats = [];
+
+  private internetObserver : Subscription;
+  static chatList          = [];
+  private chats            = [];
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -41,12 +47,20 @@ export class ChatListPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad ChatListPage');
 
+    // lista precreeada
     this.chats = MessageServiceProvider.chats;
 
     this.events.subscribe('chatList', () =>
       this.chats = MessageServiceProvider.chats
-    )
+    );
+
+
   }
+
+  ionViewWillLeave() {
+    console.log('chat-list says goodbye');
+  }
+
 
   messageTapped(user: any) {
     this.navCtrl.push(
@@ -62,6 +76,7 @@ export class ChatListPage {
   delete(item: ItemSliding, user: any) {
     this.expandAction(item, user);
   }
+
 
   expandAction(item: ItemSliding, user: any) {
     // TODO item.setElementClass(action, true);

@@ -26,10 +26,55 @@
   -o-box-shadow: none;
 }
 
-
 .scroll-content {
   background: #f5f5f5;  /* fallback for old browsers */
   background: -webkit-linear-gradient(to top, #b0b0b0, #f5f5f5);  /* Chrome 10-25, Safari 5.1-6 */
   background: linear-gradient(to top, #b0b0b0, #f5f5f5); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
 
+.networkToast {
+  &.toast-ios .toast-wrapper {
+    width: 100%;
+    bottom: -10px;
+    left: 0;
+    border-radius: 0;
+  }
+
+  .toast-container {
+    text-align: center;
+    background-color: #f08080;
+
+    &.noise {
+      transition: background-color 200ms linear;
+      background-color: #73a673;
+    }
+  }
+
+}
+
+.errorMsg {
+
+  height: 85vh;
+  width: 100vw;
+  text-align: center;
+  font-size: 2em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  p {
+    margin: 0;
+
+    &.info {
+      transform: translateY(-10px);
+      color: #bbb;
+      font-size: 25px;
+      margin: 20px;
+    }
+  }
+
+  button {
+  font-size: 2rem;
+  }
 }

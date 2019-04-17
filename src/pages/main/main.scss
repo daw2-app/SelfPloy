@@ -1,4 +1,4 @@
-page-home {
+page-main {
   @import "../../shared/trig";
 
   ion-content div.scroll-content {
@@ -23,12 +23,12 @@ page-home {
     $categories-size: 14vw;
 
       $buttons: (
-        shower       #1ea3ff #1ea3ff44,
-        lightbulb    #ccc117 #ccc11744,
-        hammer       #f09146 #f0914644,
-        paint-roller #56ac5b #56ac5b44,
-        laptop       #999999 #99999944,
-        key          #d9a311 #d9a31144
+        shower       #1ea3ff #b1d4ed,
+        lightbulb    #ccc117 #dfdcaf,
+        hammer       #f09146 #e4cbb7,
+        paint-roller #56ac5b #c3dac4,
+        laptop       #999999 #d6d6d6,
+        key          #d9a311 #decfa9
       );
 
       button {
@@ -38,7 +38,7 @@ page-home {
             background-color: #{nth($button, 3)} !important;
 
             color: #{nth($button, 2)};
-            border: 2px solid #{nth($button, 3)} !important;
+            border: 2px solid #{nth($button, 2)} !important;
 
             .button-effect {
               background-color: #{nth($button, 2)};
@@ -47,6 +47,9 @@ page-home {
         }
 
       &.categories-item label {
+        height: 1px;
+        width: 1px;
+        cursor: pointer;
         padding: 100% !important;
 
         ion-icon {
