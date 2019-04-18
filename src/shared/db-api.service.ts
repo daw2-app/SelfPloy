@@ -209,5 +209,6 @@ export class DbApiService{
       .child(myUserId)
       .child(id)
       .remove()
+      .then(() => this.settings.removeChat(id))
   }
 }
