@@ -133,6 +133,12 @@ export class DbApiService{
                 'lastMsgTimestamp': lastMsg.timestamp,
                 'currentTime': date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear()
               })))
+            .then(async () => {
+              this.getCountNotReadedMessages(user.key)
+                .then(cosos => _.assign(chat, {
+                  'notReaded' : cosos
+                }))
+            })
             .then(() => this.getTypingStatus(user.key)
               .then(writingStatus => _.assign(chat, {
                 'typing': writingStatus
@@ -189,9 +195,13 @@ export class DbApiService{
   }
 
 
-  pushMessage(newMessage: { from: any; text: string; timestamp: Object },
-              myId         : string,
-              anotherUserId: string) {
+  pushMessage(newMessage: {
+                timestamp : Object,
+                from      : string,
+                readed    : boolean,
+                text      : string },
+              myId          : string,
+              anotherUserId : string) {
 
     const updates = {};
     const newMessageKey = firebase.database().ref().child("chats").push().key;
@@ -208,6 +218,39 @@ export class DbApiService{
       .ref('chats')
       .child(myUserId)
       .child(id)
-      .remove()
+      .remove();
+    this.settings.removeChat(id);
+  }
+
+
+  markAsRead(anotherUserId: string, msgId: string) {
+
+    let myUserId = firebase.auth().currentUser.uid;
+
+    firebase.database()
+      .ref()
+      .child('chats')
+      .child(myUserId)
+      .child(anotherUserId)
+      .child('messages')
+      .child(msgId)
+      .child('readed')
+      .set(true);
+  }
+
+  private getCountNotReadedMessages(anotherUserId: string) {
+    let myUserId = firebase.auth().currentUser.uid;
+
+    return firebase
+      .database()
+      .ref()
+      .child('chats')
+      .child(myUserId)
+      .child(anotherUserId)
+      .child('messages')
+      .orderByChild('readed')
+      .equalTo(false)
+      .once('value')
+      .then(count => {return _.size(count.val())})
   }
 }

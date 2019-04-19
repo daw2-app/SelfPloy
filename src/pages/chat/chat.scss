@@ -16,22 +16,31 @@ page-chat {
         clear: both;
       }
 
-      .date {
-        text-align: center;
-        margin-top: 15px;
-        margin-bottom: 10px;
-
-
-        & > div {
-          padding: 4px 16px;
-          display: inline-block;
-          border-radius: $radious_2;
-          background-color: #eee;
-          font-size: smaller;
+      .info {
+          text-align: center;
+          margin-top: 15px;
+          margin-bottom: 10px;
           opacity: .8;
 
+        &.date > div {
+            font-size: smaller;
+            padding: 4px 16px;
+            display: inline-block;
+            border-radius: $radious_2;
+            background-color: #eee;
         }
+
+        &.notReadedMessages > div {
+          width: 100vw;
+          left: -16px;
+          padding: 10px;
+          margin: 25px 0;
+          position: relative;
+          background-color: ghostwhite;
+        }
+
       }
+
 
       .innerMessage {
         display: inline-block;

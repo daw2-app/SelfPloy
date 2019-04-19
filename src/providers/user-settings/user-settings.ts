@@ -73,4 +73,15 @@ export class UserSettingsProvider {
       chat,
       ['timestamp'], ['asc']);
   }
+
+  removeChat(id: string) {
+    this.storage.forEach((value: string, key, index) => {
+      if (key.startsWith(`message:${id}`) || key.startsWith(`preview:${id}`)) this.removeMessage(key)
+    });
+  }
+
+  removeMessage(id: string, idUser?: string, idMessage?: string) {
+    if (id == null) id = 'message:' + idUser + ':' + idMessage;
+    this.storage.remove(id);
+  }
 }

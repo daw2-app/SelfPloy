@@ -1,23 +1,35 @@
 page-chat-list {
 
-  .chat-sliding-demo img {
-    pointer-events: none;
-  }
-
-  .login-sliding-demo .ion-logo-twitter {
-    color: #53ACEB;
-  }
-
-  .login-sliding-demo .ion-logo-github {
-    color: #000000;
-  }
-
-  .login-sliding-demo .ion-logo-instagram {
-    color: #235D8D;
-  }
-
   .scroll-content {
     padding: 10px 0 0 !important;
+
+    ion-label p {
+      width: 82%;
+    }
+
+    .chat {
+      position: absolute;
+      right: 5px;
+      font-size: small;
+
+      &.chatDate {
+        bottom: 0;
+      }
+
+      &.chatCount {
+        top: 0;
+        right: 0;
+        background: #69aabe;
+        border-radius: 50%;
+        padding: 4px 8px;
+        color: white;
+        text-align: center;
+
+        &.fat {
+          padding: 4px;
+        }
+      }
+    }
   }
 }
 

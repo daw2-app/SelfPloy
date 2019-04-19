@@ -15,12 +15,21 @@
   <div *ngFor="let message of messages; let i=index;"
       [ngClass]="[
             'message',
-            messages[i+1]?.from != message?.from || (message?.timestamp | date: 'ddMMyyyy') != (messages[i+1]?.timestamp | date: 'ddMMyyyy') ? 'last' : '',
-            message?.from == myId ? 'messageRight' : 'messageLeft'
+            message?.from == myId ? 'messageRight' : 'messageLeft',
+            messages[i+1]?.from != message?.from ||
+            (message?.timestamp | date: 'ddMMyyyy') != (messages[i+1]?.timestamp | date: 'ddMMyyyy') ||
+             messages[i]?.readed != messages[i+1]?.readed ?
+            'last' : ''
           ]"
       (click)="messageTapped(message)">
 
-      <div class="date"
+    <div class="info notReadedMessages"
+    *ngIf="messagesNotReaded != 0 && !messages[i]?.readed && messages[i-1]?.readed != messages[i]?.readed">
+      <div *ngIf="messagesNotReaded == 1; else many">{{messagesNotReaded}} new message</div>
+      <ng-template #many><div>{{messagesNotReaded}} new messages</div></ng-template>
+    </div>
+
+      <div class="info date"
            *ngIf="(message?.timestamp | date: 'ddMMyyyy') != (messages[i-1]?.timestamp | date: 'ddMMyyyy')">
         <div>
           {{message?.timestamp | date: 'd/M/yyyy'}}

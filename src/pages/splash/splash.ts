@@ -73,6 +73,7 @@ export class SplashPage {
     } else {
       if (this.network.type == null || this.network.type == 'none') {
         // no hay internet, tiramos de local
+        console.log('network:' + 'what?!');
         this.loadUserFromLocal();
       } else {
         // hay internet, tiramos de internet

@@ -51,11 +51,13 @@
                         *ngIf="chat?.currentTime == (chat?.lastMsgTimestamp | date: 'd/M/yyyy'); then today; else anotherDay">
           </ng-container>
           <ng-template #today>
-            <ion-note item-end> {{chat?.lastMsgTimestamp | date: 'HH:mm'}} </ion-note>
+            <ion-note class="chat chatDate" item-end> {{chat?.lastMsgTimestamp | date: 'HH:mm'}} </ion-note>
           </ng-template>
           <ng-template #anotherDay>
-            <ion-note item-end> {{chat?.lastMsgTimestamp | date: 'dd/MM/yy'}} </ion-note>
+            <ion-note class="chat chatDate" item-end> {{chat?.lastMsgTimestamp | date: 'dd/MM/yy'}} </ion-note>
           </ng-template>
+
+          <ion-note *ngIf="chat?.notReaded > 0" [ngClass]="{'fat': chat?.notReaded > 9}" class="chat chatCount" item-end > {{chat?.notReaded}} </ion-note>
 
         </ion-item>
 

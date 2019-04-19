@@ -33,7 +33,6 @@ import {v} from "@angular/core/src/render3";
 export class ChatListPage {
 
   private internetObserver : Subscription;
-  static chatList          = [];
   private chats            = [];
 
   constructor(public navCtrl: NavController,
@@ -50,8 +49,9 @@ export class ChatListPage {
     // lista precreeada
     this.chats = MessageServiceProvider.chats;
 
-    this.events.subscribe('chatList', () =>
-      this.chats = MessageServiceProvider.chats
+    this.events.subscribe('chatList', () => {
+        this.chats = MessageServiceProvider.chats;
+      }
     );
 
 

@@ -8,6 +8,7 @@ import {fromEvent, Observable, Subscription} from "rxjs";
 import {debounceTime, first} from "rxjs/operators";
 import {UserSettingsProvider} from "../../providers/user-settings/user-settings";
 import {MessageServiceProvider} from "../../providers/message-service/message-service";
+import {ChatListPage} from "../chat-list/chat-list";
 
 /**
  * Generated class for the ChatPage page.
@@ -28,6 +29,7 @@ export class ChatPage implements AfterViewChecked {
   private myId                : string;
   private inputMessage        = "";
   private messages            = [];
+  private messagesNotReaded   = 0;
   private anotherUserIsTyping = false;
   private nearToBottom        = true;
 
@@ -78,17 +80,24 @@ export class ChatPage implements AfterViewChecked {
   ionViewDidLoad() {
     console.log('ionViewDidLoad ChatPage - chating with', this.navParams.data);
 
+    let chat = _.find(MessageServiceProvider.chats, ['id', this.anotherUserId]);
+    this.messagesNotReaded = chat != null? chat.notReaded : 0;
+
     this.handleMyWritingStatus();
 
-    this.events.subscribe('chat', data => {
+    this.events.subscribe('chat', message => {
 
-        if (typeof data !== "boolean") {
-          let notExists = _.findIndex(this.messages, ['id', data.id]) < 0;
-          if (notExists) this.messages.push(data);
+        if (message != null) {
 
-        } else {
-          this.anotherUserIsTyping = data;
-          console.log("writing: ", data);
+          if (typeof message !== "boolean") {
+            if (!message.readed) this.dbapi.markAsRead(this.anotherUserId, message.id);
+            let notExists = _.findIndex(this.messages, ['id', message.id]) < 0;
+            if (notExists) this.messages.push(message);
+
+          } else {
+            this.anotherUserIsTyping = message;
+            console.log("writing: ", message);
+          }
         }
       }
     );
@@ -136,10 +145,10 @@ export class ChatPage implements AfterViewChecked {
 
   sendMessage() {
     const newMessage = {
-      text:      this.inputMessage,
-      from:      this.myId,
       timestamp: firebase.database.ServerValue.TIMESTAMP,
-      readed:    false
+      from:      this.myId,
+      readed:    false,
+      text:      this.inputMessage
     };
 
     this.inputMessage = "";
