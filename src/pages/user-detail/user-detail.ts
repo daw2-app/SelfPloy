@@ -46,7 +46,10 @@ export class UserDetailPage {
     console.log(this.user);
     this.navCtrl.push(
       ChatPage,
-      this.user,
+      {
+        'user' : this.user,
+        'id'   : this.user.id
+      },
       {
         animate: true,
         animation: "transition-ios"

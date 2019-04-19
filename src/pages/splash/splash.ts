@@ -17,7 +17,7 @@ import {DbApiService} from "../../shared/db-api.service";
 import { UserSettingsProvider } from "../../providers/user-settings/user-settings";
 import { Network } from '@ionic-native/network';
 import { NetworkProvider } from "../../providers/network/network";
-import {StatusBar} from "@ionic-native/status-bar";
+import { MessageServiceProvider } from "../../providers/message-service/message-service";
 
 /**
  * Generated class for the SplashPage page.
@@ -33,20 +33,21 @@ import {StatusBar} from "@ionic-native/status-bar";
 })
 export class SplashPage {
 
-  private loading: Loading;
-  static toast: Toast;
-  private authObserver: any;
+  private loading      : Loading;
+  static toast         : Toast;
+  private authObserver : any;
 
-  constructor(public navCtrl: NavController,
-              public navParams: NavParams,
-              public loadingCtrl: LoadingController,
-              public authProvider: AuthProvider,
-              public dbapi: DbApiService,
-              private settings: UserSettingsProvider,
-              public events: Events,
-              public network: Network,
-              public networkProvider: NetworkProvider,
-              public toastCrtl: ToastController) {
+  constructor(private navCtrl         : NavController,
+              private navParams       : NavParams,
+              private loadingCtrl     : LoadingController,
+              private authProvider    : AuthProvider,
+              private dbapi           : DbApiService,
+              private settings        : UserSettingsProvider,
+              private events          : Events,
+              private network         : Network,
+              private networkProvider : NetworkProvider,
+              private toastCrtl       : ToastController,
+              private msgProvider     : MessageServiceProvider) {
     // firebase.initializeApp(environment.firebase);
   }
 
@@ -58,39 +59,22 @@ export class SplashPage {
       content: "Doing a magic trick",
       spinner: "dots"
     });
+
     this.loading.present();
-
-    this.networkObserver();
-    this.getUserIfExistsAndContinue();
+    this.loadUserDataFromLocal()
+      .then(() => this.networkObserver());
   }
 
 
-  async getUserIfExistsAndContinue() {
-
-    if (NetworkProvider.beta) { // en un ordenador no funciona
-      this.authChangedObserver()
-
-    } else {
-      if (this.network.type == null || this.network.type == 'none') {
-        // no hay internet, tiramos de local
-        this.loadUserFromLocal();
-      } else {
-        // hay internet, tiramos de internet
-        console.log('network:' + 'Habemus internet');
-        this.authChangedObserver()
-      }
-    }
-
-  }
-
-
-  async loadUserFromLocal(){
-    console.log('network:' + 'Where has the internet gone?');
+  async loadUserDataFromLocal(){
     let userLocal: any;
-    await this.settings.getCurrentUser().then(value => userLocal = value);
+    await this.settings.getCurrentUser()
+      .then(value => userLocal = value);
     console.log('storage', userLocal ? userLocal : 'nope');
-    if (userLocal) this.authProvider.currentUser = userLocal;
-    this.goHomeLikeABoss(true);
+    if (userLocal) {
+      this.authProvider.currentUser = userLocal;
+      this.msgProvider.preloadChats();
+    }
   }
 
 
@@ -103,11 +87,15 @@ export class SplashPage {
         this.updateLastLogin();
         this.dbapi.getCurrentUser()
           .then(val => this.authProvider.currentUser = val);
+        this.settings.checkDeletePendingMessages()
+          .then(messages => this.dbapi.removeMessages(messages))
+          .then(() => this.msgProvider.startChatListObserver());
         if (activeView === 'RegisterPage' ||
             activeView === 'LoginPage'    ||
             activeView === 'SplashPage') this.goHomeLikeABoss(true);
 
       } else {
+
         if (activeView === 'SplashPage') {
           this.authProvider.currentUser = null;
           this.goHomeLikeABoss(true);
@@ -135,11 +123,12 @@ export class SplashPage {
               SplashPage.toast.dismiss()
                 .then(() => SplashPage.toast = null);
             }, 2000);
-
           }
-          if (this.authObserver) this.authChangedObserver();
+          this.settings.checkDeletePendingMessages()
+            .then(messages => this.dbapi.removeMessages(messages));
 
         } else {      // Offline
+          if (SplashPage.toast != null) SplashPage.toast.dismiss();
           SplashPage.toast = this.toastCrtl.create(
             {
               message: 'Where has the internet gone?',
@@ -150,6 +139,7 @@ export class SplashPage {
           SplashPage.toast.present();
         }
 
+        if (this.authObserver == null) this.authChangedObserver();
       }
     });
   }

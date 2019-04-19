@@ -18,7 +18,8 @@
             messages[i+1]?.from != message?.from || (message?.timestamp | date: 'ddMMyyyy') != (messages[i+1]?.timestamp | date: 'ddMMyyyy') ? 'last' : '',
             message?.from == myId ? 'messageRight' : 'messageLeft'
           ]"
-      (click)="messageTapped(message)">
+  >
+<!--      (click)="messageTapped(message)"-->
 
       <div class="date"
            *ngIf="(message?.timestamp | date: 'ddMMyyyy') != (messages[i-1]?.timestamp | date: 'ddMMyyyy')">

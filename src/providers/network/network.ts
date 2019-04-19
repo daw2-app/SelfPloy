@@ -16,15 +16,17 @@ export class NetworkProvider {
   // recibira inmediatamente el "valor actual" del BehaviorSubject
   static networkStatus = new BehaviorSubject(false);
 
-  previousStatus;
+  currentStatus;
+  static online : boolean;
   // TODO para el pc, que no funciona lo de comprobar la red
   // true para pc (no comprueba la red, asume que siempre tiene internet)
   // false para movil (comprueba la red y si no hay carga los datos desde la base de datos interna)
+  // static beta = true;
   static beta = false;
 
   constructor(public network: Network) {
     console.log('Hello NetworkProvider Provider');
-    this.previousStatus = ConnectionStatusEnum.None;
+    this.currentStatus = ConnectionStatusEnum.None;
   }
 
 
@@ -33,24 +35,28 @@ export class NetworkProvider {
     if (NetworkProvider.beta) {
 
       NetworkProvider.networkStatus.next(true);
+      NetworkProvider.online = true;
 
     } else {
 
       let status = !(this.network.type == null || this.network.type == 'none');
+      NetworkProvider.online = status;
       NetworkProvider.networkStatus.next(status);
-      this.previousStatus = status ? ConnectionStatusEnum.Online : ConnectionStatusEnum.Offline;
+      this.currentStatus = status ? ConnectionStatusEnum.Online : ConnectionStatusEnum.Offline;
 
       this.network.onDisconnect().subscribe(() => {
-        if (this.previousStatus !== ConnectionStatusEnum.Offline) {
+        NetworkProvider.online = false;
+        if (this.currentStatus !== ConnectionStatusEnum.Offline) {
           NetworkProvider.networkStatus.next(false);
-          this.previousStatus = ConnectionStatusEnum.Offline;
+          this.currentStatus = ConnectionStatusEnum.Offline;
         }
       });
 
       this.network.onConnect().subscribe(() => {
-        if (this.previousStatus !== ConnectionStatusEnum.Online) {
+        NetworkProvider.online = true;
+        if (this.currentStatus !== ConnectionStatusEnum.Online) {
           NetworkProvider.networkStatus.next(true);
-          this.previousStatus = ConnectionStatusEnum.Online;
+          this.currentStatus = ConnectionStatusEnum.Online;
         }
       });
     }

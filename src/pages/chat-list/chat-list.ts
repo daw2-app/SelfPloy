@@ -13,10 +13,7 @@ import {ChatPage} from "../chat/chat";
 import {UserDetailPage} from "../user-detail/user-detail";
 import * as _ from 'lodash'
 import {MessageServiceProvider} from "../../providers/message-service/message-service";
-import {NetworkProvider} from "../../providers/network/network";
 import {Subscription} from "rxjs";
-import {UserSettingsProvider} from "../../providers/user-settings/user-settings";
-import {v} from "@angular/core/src/render3";
 
 /**
  * Generated class for the ChatListPage page.
@@ -36,12 +33,12 @@ export class ChatListPage {
   static chatList          = [];
   private chats            = [];
 
-  constructor(public navCtrl: NavController,
-              public navParams: NavParams,
-              public dbapi: DbApiService,
-              private toastCtrl: ToastController,
-              private alertCtrl: AlertController,
-              private events: Events) {
+  constructor(private navCtrl   : NavController,
+              private navParams : NavParams,
+              private dbapi     : DbApiService,
+              private toastCtrl : ToastController,
+              private alertCtrl : AlertController,
+              private events    : Events) {
   }
 
   ionViewDidLoad() {
@@ -50,10 +47,9 @@ export class ChatListPage {
     // lista precreeada
     this.chats = MessageServiceProvider.chats;
 
-    this.events.subscribe('chatList', () =>
+    this.events.subscribe('chats', () =>
       this.chats = MessageServiceProvider.chats
     );
-
 
   }
 
@@ -62,10 +58,13 @@ export class ChatListPage {
   }
 
 
-  messageTapped(user: any) {
+  chatTapped(chat: any) {
     this.navCtrl.push(
       ChatPage,
-      user,
+      {
+        'user' : chat.user,
+        'id'   : chat.key
+      },
       {
         animate: true,
         animation: "transition-ios"
@@ -84,7 +83,7 @@ export class ChatListPage {
     console.log('deleting...',user);
 
     this.alertCtrl.create({
-      title: 'R u sure',
+      title: 'R u sure?',
       message: 'Say u last goodbye',
       buttons: [
         {
@@ -101,8 +100,8 @@ export class ChatListPage {
             console.log('deleting...');
             setTimeout(() => {
               item.close();
-              var index = _.findIndex(this.chats, ['id', user.id]);
-              this.dbapi.removeChat(user.id);
+              var index = _.findIndex(this.chats, ['key', user.id]);
+              this.dbapi.removeChat(user.key);
               this.chats.splice(index, 1);
               const toast = this.toastCtrl.create({
                 message: 'Chat was deleted.'

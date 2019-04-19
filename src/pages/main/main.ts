@@ -24,13 +24,13 @@ import {UserSettingsProvider} from "../../providers/user-settings/user-settings"
   templateUrl: 'main.html'
 })
 export class MainPage {
-  private expandOptions = false;
+  private expandOptions    = false;
   private expandCategories = false;
-  private isAdmin = false;
-  private loading: Loading;
+  private isAdmin          = false;
+  private loading          : Loading;
 
-  private page: any;
-  private chats: any = [];
+  private page  : any;
+  private chats = [];
   // private chats: any;
 
   private home     = HomePage;
@@ -49,20 +49,21 @@ export class MainPage {
   ];
 
 
-  constructor(public navCtrl: NavController,
-              public authProvider: AuthProvider,
-              private toastCtrl: ToastController,
-              public loadingCtrl: LoadingController,
-              public dbapi: DbApiService,
-              private events: Events,
-              private settings: UserSettingsProvider) {
+  constructor(public navCtrl      : NavController,
+              public authProvider : AuthProvider,
+              private toastCtrl   : ToastController,
+              public loadingCtrl  : LoadingController,
+              public dbapi        : DbApiService,
+              private events      : Events,
+              private settings    : UserSettingsProvider,
+              private msgService  : MessageServiceProvider) {
   }
 
 
   ionViewDidLoad() {
     // this.events.subscribe('chatList');
-    new MessageServiceProvider(this.dbapi, this.events, this.settings)
-      .startChatListObserver();
+    // new MessageServiceProvider(this.dbapi, this.events, this.settings)
+    //   .startChatListObserver();
     setTimeout(() => this.expandOptions = true, 500);
   }
 
@@ -103,7 +104,7 @@ export class MainPage {
   }
 
 
-  goTo(page: string, params?: string) {
+  goTo(page: string, params?: any) {
 
     switch (page) {
       case "chatList":

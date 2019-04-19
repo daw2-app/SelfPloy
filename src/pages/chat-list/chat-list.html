@@ -32,10 +32,10 @@
     <ion-list >
       <ion-item-sliding *ngFor="let chat of chats" #item>
 
-        <ion-item (click)="messageTapped(chat)">
+        <ion-item (click)="chatTapped(chat)">
 
-          <ion-avatar item-start (click)="goToProfile($event, chat)">
-            <cl-image *ngIf="chat?.photo != null; else defaultPic" public-id="{{chat?.photo}}">
+          <ion-avatar item-start (click)="goToProfile($event, chat?.user)">
+            <cl-image *ngIf="chat?.user.photo != null; else defaultPic" public-id="{{chat?.user.photo}}">
               <cl-transformation height="100" width="100" crop="fill" effect="sepia" radius="20"></cl-transformation>
             </cl-image>
             <ng-template #defaultPic>
@@ -43,18 +43,18 @@
             </ng-template>
           </ion-avatar>
 
-          <h2>{{chat?.name}}</h2>
-          <p *ngIf="!chat?.typing; else typingText">{{chat?.lastMsgText}}</p>
+          <h2>{{chat?.user.name}}</h2>
+          <p *ngIf="!chat?.typing; else typingText">{{chat?.lastMessage.text}}</p>
           <ng-template #typingText><p><i>Typing...</i></p></ng-template>
 
           <ng-container item-end
-                        *ngIf="chat?.currentTime == (chat?.lastMsgTimestamp | date: 'd/M/yyyy'); then today; else anotherDay">
+                        *ngIf="chat?.currentTime == (chat?.lastMessage.timestamp | date: 'd/M/yyyy'); then today; else anotherDay">
           </ng-container>
           <ng-template #today>
-            <ion-note item-end> {{chat?.lastMsgTimestamp | date: 'HH:mm'}} </ion-note>
+            <ion-note item-end> {{chat?.lastMessage.timestamp | date: 'HH:mm'}} </ion-note>
           </ng-template>
           <ng-template #anotherDay>
-            <ion-note item-end> {{chat?.lastMsgTimestamp | date: 'dd/MM/yy'}} </ion-note>
+            <ion-note item-end> {{chat?.lastMessage.timestamp | date: 'dd/MM/yy'}} </ion-note>
           </ng-template>
 
         </ion-item>

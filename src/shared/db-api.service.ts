@@ -7,14 +7,15 @@ import * as _ from 'lodash'
 import * as $ from 'jquery'
 import {UserSettingsProvider} from "../providers/user-settings/user-settings";
 import {Events} from "ionic-angular";
+import {NetworkProvider} from "../providers/network/network";
 
 
 @Injectable()
 export class DbApiService{
 
-  constructor(private fdb: AngularFireDatabase,
-              private settings: UserSettingsProvider,
-              private events: Events){
+  constructor(private fdb      : AngularFireDatabase,
+              private settings : UserSettingsProvider,
+              private events   : Events){
   }
 
   getListOf(child: string) {
@@ -193,22 +194,67 @@ export class DbApiService{
               myId         : string,
               anotherUserId: string) {
 
+    console.log('pushing')
+
     const updates = {};
     const newMessageKey = firebase.database().ref().child("chats").push().key;
     updates[`chats/${myId}/${anotherUserId}/messages/${newMessageKey}`] = newMessage;
     updates[`chats/${anotherUserId}/${myId}/messages/${newMessageKey}`] = newMessage;
+    updates[`chats/${anotherUserId}/${myId}/typing`] = false;
+    console.log('pushsin', updates)
     return firebase.database().ref().update(updates);
   }
 
 
-  removeChat(id: any) {
-    console.log(id);
-    let myUserId = firebase.auth().currentUser.uid;
-    firebase.database()
-      .ref('chats')
-      .child(myUserId)
-      .child(id)
-      .remove()
-      .then(() => this.settings.removeChat(id))
+  removeMessages(messages: {}) {
+    if (_.size(messages) > 0) firebase.database().ref().update(messages);
   }
+
+
+  removeChat(id: any) {
+
+    console.log('estamos ' + NetworkProvider.online)
+
+    // si estamos online se eliminan
+    if (NetworkProvider.online) {
+      console.log(id, NetworkProvider.online);
+      let myUserId = firebase.auth().currentUser.uid;
+      firebase.database()
+        .ref('chats')
+        .child(myUserId)
+        .child(id)
+        .remove()
+        .then(() => this.settings.removeChat(id));
+
+      // si no, se marcan para eliminar
+    } else {
+      this.settings.prepareChatToRemove(id);
+    }
+
+
+  }
+
+  getChats() {
+    let myUserId = firebase.auth().currentUser.uid;
+
+    return this.fdb
+      .list(`/chats/${myUserId}`)
+      .stateChanges();
+
+    // if (subscribe) {
+    //   firebase.database()
+    //     .ref(`/chats/${myUserId}`)
+    //     .on('value', chat => {
+    //       console.log('value', chat.val(), 'key', chat.key)
+    //       this.settings.saveChatInDB(chat.key, chat.val().messages)
+    //     });
+    // } else {
+      // firebase.database()
+      //   .ref(`/chats/${myUserId}`)
+      //   .off();  // para evitar crear multiples suscriptores
+    // }
+
+
+  }
+
 }

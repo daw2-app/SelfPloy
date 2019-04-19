@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Storage } from "@ionic/storage";
 import * as _ from 'lodash';
-
+import {auth} from "firebase";
+import {k} from "@angular/core/src/render3";
 /*
   Generated class for the UserSettingsProvider provider.
 
@@ -11,7 +12,9 @@ import * as _ from 'lodash';
 @Injectable()
 export class UserSettingsProvider {
 
-  constructor(private storage: Storage) {
+  static chats = [];
+
+  constructor(private storage : Storage) {
     console.log('Hello UserSettingsProvider Provider');
   }
 
@@ -42,46 +45,95 @@ export class UserSettingsProvider {
     }
   }
 
-  saveChatList(chat: any) {
-    this.storage.set('preview:' + chat.id, chat);
+  saveChatInDB(otherUserId: string, userName: string, chat: any) {
+
+      let key = 'chat:' + otherUserId;
+      let date = new Date();
+
+      let chatInfo = {
+        'key':          key.substring(5),
+        'typing' :      chat.typing,
+        'user':         userName,
+        'messages':     chat.messages,
+        'currentTime':  date.getDate() + '/' + (date.getMonth() + 1) + '/' + date.getFullYear(),
+        'lastMessage':  chat.messages[Object.keys(chat.messages)[Object.keys(chat.messages).length - 1]]
+      };
+
+      this.storage.set(key, chatInfo);
+
+      return chatInfo;
   }
 
-  async getChatList() {
+  async getChats() {
     let chatList = [];
     await this.storage.forEach((value, key, index) => {
-      if (key.startsWith('preview:')) {
+      if (key.startsWith('chat:')) {
         chatList.push(value)
       }
     });
 
+    console.log('chatlist:', chatList);
     return _.orderBy(
       chatList,
-      ['lastMsgTimestamp'], ['desc']);
+      ['lastMessage.timestamp'], ['desc']);
+
   }
 
-  async getChat(otherUserId: string) {
-    console.log('asdf')
-    let chat = [];
-    await this.storage.forEach((value: string, key, index) => {
-      if (key.startsWith(`message:${otherUserId}`)) {
-        let id = key.substring(key.lastIndexOf(':') + 1 );
-        chat.push(_.assign(value, {'id': id}))
-      }
-    });
 
-    return _.orderBy(
-      chat,
-      ['timestamp'], ['asc']);
+  saveChatList(chat: any) {
+    this.storage.set('preview:' + chat.id, chat);
   }
+
+  //
+  // async getChat(otherUserId: string) {
+  //   console.log('asdf')
+  //   let chat = [];
+  //   await this.storage.forEach((value: string, key, index) => {
+  //     if (key.startsWith(`message:${otherUserId}`)) {
+  //       let id = key.substring(key.lastIndexOf(':') + 1 );
+  //       chat.push(_.assign(value, {'id': id}))
+  //     }
+  //   });
+  //
+  //   return _.orderBy(
+  //     chat,
+  //     ['timestamp'], ['asc']);
+  // }
 
   removeChat(id: string) {
-    this.storage.forEach((value: string, key, index) => {
-      if (key.startsWith(`message:${id}`) || key.startsWith(`preview:${id}`)) this.removeMessage(key)
-    });
+    this.storage.remove(`chat:${id}`);
   }
 
-  removeMessage(id: string, idUser?: string, idMessage?: string) {
-    if (id == null) id = 'message:' + idUser + ':' + idMessage;
-    this.storage.remove(id);
+  prepareChatToRemove(id: any) {
+    this.storage.get(`chat:${id}`)
+      .then(value => this.storage.set(`remove:${id}`, value))
+      .then(() => this.storage.remove(`chat:${id}`))
   }
+
+  async checkDeletePendingMessages() {
+
+    let user = auth().currentUser;
+
+    if (user) {
+      let chatsToRemove = {};
+      console.log('checking pending chats to be removed...');
+      await this.storage.forEach(async (value, key, index) => {
+        console.log('look ' + key)
+        if (key.startsWith('remove:')) {
+
+          let messages = Object.keys(value.messages);
+          let path = `/chats/${user.uid}/${value.key}/messages/`;
+
+          for (let i = 0; i < messages.length; ++i) chatsToRemove[path + messages[i]] = null;
+
+          console.log('deleeeeete',  this.storage.remove(key))
+          await this.storage.remove(key);
+        }
+      });
+      console.log('check pending messages done' + chatsToRemove);
+      return chatsToRemove;
+      }
+    return null;
+  }
+
 }

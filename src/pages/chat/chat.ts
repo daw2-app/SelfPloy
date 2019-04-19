@@ -6,7 +6,6 @@ import * as $ from 'jquery';
 import * as _ from 'lodash';
 import {fromEvent, Observable, Subscription} from "rxjs";
 import {debounceTime, first} from "rxjs/operators";
-import {UserSettingsProvider} from "../../providers/user-settings/user-settings";
 import {MessageServiceProvider} from "../../providers/message-service/message-service";
 
 /**
@@ -31,20 +30,20 @@ export class ChatPage implements AfterViewChecked {
   private anotherUserIsTyping = false;
   private nearToBottom        = true;
 
-  private startWriting : Subscription;
-  private stopWriting  : Subscription;
+  private startWriting        : Subscription;
+  private stopWriting         : Subscription;
 
 
   @ViewChild(Navbar) navbar   : Navbar;
   @ViewChild(Content) content : Content;
 
-  constructor(public navCtrl      : NavController,
-              public navParams    : NavParams,
-              public dbapi        : DbApiService,
+  constructor(private navCtrl     : NavController,
+              private navParams   : NavParams,
+              private dbapi       : DbApiService,
               private events      : Events,
-              private messagesApi : MessageServiceProvider) {
-    this.anotherUserName = navParams.data.name;
-    this.anotherUserId   = navParams.data.id;
+              private msgProvider : MessageServiceProvider) {
+    this.anotherUserName = navParams.get('user').name;
+    this.anotherUserId   = navParams.get('id');
     this.myId            = firebase.auth().currentUser.uid;
   }
 
@@ -80,20 +79,33 @@ export class ChatPage implements AfterViewChecked {
 
     this.handleMyWritingStatus();
 
-    this.events.subscribe('chat', data => {
+    this.msgProvider.getChatFrom(this.anotherUserId)
+      .then(data => {
+        this.messages = data.messages;
+        console.log(this.messages);
+      });
 
-        if (typeof data !== "boolean") {
-          let notExists = _.findIndex(this.messages, ['id', data.id]) < 0;
-          if (notExists) this.messages.push(data);
-
-        } else {
-          this.anotherUserIsTyping = data;
-          console.log("writing: ", data);
-        }
+    this.events.subscribe('chats', data => {
+      this.msgProvider.getChatFrom(this.anotherUserId)
+        .then(data => {
+          this.messages            = data.messages;
+          this.anotherUserIsTyping = data.typing;
+          console.log(this.messages);
+        });
+      // this.messages = data;
+      //
+      //   if (typeof data !== "boolean") {
+      //     let notExists = _.findIndex(this.messages, ['id', data.id]) < 0;
+      //     if (notExists) this.messages.push(data);
+      //
+      //   } else {
+      //     this.anotherUserIsTyping = data;
+      //     console.log("writing: ", data);
+      //   }
       }
     );
 
-    this.messagesApi.getChat(this.anotherUserId);
+    // this.messagesApi.getChat(this.anotherUserId);
   }
 
 
@@ -116,7 +128,7 @@ export class ChatPage implements AfterViewChecked {
     } catch (ignored) { }
 
     this.startWriting = inputChat
-      .pipe(first())
+      .pipe(first(key => key["which"] != 13))
       .subscribe(() => {
           this.startWriting.unsubscribe();
           this.sendWritingStatus(true)
@@ -135,7 +147,15 @@ export class ChatPage implements AfterViewChecked {
 
 
   sendMessage() {
-    const newMessage = {
+
+    const newMessageToLocal = {
+      text:      this.inputMessage,
+      from:      this.myId,
+      timestamp: Date.now().valueOf(),
+      readed:    false
+    };
+
+    const newMessageToCloud = {
       text:      this.inputMessage,
       from:      this.myId,
       timestamp: firebase.database.ServerValue.TIMESTAMP,
@@ -143,10 +163,9 @@ export class ChatPage implements AfterViewChecked {
     };
 
     this.inputMessage = "";
-    this.sendWritingStatus(false);
     this.handleMyWritingStatus();
-
-    this.dbapi.pushMessage(newMessage, this.myId, this.anotherUserId);
+    this.messages.push(newMessageToLocal); // fluidez cuando se envia un mensaje
+    this.dbapi.pushMessage(newMessageToCloud, this.myId, this.anotherUserId);
   }
 
 
