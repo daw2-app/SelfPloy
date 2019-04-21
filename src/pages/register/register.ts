@@ -13,7 +13,6 @@ import { AuthProvider } from "../../providers/auth/auth";
  * Ionic pages and navigation.
  */
 
-@IonicPage()
 @Component({
   selector: 'page-register',
   templateUrl: 'register.html',
@@ -42,7 +41,10 @@ export class RegisterPage {
   }
 
   backToLogin() {
-    if (this.navCtrl.canGoBack()) this.navCtrl.pop();
+    if (this.navCtrl.canGoBack()) this.navCtrl.pop({
+      animate: true,
+      animation: "transition-ios"
+    });
     else this.navCtrl.push(LoginPage,
       {},
       {

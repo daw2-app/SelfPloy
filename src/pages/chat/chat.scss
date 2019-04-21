@@ -17,17 +17,17 @@ page-chat {
       }
 
       .info {
-          text-align: center;
-          margin-top: 15px;
-          margin-bottom: 10px;
-          opacity: .8;
+        text-align: center;
+        margin-top: 15px;
+        margin-bottom: 10px;
+        opacity: .8;
 
         &.date > div {
-            font-size: smaller;
-            padding: 4px 16px;
-            display: inline-block;
-            border-radius: $radious_2;
-            background-color: #eee;
+          font-size: smaller;
+          padding: 4px 16px;
+          display: inline-block;
+          border-radius: $radious_2;
+          background-color: #eee;
         }
 
         &.notReadedMessages > div {
@@ -88,11 +88,23 @@ page-chat {
 
   }
 
+
   ion-footer {
-    div#wave {
-      margin-top: 12px;
+
+    &.footer-ios {
+      div#wave {
+        bottom: 52px;
+      }
+    }
+
+    &.footer-md {
+      div#wave {
+        bottom: 60px;
+      }
+    }
+
+      div#wave {
       position: fixed;
-      bottom: 56px;
       left: 1em;
 
       .dot {

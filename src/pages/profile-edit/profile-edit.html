@@ -1,83 +1,121 @@
 <ion-header>
   <ion-navbar color="primary">
     <link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/angular_material/0.10.0/angular-material.min.css">
-    <ion-title>User Profile</ion-title>
+    <ion-title>Your profile</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="logout()">
+        <fa-icon style="zoom:1.5;" [icon]="iconDoor"></fa-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
-<ion-card>
-  <form [formGroup]="userForm" (ngSubmit)="saveUserData()">
-    <ion-list>
-      <ion-item>
-        <ion-icon name="person" item-start></ion-icon>
-        <ion-label stacked>Name:</ion-label>
-        <ion-input formControlName="name" type="text" value="{{user.name}}"></ion-input>
-      </ion-item>
-      <ion-item *ngIf="userForm.get('name').errors && userForm.get('name').dirty">
-        <p color="danger" ion-text *ngIf="userForm.get('name').hasError('required')">Field is required</p>
-        <p color="danger" ion-text *ngIf="userForm.get('name').hasError('minlength')">Min of 3 characters</p>
-        <p color="danger" ion-text *ngIf="userForm.get('name').hasError('maxlength')">Max of 10 characters</p>
-      </ion-item>
-      <ion-item>
-        <ion-icon name="person" item-start></ion-icon>
-        <ion-label stacked>Last Name:</ion-label>
-        <ion-input formControlName="lastName" type="text" value="{{user.lastName}}"></ion-input>
-      </ion-item>
-      <ion-item *ngIf="userForm.get('lastName').errors && userForm.get('lastName').dirty">
-        <p color="danger" ion-text *ngIf="userForm.get('lastName').hasError('required')">Field is required</p>
-        <p color="danger" ion-text *ngIf="userForm.get('lastName').hasError('minlength')">Min of 3 characters</p>
-        <p color="danger" ion-text *ngIf="userForm.get('lastName').hasError('maxlength')">Max of 10 characters</p>
-      </ion-item>
-      <ion-item>
-        <ion-icon name="mail" item-start></ion-icon>
-        <ion-label stacked>Email:</ion-label>
-        <ion-input formControlName="email" type="email" value="{{user.email}}"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-icon name="clipboard" item-start></ion-icon>
-        <ion-label stacked>Tipo de Usuario:</ion-label>
-        <ion-select cancelText="Cancel" okText="Done">
-          <ion-option value="autonomo">Autonomo</ion-option>
-          <ion-option value="cliente">Cliente</ion-option>
-        </ion-select>
-      </ion-item>
-      <ion-item>
-        <ion-icon  name="clipboard" item-start></ion-icon>
-        <ion-label stacked>Category:</ion-label>
-        <ion-select  formControlName="category" cancelText="Cancel" okText="Done">
-          <ion-option value="fontanero">Fontanero</ion-option>
-          <ion-option value="electricista">Electricista</ion-option>
-          <ion-option value="pintor">Pintor</ion-option>
-          <ion-option value="cerrajero">Cerrajero</ion-option>
-        </ion-select>
-      </ion-item>
-      <ion-item>
-        <ion-icon name="book" item-start></ion-icon>
-        <ion-label  stacked>Description</ion-label>
-        <ion-textarea formControlName="description" rows="4" cols="10" type="text" value="{{user.description}}"></ion-textarea>
-      </ion-item>
-      <ion-item *ngIf="userForm.get('description').errors && userForm.get('description').dirty">
-        <p color="danger" ion-text *ngIf="userForm.get('description').hasError('required')">Field is required</p>
-        <p color="danger" ion-text *ngIf="userForm.get('description').hasError('minlength')">Min of 10 characters</p>
-        <p color="danger" ion-text *ngIf="userForm.get('description').hasError('maxlength')">Max of 500 characters</p>
-      </ion-item>
-      <ion-item>
-        <ion-icon name="card" item-start></ion-icon>
-        <ion-label stacked>Salary:</ion-label>
-        <ion-input formControlName="salary" type="text" value="{{user.salary}}"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-icon name="camera" item-start></ion-icon>
-        <cl-image *ngIf="public_id != null" [public-id]="public_id">
-        </cl-image>
-        <input type="file" ng2FileSelect [uploader]="uploader" accept="image/*;capture=camera">
-      </ion-item>
-    </ion-list>
-    <div padding>
-      <button ion-button block type="submit" [disabled]="!userForm.valid">Update</button>
-    </div>
-  </form>
-</ion-card>
+  <ion-card>
+
+    <form [formGroup]="userForm" (ngSubmit)="saveUserData()">
+
+      <ion-list>
+        <ion-item>
+          <ion-icon name="person" item-start></ion-icon>
+          <ion-label stacked>Name:</ion-label>
+          <ion-input formControlName="name" type="text" value="{{user.name}}"></ion-input>
+        </ion-item>
+
+        <ion-item *ngIf="userForm.get('name').errors && userForm.get('name').dirty">
+          <p color="danger" ion-text *ngIf="userForm.get('name').hasError('required')">Field is required</p>
+          <p color="danger" ion-text *ngIf="userForm.get('name').hasError('minlength')">Min of 3 characters</p>
+          <p color="danger" ion-text *ngIf="userForm.get('name').hasError('maxlength')">Max of 10 characters</p>
+        </ion-item>
+
+        <ion-item>
+          <ion-icon name="person" item-start></ion-icon>
+          <ion-label stacked>Last Name:</ion-label>
+          <ion-input formControlName="lastName" type="text" value="{{user.lastName}}"></ion-input>
+        </ion-item>
+
+        <ion-item *ngIf="userForm.get('lastName').errors && userForm.get('lastName').dirty">
+          <p color="danger" ion-text *ngIf="userForm.get('lastName').hasError('required')">Field is required</p>
+          <p color="danger" ion-text *ngIf="userForm.get('lastName').hasError('minlength')">Min of 3 characters</p>
+          <p color="danger" ion-text *ngIf="userForm.get('lastName').hasError('maxlength')">Max of 10 characters</p>
+        </ion-item>
+
+        <ion-item>
+          <ion-icon name="mail" item-start></ion-icon>
+          <ion-label stacked>Email:</ion-label>
+          <ion-input formControlName="email" type="email" value="{{user.email}}"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-icon name="address" item-start></ion-icon>
+          <ion-label stacked>Address:</ion-label>
+          <ion-input formControlName="address" type="text" value="{{user.address}}"></ion-input>
+        </ion-item>
+
+        <ion-item *ngIf="userForm.get('address').errors && userForm.get('address').dirty">
+          <p color="danger" ion-text *ngIf="userForm.get('address').hasError('required')">Field is required</p>
+          <p color="danger" ion-text *ngIf="userForm.get('address').hasError('minlength')">Min of 3 characters</p>
+          <p color="danger" ion-text *ngIf="userForm.get('address').hasError('maxlength')">Max of 50 characters</p>
+        </ion-item>
+
+        <ion-item>
+          <ion-icon name="clipboard" item-start></ion-icon>
+          <ion-label stacked>User type:</ion-label>
+          <ion-select [formControl]="userForm.controls['userType']" cancelText="Cancel" okText="Done">
+            <ion-option
+              *ngFor="let type of types"
+              value="{{type.type}}"
+            >
+              {{type.name}}
+            </ion-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
+          <ion-icon name="clipboard" item-start></ion-icon>
+          <ion-label stacked>Category:</ion-label>
+          <ion-select [formControl]="userForm.controls['category']" cancelText="Cancel" okText="Done">
+            <ion-option
+              *ngFor="let category of categoriesProvider.getCategories()"
+              value="{{category.filter}}"
+            >{{category.title}}
+            </ion-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-item>
+          <ion-icon name="book" item-start></ion-icon>
+          <ion-label stacked>Description</ion-label>
+          <ion-textarea formControlName="description" rows="4" cols="10" type="text"
+                        value="{{user.description}}"></ion-textarea>
+        </ion-item>
+
+        <ion-item *ngIf="userForm.get('description').errors && userForm.get('description').dirty">
+          <p color="danger" ion-text *ngIf="userForm.get('description').hasError('required')">Field is required</p>
+          <p color="danger" ion-text *ngIf="userForm.get('description').hasError('minlength')">Min of 10 characters</p>
+          <p color="danger" ion-text *ngIf="userForm.get('description').hasError('maxlength')">Max of 500 characters</p>
+        </ion-item>
+
+        <ion-item>
+          <ion-icon name="card" item-start></ion-icon>
+          <ion-label stacked>Salary:</ion-label>
+          <ion-input formControlName="salary" type="text" value="{{user.salary}}"></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-icon name="camera" item-start></ion-icon>
+          <cl-image *ngIf="public_id != null" [public-id]="public_id">
+          </cl-image>
+          <input type="file" ng2FileSelect [uploader]="uploader" accept="image/*;capture=camera">
+        </ion-item>
+      </ion-list>
+
+      <div padding>
+        <button ion-button block type="submit" [disabled]="!userForm.valid">Update</button>
+      </div>
+
+    </form>
+
+  </ion-card>
 </ion-content>
 

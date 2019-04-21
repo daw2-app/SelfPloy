@@ -1,47 +1,28 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Home</ion-title>
+    <ion-title>Selfploy</ion-title>
   </ion-navbar>
 </ion-header>
 
 
-<ion-content class="cards-bg content content-md statusbar-padding">
+<ion-content>
 
-  <ng-template [ngIf]="loadContent" [ngIfElse]="messageInternetDown">
-    <ion-card text-wrap *ngFor="let user of users" class="adv-map card card-md">
-      <div class="test">
-        <cl-image *ngIf="user?.photo != null" public-id="{{user?.photo}}">
-          <cl-transformation height="150" width="150" ></cl-transformation>
-        </cl-image>
-      </div>
-      <ion-item text-wrap>
-        <ion-label><strong>Name: </strong>
-          {{user?.name}}
-        </ion-label>
-      </ion-item>
-      <ion-item text-wrap>
-        <ion-label><strong>Category: </strong>
-          {{user?.category}}
-        </ion-label>
-      </ion-item>
-      <ion-item
-        right
-        text-wrap>
-        <button
-          (click)="userDetail(user)"
-          ion-button
-          color="dark">
-          More info
+  <ion-grid>
+
+    <ion-row *ngFor="let row of categories">
+      <ion-col *ngFor="let col of row "
+               [ngClass]="['categories-menu-item', col.name]">
+        <button full clear ion-button (click)="goTo(col)">
+          <fa-icon style="zoom:2;" [icon]="col.icon"></fa-icon>
+          <p class="categoryName">{{col.title}}</p>
+          <p *ngIf="col.count == 1; else manyUsers" class="categoryAvailability">{{col.count}} user</p>
+          <ng-template #manyUsers class="categoryAvailability">
+            <p class="categoryAvailability">{{col.count}} users</p>
+          </ng-template>
         </button>
-      </ion-item>
-    </ion-card>
-  </ng-template>
+      </ion-col>
+    </ion-row>
 
-  <ng-template #messageInternetDown>
-    <div class="errorMsg">
-      <p>Oops...</p>
-      <button [disabled]="!internetAvailable" ion-button clear (click)="feedContent()">try again?</button>
-    </div>
-  </ng-template>
+  </ion-grid>
 
 </ion-content>

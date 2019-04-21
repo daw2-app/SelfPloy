@@ -1,7 +1,5 @@
 <ion-content padding>
 
-  <button (click)="navCtrl.popToRoot()" class="fab-close" ion-button float-right><ion-icon name="close"></ion-icon></button>
-
   <ion-grid>
     <ion-row justify-content-center>
       <ion-col align-self-center size-md="6" size-lg="5" size-xs="12">
@@ -19,7 +17,7 @@
                 type="text"
                 (keyup.enter)="signUp(user);"
                 [(ngModel)]="user.email"
-              value="borrame@aa.aa"
+                value="borrame@aa.aa"
               ></ion-input>
             </ion-item>
             <ion-label class="error_description">{{email_error_msg}}</ion-label>
@@ -78,7 +76,7 @@
         <div padding>
           <p float-right="">Have an account? <a
             (click)="backToLogin()">
-            Log in</a>
+            Sign in</a>
           </p>
         </div>
 

@@ -21,9 +21,7 @@ export class UserSettingsProvider {
   }
 
   logout() {
-    return this.storage.remove('user')
-      .then(value => console.log('stg: ', value))
-      .catch(value => console.error('stg: ', value));
+    this.storage.clear();
   }
 
   async getCurrentUser() {

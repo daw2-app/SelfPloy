@@ -1,47 +1,53 @@
-page-home{
-  .test{
-    max-width: 100% !important;
-    height: 260px !important;
-  }
-  /*ion-card{
-    box-shadow:0 10px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19) !important;
-  }*/
-  ion-card {
-    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-    //transition: 0.3s;
-    border-radius: 20px !important; ;
-    margin-bottom: 20px !important;
+page-home {
+  ion-content div.scroll-content {
+    overflow: hidden;
   }
 
-  //ion-card:hover {
-  //  box-shadow: 0 16px 32px 0 rgba(0,0,0,0.2);
-  //  transform: scale(1.02)
-  //}
 
+  ion-grid {
+
+    height: 100%;
+    padding: 0 !important;
+
+    ion-row {
+      height: 100%;
+
+      ion-col {
+
+        $buttons: (
+          shower       #6fbacd #286575 ,
+          lightbulb    #fed24f #a57c00 ,
+          hammer       #f09146 #8f450b ,
+          paint-roller #56ac5b #2a562d ,
+          laptop       #999999 #4c4c4c ,
+          key          #995681 #4c2b40
+        );
+
+        @each $button in $buttons {
+          &.#{nth($button, 1)} {
+            background-color: #{nth($button, 2)} !important;
+
+            .button-effect {
+              background-color: #{nth($button, 3)};
+            }
+          }
+        }
+
+        padding: 0 !important;
+
+        button {
+          margin: 0 !important;
+          height: 100% !important;
+
+          .button-inner {
+            display: contents;
+          }
+
+          fa-icon, p {
+            color: white;
+          }
+        }
+      }
+    }
+  }
 }
-
-
-/*
-
-  ion-content{
-    background-color: #EBEBEB !important;
-  }
-  ion-card{
-    border-radius: 10px !important;
-    margin-top: 30px !important;
-    width: 200px !important;
-    height: 400px !important;
-  }
-  .item-inner{
-    margin-left: 5px !important;
-    margin-right: 20px;
-
-  }
-  ion-avatar{
-    width: 200px;
-    height: 200px;
-  }
-
-}
-*/
-

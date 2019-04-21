@@ -1,0 +1,6 @@
+<ion-tabs selectedIndex="1" [class.translateTop]="!internetAvailable">
+  <ion-tab class="iconTab" tabIcon="ios-chatbubbles" [root]="tab1Root" [show]="userLogged" tabsHideOnSubPages="true"></ion-tab>
+  <ion-tab class="iconTab" tabIcon="md-home"         [root]="tab2Root"></ion-tab>
+  <ion-tab class="iconTab" tabIcon="md-person"       [root]="tab3Root" [show]="!userLogged" ></ion-tab>
+  <ion-tab class="iconTab" tabIcon="md-person"       [root]="tab4Root" [show]="userLogged" tabsHideOnSubPages="true"></ion-tab>
+</ion-tabs>

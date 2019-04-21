@@ -20,8 +20,8 @@ export class NetworkProvider {
   // TODO para el pc, que no funciona lo de comprobar la red
   // true para pc (no comprueba la red, asume que siempre tiene internet)
   // false para movil (comprueba la red y si no hay carga los datos desde la base de datos interna)
-  static beta = true;
-  // static beta = false;
+  // static beta = true;
+  static beta = false;
 
   constructor(public network: Network) {
     console.log('Hello NetworkProvider Provider');

@@ -10,13 +10,14 @@ import {
 } from 'ionic-angular';
 import {DbApiService} from "../../shared/db-api.service";
 import {ChatPage} from "../chat/chat";
-import {UserDetailPage} from "../user-detail/user-detail";
+// import {UserDetailPage} from "../user-detail/user-detail";
 import * as _ from 'lodash'
 import {MessageServiceProvider} from "../../providers/message-service/message-service";
 import {NetworkProvider} from "../../providers/network/network";
 import {Subscription} from "rxjs";
 import {UserSettingsProvider} from "../../providers/user-settings/user-settings";
 import {v} from "@angular/core/src/render3";
+import {ProfilePage} from "../profile/profile";
 
 /**
  * Generated class for the ChatListPage page.
@@ -25,7 +26,6 @@ import {v} from "@angular/core/src/render3";
  * Ionic pages and navigation.
  */
 
-@IonicPage()
 @Component({
   selector: 'page-chat-list',
   templateUrl: 'chat-list.html',
@@ -122,7 +122,7 @@ export class ChatListPage {
   goToProfile(event: Event, user: any) {
     event.stopPropagation();
     this.navCtrl.push(
-      UserDetailPage,
+      ProfilePage,
       user);
   }
 }

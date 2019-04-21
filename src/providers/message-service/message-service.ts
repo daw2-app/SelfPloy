@@ -1,9 +1,10 @@
 import {Injectable} from '@angular/core';
 import {DbApiService} from "../../shared/db-api.service";
-import {Events} from "ionic-angular";
+import {Events, ToastController} from "ionic-angular";
 import * as _ from "lodash"
 import {NetworkProvider} from "../network/network";
 import {UserSettingsProvider} from "../user-settings/user-settings";
+import {Subscription} from "rxjs";
 
 /*
   Generated class for the MessageServiceProvider provider.
@@ -15,25 +16,29 @@ import {UserSettingsProvider} from "../user-settings/user-settings";
 export class MessageServiceProvider {
 
   static chats: any = [];
+  static chatSubscription : Subscription;
 
 
-  constructor(public dbapi: DbApiService,
-              private events: Events,
-              private settings: UserSettingsProvider) {
+  constructor(public dbapi      : DbApiService,
+              private events    : Events,
+              private settings  : UserSettingsProvider,
+              private toastCtrl : ToastController) {
     console.log('Hello MessageServiceProvider Provider');
   }
 
 
-  startChatListObserver() {
+  async startChatListObserver() {
+
+    console.log('message provider: loading chatlist from local database');
+    await this.getFromLocalDataBase();
+    let user;
+    await this.settings.getCurrentUser().then(value => user = value)
 
     NetworkProvider.networkStatus.subscribe({
       next: available => {
         if (available) {
-          console.log('loading chatlist from internet');
-          this.getFromInternet();
-        } else {
-          console.log('loading chatlist from local database');
-          this.getFromLocalDataBase();
+          console.log('message provider: loading chatlist from internet');
+          if (user) this.getFromInternet(user.uid);
         }
       }
     });
@@ -41,19 +46,30 @@ export class MessageServiceProvider {
   }
 
 
-  getFromInternet() {
-    // tardaba en cargar los chats. mejorar experiencia de usuario
-    let userChats = this.dbapi.getListOfMyChats();
+  getFromInternet(userId: string) {
+    let userChatsSubscription = this.dbapi.getListOfMyChats(userId);
 
-    if (userChats) {
-      userChats
+    console.log('interneeeeet 1')
+    // evitar multiples suscripciones
+    console.log('interneeeeet 2', userChatsSubscription);
+    if (userChatsSubscription && MessageServiceProvider.chatSubscription == null) {
+      MessageServiceProvider.chatSubscription = userChatsSubscription
         .subscribe(data => {
             data.then(chat => {
-              // para poner el mensaje nuevo en el top de la lista
+
+              // this.showNotification(chat.name, chat.lastMsgText)
+
+              // para evitar duplicar mensajes
               let i = _.findIndex(MessageServiceProvider.chats, ['id', chat.id]);
-              if (i != -1 && chat.lastMsgTimestamp != MessageServiceProvider.chats.lastMsgTimestamp)
-                MessageServiceProvider.chats.splice(i, 1);
+
+              // if (i == -1 || chat.lastMsgTimestamp != MessageServiceProvider.chats[i].lastMsgTimestamp) {
+              //   console.log('index', i, chat.lastMsgTimestamp, MessageServiceProvider.chats[i].lastMsgTimestamp)
+              //   this.showNotification(chat.name, chat.lastMsgText)
+              // }
+
+              if (i != -1) MessageServiceProvider.chats.splice(i, 1);
               MessageServiceProvider.chats.push(chat);
+              // para poner los mensajes primeros arriba
               MessageServiceProvider.chats = _.orderBy(
                 MessageServiceProvider.chats,
                 ['lastMsgTimestamp'], ['desc']);
@@ -62,6 +78,17 @@ export class MessageServiceProvider {
           }
         )
     }
+  }
+
+
+  showNotification(from: string, text: string) {
+    this.toastCtrl.create({
+      message         : 'Mensaje de ' + from + '\n' + text,
+      // duration : 1000,
+      position        : 'top',
+      cssClass        : 'pushNotification',
+      showCloseButton : true
+    }).present();
   }
 
 
@@ -98,5 +125,11 @@ export class MessageServiceProvider {
         }
       })
     ;
+  }
+
+  unsuscribeChatList() {
+    if (MessageServiceProvider.chatSubscription != null)
+      MessageServiceProvider.chatSubscription.unsubscribe();
+    MessageServiceProvider.chatSubscription = null;
   }
 }

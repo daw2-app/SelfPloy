@@ -9,6 +9,9 @@ import {debounceTime, first} from "rxjs/operators";
 import {UserSettingsProvider} from "../../providers/user-settings/user-settings";
 import {MessageServiceProvider} from "../../providers/message-service/message-service";
 import {ChatListPage} from "../chat-list/chat-list";
+import {AuthProvider} from "../../providers/auth/auth";
+import {NetworkProvider} from "../../providers/network/network";
+import {ProfilePage} from "../profile/profile";
 
 /**
  * Generated class for the ChatPage page.
@@ -17,12 +20,13 @@ import {ChatListPage} from "../chat-list/chat-list";
  * Ionic pages and navigation.
  */
 
-@IonicPage()
 @Component({
   selector: 'page-chat',
   templateUrl: 'chat.html'
 })
 export class ChatPage implements AfterViewChecked {
+
+  private internetAvailable   : boolean;
 
   private anotherUserName     : string;
   private anotherUserId       : string;
@@ -44,7 +48,8 @@ export class ChatPage implements AfterViewChecked {
               public navParams    : NavParams,
               public dbapi        : DbApiService,
               private events      : Events,
-              private messagesApi : MessageServiceProvider) {
+              private messagesApi : MessageServiceProvider,
+              private auth        : AuthProvider) {
     this.anotherUserName = navParams.data.name;
     this.anotherUserId   = navParams.data.id;
     this.myId            = firebase.auth().currentUser.uid;
@@ -74,10 +79,17 @@ export class ChatPage implements AfterViewChecked {
         animate:   true,
         animation: "transition-ios"
       });
+    console.log(this.navbar)
   }
 
 
   ionViewDidLoad() {
+
+    NetworkProvider.networkStatus.subscribe({next: available => {
+        console.log('aaaaaaaaaaaaas123123123', available)
+        this.internetAvailable = available;
+      }})
+
     console.log('ionViewDidLoad ChatPage - chating with', this.navParams.data);
 
     let chat = _.find(MessageServiceProvider.chats, ['id', this.anotherUserId]);
@@ -105,8 +117,31 @@ export class ChatPage implements AfterViewChecked {
     this.messagesApi.getChat(this.anotherUserId);
   }
 
+  ionViewWillEnter() {
+    if (this.navCtrl.getPrevious().name != ChatListPage.name) {
+      let tabs = document.querySelectorAll('.tabbar');
+      if (tabs !== null) {
+        Object.keys(tabs).map((key) => {
+          tabs[key].style.transform = 'translateX(56px)';
+          tabs[key].style.display = 'none';
+        });
+      }
+    }
+  }
+
 
   ionViewDidLeave() {
+    if (this.navCtrl.getPrevious().name != ChatListPage.name) {
+      let tabs = document.querySelectorAll('.tabbar');
+      if (tabs !== null) {
+        Object.keys(tabs).map((key) => {
+          tabs[key].style.display = 'flex';
+          tabs[key].style.transform = 'translateY(0)';
+        });
+      }
+    }
+
+
     this.sendWritingStatus(false);
     try {
       this.startWriting.unsubscribe();
@@ -171,4 +206,8 @@ export class ChatPage implements AfterViewChecked {
     console.log(message);
   }
 
+  goToProfile() {
+    if (ProfilePage.name == this.navCtrl.getPrevious().name) this.navCtrl.pop();
+    else this.navCtrl.push(ProfilePage, this.navParams.data);
+  }
 }

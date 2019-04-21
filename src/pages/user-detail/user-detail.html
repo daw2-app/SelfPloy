@@ -1,78 +1,15 @@
+<!--
+  Generated template for the UserDetailPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
 <ion-header>
   <ion-navbar>
-    <ion-title>{{user?.name}}'s profile</ion-title>
+    <ion-title>user-detail</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <ion-card>
-    <ion-item text-wrap>
-      <ion-label><strong>Name: </strong>
-        {{user?.name}}
-      </ion-label>
-    </ion-item>
 
-    <ion-item text-wrap>
-      <ion-label><strong>Last Name: </strong>
-        {{user?.lastName}}
-      </ion-label>
-    </ion-item>
-
-    <ion-item text-wrap>
-      <ion-label><strong>Category: </strong>
-        {{user?.category}}
-      </ion-label>
-    </ion-item>
-
-    <ion-item text-wrap>
-      <ion-label><strong>Description: </strong>
-        {{user?.description}}
-      </ion-label>
-    </ion-item>
-    <ion-item text-wrap>
-      <ion-label><strong>Salary: </strong>
-        {{user?.salary}}
-      </ion-label>
-    </ion-item>
-    <ion-item text-wrap>
-      <ion-label><strong>Photo: </strong>
-        <cl-image *ngIf="user?.photo != null" public-id="{{user?.photo}}">
-          <cl-transformation height="150" width="150" ></cl-transformation>
-        </cl-image>
-      </ion-label>
-    </ion-item>
-
-    <ion-item>
-      <button float-right
-      (click)="abrirModal(user)"
-      ion-fab
-      color="dark"*ngIf="authProvider?.isLoggedIn">
-      <ion-icon name="md-text"></ion-icon>
-      </button>
-
-      <button float-right
-      (click)="showAllOpinions(user)"
-      ion-fab
-      color="dark">
-      <ion-icon name="md-chatbubbles"></ion-icon>
-      </button>
-
-
-      <button float-right
-      (click)="showAllOpinions(user)"
-      ion-fab
-      color="dark"
-      *ngIf="authProvider?.isLoggedIn">
-      <fa-icon [icon]="icon"></fa-icon>
-      </button>
-    </ion-item>
-  </ion-card>
-  <button float-right
-          class="chat-icon"
-          (click)="openChat()"
-          ion-fab
-          color="dark"
-          *ngIf="authProvider?.isLoggedIn">
-    <ion-icon name="ios-text"></ion-icon>
-  </button>
 </ion-content>

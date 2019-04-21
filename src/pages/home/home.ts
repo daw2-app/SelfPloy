@@ -1,12 +1,8 @@
 import { Component } from '@angular/core';
-import {Events, Loading, LoadingController, NavController} from 'ionic-angular';
-import { AuthProvider } from "../../providers/auth/auth";
-import { DbApiService } from "../../shared/db-api.service";
-import {UserDetailPage} from "../user-detail/user-detail";
-import {UserSettingsProvider} from "../../providers/user-settings/user-settings";
-import {NetworkProvider} from "../../providers/network/network";
-import {Subscription} from "rxjs";
-
+import { Events, LoadingController, NavController, ToastController } from 'ionic-angular';
+import * as _ from 'lodash'
+import {CategoriesProvider} from "../../providers/categories/categories";
+import {CategoryPage} from "../category/category";
 
 
 @Component({
@@ -15,85 +11,30 @@ import {Subscription} from "rxjs";
 })
 export class HomePage {
 
-  private loading          : Loading;
-  private internetObserver : Subscription;
-  private loadContent       = false;
-  private internetAvailable = false;
-  private pageLoaded        = false;
-  private users             = [];
+  private categories = _.chunk(this.categoryProvider.getCategories(), 2);
+  private usersByCategory = [];
 
-
-  constructor(public navCtrl      : NavController,
-              public authProvider : AuthProvider,
-              public dbapi        : DbApiService,
-              public loadingCtrl  : LoadingController) {
-
+  constructor(public navCtrl           : NavController,
+              private categoryProvider : CategoriesProvider) {
   }
 
 
   ionViewDidLoad() {
-
-    console.log('ionViewDidLoad HomePage');
-    this.internetObserver = NetworkProvider.networkStatus.subscribe({
-      next: available => {
-        this.internetAvailable = available;
-
-        if (available) {
-          if (!this.pageLoaded) {
-            this.loadContent = true;
-            this.feedContent();
-          }
-          console.log("user status: ", this.authProvider.isLoggedIn)
-
-        } else {
-          if (!this.pageLoaded) this.loadContent = false;
-          console.log('network home: ' + 'nope');
-        }
-
-        if (!this.pageLoaded) this.pageLoaded = true;
-      }
-    });
+    // this.events.subscribe('chatList');
+    console.log('hellouda main', this.categories)
   }
 
-
-  ionViewWillLeave() {
-    console.log('home says goodbye');
-    this.internetObserver.unsubscribe();
+  ionViewWillEnter() {
+    this.usersByCategory = this.categoryProvider.getCategories();
   }
 
-
-  feedContent() {
-    if (this.internetAvailable) {
-      this.loading = this.loadingCtrl.create();
-      this.loading.present();
-
-      this.showUsers()
-        .then(() => this.loading.dismiss());
-      this.loadContent = true;
-    }
-  }
-
-
-  showUsers() {
-    return this.dbapi.getListOf("users")
-      .then((snapshot) => {
-        for (let k in snapshot) {
-          this.users.push({
-            id: k,
-            name: snapshot[k].name,
-            lastName: snapshot[k].lastName,
-            category: snapshot[k].category,
-            description: snapshot[k].description,
-            salary: snapshot[k].salary,
-            photo: snapshot[k].photo
-          })
-        }
+  goTo(category: any) {
+    this.navCtrl.push(
+      CategoryPage,
+      category,
+      {
+        animate: true,
+        direction: 'forward'
       });
   }
-
-
-  userDetail(user){
-    this.navCtrl.push(UserDetailPage,user);
-  }
-
 }

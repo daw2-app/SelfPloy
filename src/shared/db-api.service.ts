@@ -7,14 +7,15 @@ import * as _ from 'lodash'
 import * as $ from 'jquery'
 import {UserSettingsProvider} from "../providers/user-settings/user-settings";
 import {Events} from "ionic-angular";
+import { AuthProvider } from "../providers/auth/auth";
 
 
 @Injectable()
 export class DbApiService{
 
-  constructor(private fdb: AngularFireDatabase,
-              private settings: UserSettingsProvider,
-              private events: Events){
+  constructor(private fdb      : AngularFireDatabase,
+              private settings : UserSettingsProvider,
+              private events   : Events){
   }
 
   getListOf(child: string) {
@@ -31,7 +32,7 @@ export class DbApiService{
     return firebase.database()
       .ref(`/users/${userId}`)
       .once('value')
-      .then((snapshot) => { return snapshot.val() });
+      .then((snapshot) => { return _.assign(snapshot.val(), {'uid' : userId}) });
   }
 
 
@@ -56,11 +57,11 @@ export class DbApiService{
       .then((snapshot) => { return snapshot.val()});
   }
 
-  getOpinionsOfUser(user){
+  getOpinionsOfUser(userId){
     return firebase.database()
       .ref('opinions')
       .orderByChild('userTo')
-      .equalTo(user.id)
+      .equalTo(userId)
       .once('value')
       .then((snapshot) => { return snapshot.val()});
   }
@@ -93,31 +94,11 @@ export class DbApiService{
   }
 
 
-  getListOfMyChats(): Observable<any> {
-    
-    if (firebase.auth().currentUser) {
+  getListOfMyChats(myUserId: string): Observable<any> {
 
-      let myUserId = firebase.auth().currentUser.uid;
+    this.settings.getCurrentUser().then(value => console.log(value.uid));
 
-      // return this.fdb.list(`chats/${myUserId}`).snapshotChanges()
-      //   .pipe(
-      //     map(changes =>
-      //       changes.map(async c => {
-      //           let mUser: any;
-      //           await this.getUser(c.payload.key)
-      //             .then((user) => mUser = user)
-      //             .then(() => _.assign(mUser, {'id': c.payload.key}));
-      //           return ({user: mUser, ...c.payload.val()});
-      //         }
-      //       )
-      //     )
-      //   )
-
-
-      // firebase.database()
-      //   .ref(`chats/${myUserId}`)
-      //   .on("value", (value: DataSnapshot) => console.log('datasnapshot: ', value));
-
+    if (myUserId != '') {
 
       let date = new Date();
 
@@ -250,6 +231,19 @@ export class DbApiService{
       .child('messages')
       .orderByChild('readed')
       .equalTo(false)
+      .once('value')
+      .then(count => {return _.size(count.val())})
+  }
+
+
+
+  getCountOfUsers(category: string) {
+    return firebase
+      .database()
+      .ref()
+      .child('users')
+      .orderByChild('category')
+      .equalTo(category)
       .once('value')
       .then(count => {return _.size(count.val())})
   }

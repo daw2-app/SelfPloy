@@ -15,15 +15,8 @@
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
 
-.fab-close {
-  height: 30px;
-  width: 30px;
-  background-color: #000000 !important;
-  border-radius: 100%;
-  box-shadow: none;
-  -webkit-box-shadow: none;
-  -moz-box-shadow: none;
-  -o-box-shadow: none;
+.toolbar-background, tabbar {
+  background-color: white;
 }
 
 .scroll-content {
@@ -43,13 +36,69 @@
   .toast-container {
     text-align: center;
     background-color: #f08080;
+    height: 30px;
 
     &.noise {
       transition: background-color 200ms linear;
       background-color: #73a673;
     }
   }
+}
 
+.errorMsg {
+
+  height: 85vh;
+  width: 100vw;
+  text-align: center;
+  font-size: 2em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  p {
+    margin: 0;
+
+    &.info {
+      transform: translateY(-10px);
+      color: #777;
+      font-size: 25px;
+      margin: 20px;
+    }
+  }
+
+  button {
+    font-size: 2rem;
+  }
+}
+
+ion-tabs .tabbar.show-tabbar {
+  min-height: 56px;
+}
+
+
+div.tabbar, ion-footer.translateTop {
+  transform: translateY(0);
+  transition: all 300ms;
+}
+
+.translateTop > div.tabbar, ion-footer.translateTop {
+  transform: translateY(-30px);
+}
+
+
+.title.title-md {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  text-align: center;
+}
+
+//al ponder los titulos en el centro el boton se quedaba inaccesible
+.back-button-md {
+  z-index: 999;
 }
 
 .errorMsg {
@@ -75,6 +124,6 @@
   }
 
   button {
-  font-size: 2rem;
+    font-size: 2rem;
   }
 }

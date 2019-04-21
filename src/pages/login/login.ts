@@ -11,26 +11,24 @@ import { User } from "../../shared/model/user";
  * Ionic pages and navigation.
  */
 
-@IonicPage()
 @Component({
   selector: 'page-login',
   templateUrl: 'login.html',
 })
 export class LoginPage {
 
-  private user: User = {} as User;
-  private loading: Loading;
-  email_error = false;
-  pass_error  = false;
-  cPass_error = false;
-  email_error_msg: string;
-  pass_error_msg : string;
-  cPass_error_msg: string;
+  private user     : User = {} as User;
+  private loading  : Loading;
+  email_error      = false;
+  pass_error       = false;
+  cPass_error      = false;
+  email_error_msg : string;
+  pass_error_msg  : string;
 
-  constructor(public navCtrl: NavController,
-              public navParams: NavParams,
-              public authProvider: AuthProvider,
-              public loadingCtrl: LoadingController
+  constructor(public navCtrl      : NavController,
+              public navParams    : NavParams,
+              public authProvider : AuthProvider,
+              public loadingCtrl  : LoadingController
   ) {
   }
 
@@ -50,8 +48,8 @@ export class LoginPage {
 
       this.authProvider.loginUser(user.email, user.password)
         .catch((err) => {
-            this.setError(err);
-          })
+          this.setError(err);
+        })
         .then(() => this.loading.dismiss())
         .then(() => this.setFocusOnError());
     }
@@ -103,6 +101,11 @@ export class LoginPage {
   }
 
   register() {
-    this.navCtrl.push(RegisterPage);
+    this.navCtrl.push(RegisterPage,
+      {},
+      {
+        animate: true,
+        animation: "transition-ios"
+      });
   }
 }
