@@ -66,44 +66,42 @@ export class ProfileEditPage {
   }
 
 
-  async saveUserData() {
+  saveUserData(){
     console.log("uploading", this.userForm);
     this.loading = this.loadingCtrl.create();
     this.loading.present();
 
-    let userNewData =
-      {
-        lastName    : this.userForm.value.lastName,
-        name        : this.userForm.value.name,
-        email       : this.userForm.value.email,
-        category    : this.userForm.value.category,
-        address     : this.userForm.value.address,
-        description : this.userForm.value.description,
-        salary      : this.userForm.value.salary,
-        admin       : this.user.admin,
-        photo       : this.Userphoto
+    if(this.uploader.queue.length){
+      this.uploader.uploadAll();
+      this.uploader.onSuccessItem = (item: any, response: string, status: number, headers: any): any => {
+        let res: any = JSON.parse(response);
+        console.log(res);
+        this.Userphoto = res.public_id;
+        this.pushNewUserData()
       };
+    }else{
+      this.pushNewUserData();
+    }
+  }
 
-    await (() => {
-        if (this.uploader.queue.length) {
-          this.uploader.uploadAll();
-          this.uploader.onSuccessItem = (item: any, response: string, status: number, headers: any): any => {
-            let res: any = JSON.parse(response);
-            console.log(res);
-            userNewData.photo = res.public_id;
-          };
-        }
-      }
-    );
-
+  private pushNewUserData() {
     this.dbapi.push(
       "users",
-      userNewData)
+      {
+        lastName:    this.userForm.value.lastName,
+        name:        this.userForm.value.name,
+        email:       this.userForm.value.email,
+        category:    this.userForm.value.category,
+        address:     this.userForm.value.address,
+        description: this.userForm.value.description,
+        salary:      this.userForm.value.salary,
+        admin:       this.user.admin,
+        photo:       this.Userphoto
+      })
       .then(() => this.dbapi.getCurrentUser())
-      .then(user => {
-        this.authProvider.updateUser(user);
-          // currentUser = val;
-        console.log("nuevo valor: ", user);
+      .then(val => {
+        this.authProvider.currentUser = val;
+        console.log("nuevo valor: ", val);
       })
       .then(() => this.backToProfile());
     this.loading.dismiss();
